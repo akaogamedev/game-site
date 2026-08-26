@@ -1,0 +1,122 @@
+---
+// 開発中ゲームの紹介ページ。リリース済みゲームと違いコレクションを持たないので、
+// 文言はすべて src/i18n/dev.ts から引く
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Dialogue from "./Dialogue.astro";
+import { getLocalePrefix, type Locale } from "../i18n/config";
+import {
+  devColor,
+  devCopy,
+  devCover,
+  devIcon,
+  devScreenshots,
+  devTitle,
+} from "../i18n/dev";
+import { uiCopy } from "../i18n/ui";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "ja" } = Astro.props;
+const copy = devCopy[locale];
+const gameCopy = uiCopy[locale].game;
+const backHref = `${getLocalePrefix(locale)}/#dev`;
+const xUrl = "https://x.com/akaogame0124";
+const appIconAlt =
+  locale === "ja"
+    ? `${devTitle}の${gameCopy.appIcon}`
+    : `${devTitle} ${gameCopy.appIcon}`;
+const shots = devScreenshots.map((src, index) => ({
+  src,
+  alt:
+    locale === "ja"
+      ? `${devTitle}の${copy.shots[index]}`
+      : `${devTitle} — ${copy.shots[index]}`,
+}));
+---
+
+<BaseLayout
+  title={devTitle}
+  description={copy.catch}
+  image={devCover}
+  locale={locale}
+>
+  <div style={`--card-color: ${devColor}`}>
+    <section class="game-hero">
+      <div class="container">
+        <div class="game-hero-body with-icon">
+          <img class="game-hero-icon" src={devIcon} alt={appIconAlt} />
+          <div class="game-hero-text">
+            <h1>{devTitle}</h1>
+            <p class="catch">{copy.catch}</p>
+            <div class="badges">
+              <span class="badge badge-wip">{copy.status}</span>
+              <span class="badge">{copy.genre}</span>
+              <span class="badge">{copy.platform}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="game-detail">
+        <div>
+          <p class="dev-lead">{copy.lead}</p>
+
+          <div class="screenshots screenshots-phone">
+            {
+              shots.map((shot) => (
+                <img src={shot.src} alt={shot.alt} loading="lazy" />
+              ))
+            }
+          </div>
+
+          <Dialogue lines={copy.dialogue} locale={locale} />
+
+          <div class="prose">
+            <h2>{gameCopy.features}</h2>
+            <ul>
+              {copy.features.map((feature) => <li>{feature}</li>)}
+            </ul>
+
+            <h2>{copy.modesHeading}</h2>
+            <ul class="dev-modes">
+              {
+                copy.modes.map((mode) => (
+                  <li>
+                    <strong>{mode.name}</strong>
+                    {mode.text}
+                  </li>
+                ))
+              }
+            </ul>
+
+            <p class="dev-note">{copy.note}</p>
+          </div>
+
+          <a class="back-link" href={backHref}>{gameCopy.back}</a>
+        </div>
+
+        <aside class="info-box">
+          <dl>
+            <dt>{gameCopy.genre}</dt>
+            <dd>{copy.genre}</dd>
+            <dt>{gameCopy.platforms}</dt>
+            <dd>{copy.platform}</dd>
+            <dt>{copy.statusLabel}</dt>
+            <dd>{copy.statusValue}</dd>
+            <dt>{copy.releaseLabel}</dt>
+            <dd>{copy.releaseValue}</dd>
+            <dt>{copy.languageLabel}</dt>
+            <dd>{copy.languageValue}</dd>
+          </dl>
+          <a class="btn" href={xUrl} target="_blank" rel="noopener">
+            {copy.follow}
+          </a>
+        </aside>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

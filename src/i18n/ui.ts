@@ -17,6 +17,7 @@ interface HomeCopy {
   intro: string;
   browserButton: string;
   mobileButton: string;
+  tabsLabel: string;
   unityroomTitle: string;
   unityroomLeadBefore: string;
   unityroomLeadAfter: string;
@@ -118,6 +119,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
         "で開催中!ぜんぶブラウザですぐ遊べます。",
       progress: (published, goal) => `${published} / ${goal} 本 公開中!`,
       progressLabel: "公開済みゲーム数",
+      tabsLabel: "作品カテゴリを選択",
       iosTitle: "iOSアプリ",
       iosLead:
         "App Storeで配信中のゲームアプリ。スマホでじっくり遊べます。",
@@ -207,10 +209,11 @@ export const uiCopy: Record<Locale, UiCopy> = {
       unityroomTitle: "unityroom 100-Game Project",
       unityroomLeadBefore:
         "I am publishing 100 games on unityroom. Follow the challenge on",
-      unityroomLeadAfter: "Every game runs in your browser.",
+      unityroomLeadAfter: ". Every game runs in your browser.",
       progress: (published, goal) =>
         `${published} / ${goal} games published`,
       progressLabel: "Games published",
+      tabsLabel: "Choose a category",
       iosTitle: "iOS Games",
       iosLead: "Games available on the App Store for iPhone and iPad.",
     },
@@ -301,6 +304,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       unityroomLeadAfter: "关注进度！所有游戏都能直接在浏览器中游玩。",
       progress: (published, goal) => `已发布 ${published} / ${goal} 款`,
       progressLabel: "已发布游戏数",
+      tabsLabel: "选择作品分类",
       iosTitle: "iOS 游戏",
       iosLead: "可在 App Store 下载并在 iPhone 和 iPad 上游玩的游戏。",
     },
@@ -391,6 +395,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       unityroomLeadAfter: "追蹤進度！所有遊戲都能直接在瀏覽器遊玩。",
       progress: (published, goal) => `已發布 ${published} / ${goal} 款`,
       progressLabel: "已發布遊戲數",
+      tabsLabel: "選擇作品分類",
       iosTitle: "iOS 遊戲",
       iosLead: "可在 App Store 下載並於 iPhone 和 iPad 遊玩的遊戲。",
     },
@@ -483,6 +488,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
         "에서 확인하세요. 모든 게임은 브라우저에서 바로 즐길 수 있습니다.",
       progress: (published, goal) => `${published} / ${goal}개 공개`,
       progressLabel: "공개된 게임 수",
+      tabsLabel: "작품 카테고리 선택",
       iosTitle: "iOS 게임",
       iosLead: "App Store에서 iPhone과 iPad용으로 제공되는 게임입니다.",
     },
@@ -575,6 +581,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
         ". Todos los juegos funcionan directamente en el navegador.",
       progress: (published, goal) => `${published} / ${goal} juegos publicados`,
       progressLabel: "Juegos publicados",
+      tabsLabel: "Elegir una categoría",
       iosTitle: "Juegos para iOS",
       iosLead: "Juegos disponibles en App Store para iPhone y iPad.",
     },
@@ -667,6 +674,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
         ". Tous les jeux sont jouables directement dans votre navigateur.",
       progress: (published, goal) => `${published} / ${goal} jeux publiés`,
       progressLabel: "Jeux publiés",
+      tabsLabel: "Choisir une catégorie",
       iosTitle: "Jeux iOS",
       iosLead: "Jeux disponibles sur l'App Store pour iPhone et iPad.",
     },
@@ -759,6 +767,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       progress: (published, goal) =>
         `${published} / ${goal} Spiele veröffentlicht`,
       progressLabel: "Veröffentlichte Spiele",
+      tabsLabel: "Kategorie wählen",
       iosTitle: "iOS-Spiele",
       iosLead: "Spiele aus dem App Store für iPhone und iPad.",
     },
@@ -850,6 +859,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       unityroomLeadAfter: ". Todos os jogos rodam direto no navegador.",
       progress: (published, goal) => `${published} / ${goal} jogos publicados`,
       progressLabel: "Jogos publicados",
+      tabsLabel: "Escolher uma categoria",
       iosTitle: "Jogos para iOS",
       iosLead: "Jogos disponíveis na App Store para iPhone e iPad.",
     },

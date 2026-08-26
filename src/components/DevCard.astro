@@ -1,0 +1,29 @@
+---
+// トップページの「開発中」セクションに置く、開発中ゲームの横長カード
+import { getLocalePrefix, type Locale } from "../i18n/config";
+import { devCopy, devCover, devPath, devTitle } from "../i18n/dev";
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = "ja" } = Astro.props;
+const copy = devCopy[locale];
+const href = `${getLocalePrefix(locale)}${devPath}`;
+const imageAlt =
+  locale === "ja" ? `${devTitle}のカバー画像` : `${devTitle} cover art`;
+---
+
+<a class="game-card dev-card" href={href}>
+  <img src={devCover} alt={imageAlt} loading="lazy" />
+  <div class="game-card-body">
+    <h3>{devTitle}</h3>
+    <p class="catch">{copy.catch}</p>
+    <p class="dev-card-lead">{copy.lead}</p>
+    <div class="badges">
+      <span class="badge badge-wip">{copy.status}</span>
+      <span class="badge">{copy.genre}</span>
+      <span class="badge">{copy.platform}</span>
+    </div>
+  </div>
+</a>

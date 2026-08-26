@@ -1,0 +1,33 @@
+---
+// ブラウザ画面のピクセルアートSVG(16x16グリッド)。
+// 小さく使うときは細部が潰れるので、24px未満では描き込みを省く
+interface Props {
+  size?: number;
+}
+const { size = 28 } = Astro.props;
+const detailed = size >= 24;
+---
+
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 16 16"
+  shape-rendering="crispEdges"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+>
+  <rect x="0" y="1" width="16" height="14" fill="#16161c"></rect>
+  <rect x="2" y="3" width="12" height="2" fill="#f7e08a"></rect>
+  {
+    detailed && (
+      <>
+        <rect x="3" y="3" width="1" height="1" fill="#16161c" />
+        <rect x="5" y="3" width="1" height="1" fill="#16161c" />
+      </>
+    )
+  }
+  <rect x="2" y="6" width="12" height="7" fill="#3be2f0"></rect>
+  <rect x="6" y="7" width="2" height="5" fill="#16161c"></rect>
+  <rect x="8" y="8" width="2" height="3" fill="#16161c"></rect>
+  {detailed && <rect x="10" y="9" width="1" height="1" fill="#16161c" />}
+</svg>

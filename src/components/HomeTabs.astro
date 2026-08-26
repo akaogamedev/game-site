@@ -1,0 +1,294 @@
+---
+// トップページの作品一覧。「100本企画 / iOSアプリ / 開発中」をタブで切り替える。
+// JSが無い環境では3つとも並べて表示するので、内容は常にDOMにある
+import type { CollectionEntry } from "astro:content";
+import type { Locale } from "../i18n/config";
+import type { GameTranslation } from "../i18n/game";
+import { devCopy } from "../i18n/dev";
+import { uiCopy } from "../i18n/ui";
+import DevCard from "./DevCard.astro";
+import GameCard from "./GameCard.astro";
+import PixelBrowser from "./PixelBrowser.astro";
+import PixelHammer from "./PixelHammer.astro";
+import PixelPhone from "./PixelPhone.astro";
+
+type Game = CollectionEntry<"games"> | CollectionEntry<"gamesEn">;
+
+interface Props {
+  locale?: Locale;
+  games: Game[];
+  /** ja・en 以外はゲーム本文を辞書から差し替える */
+  translations?: Record<string, GameTranslation>;
+}
+
+const { locale = "ja", games, translations } = Astro.props;
+const copy = uiCopy[locale].home;
+const navCopy = uiCopy[locale].layout;
+const dev = devCopy[locale];
+const xUrl = "https://x.com/akaogame0124";
+
+const unityroomGames = games
+  .filter((game) => game.data.category === "unityroom")
+  .sort((a, b) => {
+    const numberDiff = (b.data.unityroomNo ?? 0) - (a.data.unityroomNo ?? 0);
+    return (
+      numberDiff ||
+      b.data.releaseDate.getTime() - a.data.releaseDate.getTime()
+    );
+  });
+
+const iosGames = games
+  .filter((game) => game.data.category === "ios")
+  .sort((a, b) => b.data.releaseDate.getTime() - a.data.releaseDate.getTime());
+
+const GOAL = 100;
+// 企画にカウントするのは unityroomNo が付いたゲームのみ
+const published = unityroomGames.filter((game) => game.data.unityroomNo).length;
+---
+
+<script is:inline>
+  // パネルの表示・地面の色は html 要素の data-tab で決まる。
+  // 描画前に確定させたいので、マークアップより先にインラインで走らせる
+  (() => {
+    const ids = ["unityroom", "ios", "dev"];
+    const hash = location.hash.replace("#", "");
+    const root = document.documentElement;
+    root.dataset.jsTabs = "on";
+    root.dataset.tab = ids.includes(hash) ? hash : "unityroom";
+  })();
+</script>
+
+<div class="tab-region">
+  <!-- タブ切り替え時の市松モザイクワイプ。普段は透明でクリックも透過する -->
+  <div class="tab-wipe" data-tab-wipe aria-hidden="true"></div>
+  <div class="pixel-edge"></div>
+
+  <div class="ground">
+    <div class="container">
+      <div class="tab-list" role="tablist" aria-label={copy.tabsLabel}>
+        <a
+          id="tab-unityroom"
+          class="tab"
+          role="tab"
+          href="#unityroom"
+          aria-controls="unityroom"
+          aria-selected="true"
+          data-tab-btn="unityroom"
+        >
+          <PixelBrowser size={20} />
+          {navCopy.unityroom}
+        </a>
+        <a
+          id="tab-ios"
+          class="tab"
+          role="tab"
+          href="#ios"
+          aria-controls="ios"
+          aria-selected="false"
+          data-tab-btn="ios"
+        >
+          <PixelPhone size={20} />
+          {navCopy.ios}
+        </a>
+        <a
+          id="tab-dev"
+          class="tab"
+          role="tab"
+          href="#dev"
+          aria-controls="dev"
+          aria-selected="false"
+          data-tab-btn="dev"
+        >
+          <PixelHammer size={20} />
+          {dev.homeTitle}
+        </a>
+      </div>
+    </div>
+
+    <section
+      class="section"
+      id="unityroom"
+      role="tabpanel"
+      aria-labelledby="tab-unityroom"
+      data-tab-panel="unityroom"
+    >
+      <div class="container">
+        <h2 class="section-title with-icon">
+          <PixelBrowser size={28} />
+          {copy.unityroomTitle}
+        </h2>
+        <p class="section-lead">
+          {copy.unityroomLeadBefore}
+          {" "}
+          <a href={xUrl} target="_blank" rel="noopener">X (Twitter)</a>
+          {copy.unityroomLeadAfter}
+        </p>
+        <div
+          class="progress"
+          role="progressbar"
+          aria-label={copy.progressLabel}
+          aria-valuenow={published}
+          aria-valuemin="0"
+          aria-valuemax={GOAL}
+        >
+          <div
+            class="progress-fill"
+            style={`width: ${(published / GOAL) * 100}%`}
+          >
+          </div>
+        </div>
+        <p class="progress-label">{copy.progress(published, GOAL)}</p>
+        <div class="game-grid">
+          {
+            unityroomGames.map((game) => (
+              <GameCard
+                game={game}
+                locale={locale}
+                translation={translations?.[game.id]}
+              />
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="section"
+      id="ios"
+      role="tabpanel"
+      aria-labelledby="tab-ios"
+      data-tab-panel="ios"
+    >
+      <div class="container">
+        <h2 class="section-title with-icon">
+          <PixelPhone size={28} />
+          {copy.iosTitle}
+        </h2>
+        <p class="section-lead">{copy.iosLead}</p>
+        <div class="game-grid">
+          {
+            iosGames.map((game) => (
+              <GameCard
+                game={game}
+                locale={locale}
+                translation={translations?.[game.id]}
+              />
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="section"
+      id="dev"
+      role="tabpanel"
+      aria-labelledby="tab-dev"
+      data-tab-panel="dev"
+    >
+      <div class="container">
+        <h2 class="section-title with-icon">
+          <PixelHammer size={28} />
+          {dev.homeTitle}
+        </h2>
+        <p class="section-lead">{dev.homeLead}</p>
+        <div class="dev-grid">
+          <DevCard locale={locale} />
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const tabs = Array.from(document.querySelectorAll("[data-tab-btn]"));
+    if (tabs.length === 0) return;
+
+    const select = (id, moveFocus) => {
+      root.dataset.tab = id;
+      tabs.forEach((tab) => {
+        const selected = tab.dataset.tabBtn === id;
+        tab.setAttribute("aria-selected", selected ? "true" : "false");
+        tab.tabIndex = selected ? 0 : -1;
+        if (selected && moveFocus) tab.focus();
+      });
+    };
+
+    const known = (id) => tabs.some((tab) => tab.dataset.tabBtn === id);
+
+    // クリック切り替えは市松モザイクのワイプを挟み、真っ黒の間にパネルを差し替える。
+    // reduce設定・連打・同じタブの再選択では即時切り替えに落とす
+    const wipe = document.querySelector("[data-tab-wipe]");
+    const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+    let selectTimer = null;
+    let wipeTimer = null;
+
+    const switchTo = (id, moveFocus) => {
+      if (!wipe || reduceMotion.matches || root.dataset.tab === id) {
+        select(id, moveFocus);
+        return;
+      }
+      wipe.classList.remove("run");
+      void wipe.offsetWidth;
+      wipe.classList.add("run");
+      clearTimeout(selectTimer);
+      clearTimeout(wipeTimer);
+      selectTimer = setTimeout(() => select(id, moveFocus), 160);
+      // アニメ時間(0.45s)より少し長く待ってから外す。
+      // animationendはタブが非表示のとき発火しないことがあるので使わない
+      wipeTimer = setTimeout(() => wipe.classList.remove("run"), 500);
+    };
+
+    const tabList = document.querySelector(".tab-list");
+    const initial = known(root.dataset.tab) ? root.dataset.tab : "unityroom";
+    select(initial, false);
+
+    // 他ページから /#dev のように来たときは、一覧まで送る。
+    // ブラウザ側のフラグメント移動は、パネルが隠れている都合で当てにできない
+    if (location.hash.replace("#", "") === initial) {
+      tabList.scrollIntoView({ block: "start" });
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", (event) => {
+        // タブ自身は画面内にあるので、スクロールさせず切り替えだけ行う
+        event.preventDefault();
+        switchTo(tab.dataset.tabBtn, false);
+        history.replaceState(null, "", "#" + tab.dataset.tabBtn);
+      });
+
+      tab.addEventListener("keydown", (event) => {
+        let next = null;
+        if (event.key === "ArrowRight") next = tabs[(index + 1) % tabs.length];
+        else if (event.key === "ArrowLeft")
+          next = tabs[(index - 1 + tabs.length) % tabs.length];
+        else if (event.key === "Home") next = tabs[0];
+        else if (event.key === "End") next = tabs[tabs.length - 1];
+        if (!next) return;
+        event.preventDefault();
+        select(next.dataset.tabBtn, true);
+        history.replaceState(null, "", "#" + next.dataset.tabBtn);
+      });
+    });
+
+    // ヒーローのボタンは、タブを切り替えたうえで一覧までスクロールさせる
+    document.querySelectorAll("[data-tab-link]").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const id = link.dataset.tabLink;
+        if (!known(id)) return;
+        event.preventDefault();
+        switchTo(id, false);
+        history.replaceState(null, "", "#" + id);
+        tabList.scrollIntoView({ block: "start" });
+      });
+    });
+
+    // 他ページの /#dev のようなリンクや、戻る/進むに追従する
+    addEventListener("hashchange", () => {
+      const id = location.hash.replace("#", "");
+      if (known(id)) select(id, false);
+    });
+  })();
+</script>

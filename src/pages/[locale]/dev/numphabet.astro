@@ -1,0 +1,18 @@
+---
+import DevDetail from "../../../components/DevDetail.astro";
+import {
+  additionalLocales,
+  type AdditionalLocale,
+} from "../../../i18n/config";
+
+export function getStaticPaths() {
+  return additionalLocales.map((locale) => ({
+    params: { locale },
+    props: { locale },
+  }));
+}
+
+const { locale } = Astro.props as { locale: AdditionalLocale };
+---
+
+<DevDetail locale={locale} />
