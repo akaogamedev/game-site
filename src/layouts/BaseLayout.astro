@@ -108,6 +108,20 @@ const ogImage = image
       href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
       rel="stylesheet"
     />
+    <script is:inline>
+      // ページ遷移の暗転演出: 遷移元でフラグを立て、遷移先で黒から明転する
+      (() => {
+        try {
+          if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          if (sessionStorage.getItem("akaoPageFade")) {
+            sessionStorage.removeItem("akaoPageFade");
+            document.documentElement.dataset.pageFade = "in";
+          }
+        } catch {
+          /* ストレージが使えない環境では演出なしで表示する */
+        }
+      })();
+    </script>
     {
       shouldDetectLanguage && (
         <script is:inline>
@@ -230,6 +244,48 @@ const ogImage = image
         />
       )
     }
+    <div class="page-fade" aria-hidden="true"></div>
+    <script is:inline>
+      // 内部リンクの遷移前に4段階の暗転を挟む(ゲームのシーン切り替え風)
+      (() => {
+        const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+        document.addEventListener("click", (event) => {
+          if (reduceMotion.matches || event.defaultPrevented) return;
+          if (
+            event.button !== 0 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+          ) {
+            return;
+          }
+          const link = event.target.closest("a[href]");
+          if (!link || link.target === "_blank" || link.hasAttribute("download")) {
+            return;
+          }
+          const url = new URL(link.href, location.href);
+          if (url.origin !== location.origin) return;
+          // 同一ページ内のフラグメント移動には挟まない
+          if (url.pathname === location.pathname && url.hash) return;
+
+          event.preventDefault();
+          try {
+            sessionStorage.setItem("akaoPageFade", "1");
+          } catch {
+            /* フラグが立たなければ遷移先で明転しないだけ */
+          }
+          document.documentElement.dataset.pageFade = "out";
+          setTimeout(() => location.assign(url.href), 200);
+        });
+
+        // 戻るボタンでbfcacheから復帰したときに黒画面を残さない
+        addEventListener("pageshow", (event) => {
+          if (event.persisted) delete document.documentElement.dataset.pageFade;
+        });
+      })();
+    </script>
     <script is:inline>
       document
         .querySelector("[data-language-select]")

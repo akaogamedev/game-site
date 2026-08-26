@@ -2,11 +2,13 @@
 interface Props {
   width?: number;
   style?: string;
+  class?: string;
 }
-const { width = 84, style } = Astro.props;
+const { width = 84, style, class: className } = Astro.props;
 ---
 
 <svg
+  class:list={["cloud", className]}
   width={width}
   height={width * (6 / 14)}
   viewBox="0 0 14 6"

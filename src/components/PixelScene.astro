@@ -1,32 +1,43 @@
 ---
-// トップページの草原シーン: 木・キャラクター・木
+// トップページの草原シーン: 草・木(たまに葉が落ちる)・キャラクター
 import PixelChara from "./PixelChara.astro";
+import PixelGrass from "./PixelGrass.astro";
 ---
 
 <div class="pixel-scene" aria-hidden="true">
-  <svg
-    width="96"
-    height="102"
-    viewBox="0 0 16 17"
-    shape-rendering="crispEdges"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect x="0" y="0" width="16" height="14" fill="#16161c"></rect>
-    <rect x="2" y="2" width="12" height="10" fill="#3f7d4b"></rect>
-    <rect x="6" y="14" width="4" height="3" fill="#a9705f"></rect>
-  </svg>
-  <PixelChara size={56} />
-  <svg
-    width="96"
-    height="102"
-    viewBox="0 0 16 17"
-    shape-rendering="crispEdges"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect x="0" y="0" width="16" height="14" fill="#16161c"></rect>
-    <rect x="2" y="2" width="12" height="10" fill="#3f7d4b"></rect>
-    <rect x="6" y="14" width="4" height="3" fill="#a9705f"></rect>
-  </svg>
+  <PixelGrass size={34} delay="0.55s" class="grass-edge" />
+  <div class="tree">
+    <svg
+      width="96"
+      height="102"
+      viewBox="0 0 16 17"
+      shape-rendering="crispEdges"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="0" y="0" width="16" height="14" fill="#16161c"></rect>
+      <rect x="2" y="2" width="12" height="10" fill="#3f7d4b"></rect>
+      <rect x="6" y="14" width="4" height="3" fill="#a9705f"></rect>
+    </svg>
+    <span class="leaf"></span>
+  </div>
+  <PixelGrass size={28} delay="0.2s" />
+  <PixelChara size={56} animate />
+  <PixelGrass size={28} delay="0.85s" />
+  <div class="tree">
+    <svg
+      width="96"
+      height="102"
+      viewBox="0 0 16 17"
+      shape-rendering="crispEdges"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="0" y="0" width="16" height="14" fill="#16161c"></rect>
+      <rect x="2" y="2" width="12" height="10" fill="#3f7d4b"></rect>
+      <rect x="6" y="14" width="4" height="3" fill="#a9705f"></rect>
+    </svg>
+    <span class="leaf leaf-late"></span>
+  </div>
+  <PixelGrass size={34} delay="0.4s" class="grass-edge" />
 </div>
 
 <style>
@@ -38,9 +49,67 @@ import PixelChara from "./PixelChara.astro";
     padding: 32px 20px 0;
   }
 
+  .tree {
+    position: relative;
+    line-height: 0;
+  }
+
+  /* たまに木から葉が1枚、コマ送りで落ちる */
+  .leaf {
+    position: absolute;
+    top: 56px;
+    left: 18px;
+    width: 6px;
+    height: 6px;
+    background: #3f7d4b;
+    opacity: 0;
+    animation: leaf-fall 17s step-end infinite;
+  }
+
+  .leaf-late {
+    animation-delay: 9s;
+  }
+
+  @keyframes leaf-fall {
+    0%,
+    58% {
+      opacity: 0;
+      transform: translate(0, 0);
+    }
+    60% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+    64% {
+      transform: translate(-5px, 9px);
+    }
+    68% {
+      transform: translate(1px, 17px);
+    }
+    72% {
+      transform: translate(-6px, 25px);
+    }
+    76% {
+      transform: translate(-1px, 32px);
+    }
+    80% {
+      opacity: 1;
+      transform: translate(-5px, 40px);
+    }
+    82%,
+    100% {
+      opacity: 0;
+      transform: translate(-5px, 40px);
+    }
+  }
+
   @media (max-width: 520px) {
     .pixel-scene {
       gap: 24px;
+    }
+
+    .pixel-scene :global(.grass-edge) {
+      display: none;
     }
   }
 </style>

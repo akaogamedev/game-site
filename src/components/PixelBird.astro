@@ -1,0 +1,102 @@
+---
+// 空をたまに横切る鳥のピクセルアートSVG(12x8グリッド、羽ばたき2コマ)。
+// 長い周期の前半だけ移動し、残りは画面外で待機する
+---
+
+<div class="bird-track" aria-hidden="true">
+  <div class="bird-bob">
+    <svg
+      width="36"
+      height="24"
+      viewBox="0 0 12 8"
+      shape-rendering="crispEdges"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <!-- 尾+胴+頭 -->
+      <rect x="1" y="3" width="2" height="2" fill="#16161c"></rect>
+      <rect x="3" y="3" width="6" height="3" fill="#16161c"></rect>
+      <rect x="4" y="5" width="4" height="1" fill="#ffffff"></rect>
+      <rect x="8" y="2" width="3" height="3" fill="#16161c"></rect>
+      <rect x="9" y="3" width="1" height="1" fill="#ffffff"></rect>
+      <rect x="11" y="3" width="1" height="1" fill="#f7e08a"></rect>
+      <!-- 羽(上下2コマ) -->
+      <rect class="wing-up" x="4" y="0" width="3" height="3" fill="#16161c"></rect>
+      <rect class="wing-down" x="4" y="6" width="3" height="2" fill="#16161c"></rect>
+    </svg>
+  </div>
+</div>
+
+<style>
+  .bird-track {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    transform: translateX(-15vw);
+    pointer-events: none;
+    animation: bird-fly 46s steps(130) infinite;
+    animation-delay: 3s;
+  }
+
+  .bird-bob {
+    animation: bird-bob 1.4s step-end infinite;
+  }
+
+  .wing-down {
+    opacity: 0;
+  }
+
+  .wing-up {
+    animation: bird-wing-up 0.36s step-end infinite;
+  }
+
+  .wing-down {
+    animation: bird-wing-down 0.36s step-end infinite;
+  }
+
+  /* 周期の前半28%で横切り、残りは右端の画面外で待つ */
+  @keyframes bird-fly {
+    0% {
+      transform: translateX(-15vw);
+    }
+    28% {
+      transform: translateX(108vw);
+    }
+    100% {
+      transform: translateX(108vw);
+    }
+  }
+
+  @keyframes bird-bob {
+    0%,
+    50%,
+    100% {
+      transform: translateY(0);
+    }
+    25% {
+      transform: translateY(4px);
+    }
+    75% {
+      transform: translateY(-4px);
+    }
+  }
+
+  @keyframes bird-wing-up {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes bird-wing-down {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+</style>

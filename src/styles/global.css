@@ -10,6 +10,7 @@
   --pink: #e05c8a;
   --leaf: #3f7d4b;
   --dirt: #b5854e;
+  --stone: #6f6b78;
   --shadow: 6px 6px 0 var(--ink);
 }
 
@@ -171,8 +172,29 @@ a {
   overflow: hidden;
 }
 
+/* 雲は右から左へ、コマ送りでゆっくり流す。
+   負のdelayで、読み込み直後からデザイン位置の近くに見えるよう位相をずらす */
 .hero .cloud {
   position: absolute;
+  animation: cloud-drift 90s steps(180) infinite;
+}
+
+.hero .cloud-a {
+  animation-delay: -40s;
+}
+
+.hero .cloud-b {
+  animation-duration: 120s;
+  animation-delay: -53s;
+}
+
+@keyframes cloud-drift {
+  from {
+    transform: translateX(48vw);
+  }
+  to {
+    transform: translateX(-60vw);
+  }
 }
 
 .hero h1 {
@@ -188,6 +210,45 @@ a {
   position: relative;
   margin: 0;
   font-size: 1.02rem;
+}
+
+/* タイトルのせり上がり。セッション初回だけJSが data-title-anim を立てる */
+.hero-line {
+  display: inline-block;
+}
+
+[data-title-anim] .hero-line {
+  animation: line-rise 0.5s steps(4) backwards;
+}
+
+[data-title-anim] .hero-line:nth-of-type(2) {
+  animation-delay: 0.3s;
+}
+
+@keyframes line-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.6em);
+  }
+}
+
+/* PRESS START風の点滅カーソル */
+.press-cursor {
+  position: relative;
+  margin-top: 24px;
+  font-size: 1.3rem;
+  line-height: 1;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 /* ヒーローの入口ボタン */
@@ -212,7 +273,7 @@ a {
   border: 4px solid var(--ink);
   box-shadow: 5px 5px 0 var(--ink);
   padding: 10px 22px;
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.16s steps(2, end), box-shadow 0.16s steps(2, end);
 }
 
 .hero-btn:hover {
@@ -226,31 +287,162 @@ a {
   box-shadow: 1px 1px 0 var(--ink);
 }
 
-/* 草のギザギザ境界 */
+/* 作品一覧(タブ)。地面の色は選択中のタブで決まる */
+.tab-region {
+  --ground: var(--grass);
+  position: relative;
+}
+
+/* タブ切り替え時の市松モザイクワイプ。
+   半セルずらした2枚の市松(::before/::after)を step-end で重ねると
+   「市松 → 真っ黒 → 市松 → 消える」の4段階になる */
+.tab-wipe {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.tab-wipe::before,
+.tab-wipe::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background-image: conic-gradient(
+    var(--ink) 0 25%,
+    transparent 0 50%,
+    var(--ink) 0 75%,
+    transparent 0
+  );
+  background-size: 32px 32px;
+}
+
+.tab-wipe::after {
+  background-position: 16px 16px;
+}
+
+.tab-wipe.run::before {
+  animation: wipe-first 0.45s step-end;
+}
+
+.tab-wipe.run::after {
+  animation: wipe-second 0.45s step-end;
+}
+
+@keyframes wipe-first {
+  0% {
+    opacity: 1;
+  }
+  70%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes wipe-second {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  85%,
+  100% {
+    opacity: 0;
+  }
+}
+
+[data-tab="ios"] .tab-region {
+  --ground: var(--dirt);
+}
+
+[data-tab="dev"] .tab-region {
+  --ground: var(--stone);
+}
+
+/* 地面のギザギザ境界 */
 .pixel-edge {
   height: 14px;
-  background-image: linear-gradient(90deg, var(--grass) 50%, transparent 50%);
+  background-image: linear-gradient(90deg, var(--ground) 50%, transparent 50%);
   background-size: 28px 14px;
 }
 
-/* 草原(コンテンツ部) */
 .ground {
-  background: var(--grass);
+  background: var(--ground);
   padding-bottom: 72px;
 }
 
-/* 土の層(iOSアプリセクション) */
-.ground-dirt {
-  background: var(--dirt);
-  padding-bottom: 72px;
+.tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 32px;
 }
 
-/* 草→土のギザギザ境界 */
-.pixel-edge-dirt {
-  height: 14px;
-  background-color: var(--grass);
-  background-image: linear-gradient(90deg, var(--dirt) 50%, transparent 50%);
-  background-size: 28px 14px;
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  color: var(--ink);
+  /* 非選択はくすんだ紙色。地面の色が変わっても選択中との差が一定になる */
+  background: #cdc8ba;
+  border: 4px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  padding: 8px 18px;
+  transition: transform 0.14s steps(2, end), box-shadow 0.14s steps(2, end),
+    background 0.14s step-end;
+}
+
+.tab svg {
+  flex-shrink: 0;
+}
+
+/* 選択中タブの点滅カーソル。幅は常に確保してレイアウトのガタつきを防ぐ */
+.tab::before {
+  content: "▶";
+  width: 0.9em;
+  font-size: 0.72em;
+  opacity: 0;
+  flex-shrink: 0;
+}
+
+.tab[aria-selected="true"]::before {
+  animation: cursor-blink 0.9s step-end infinite;
+}
+
+.tab:hover {
+  background: var(--cream);
+}
+
+/* 選択中は、サイト共通の「効いている状態」の色である黄色にする */
+.tab[aria-selected="true"] {
+  background: var(--yellow);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+/* JSが動く環境でだけ、選択中のパネル以外を隠す。
+   JSが無ければ3つとも並んで表示される */
+[data-js-tabs] [data-tab-panel] {
+  display: none;
+}
+
+[data-js-tabs][data-tab="unityroom"] [data-tab-panel="unityroom"],
+[data-js-tabs][data-tab="ios"] [data-tab-panel="ios"],
+[data-js-tabs][data-tab="dev"] [data-tab-panel="dev"] {
+  display: block;
+}
+
+@media (max-width: 560px) {
+  .tab {
+    gap: 6px;
+    font-size: 0.85rem;
+    padding: 7px 12px;
+  }
 }
 
 .section {
@@ -325,6 +517,13 @@ a {
     #f0d068 14px 28px
   );
   border-right: 4px solid var(--ink);
+  animation: gauge-flow 0.7s steps(2) infinite;
+}
+
+@keyframes gauge-flow {
+  to {
+    background-position: 28px 0;
+  }
 }
 
 .progress-label {
@@ -349,7 +548,7 @@ a {
   overflow: hidden;
   text-decoration: none;
   color: var(--ink);
-  transition: transform 0.12s, box-shadow 0.12s;
+  transition: transform 0.18s steps(3, end), box-shadow 0.18s steps(3, end);
 }
 
 .game-card:hover {
@@ -466,8 +665,10 @@ a {
 }
 
 @media (max-width: 760px) {
+  /* 1fr は minmax(auto, 1fr) なので、横スクロールするスクショ列の
+     min-content 幅がそのままページ幅を押し広げてしまう */
   .game-detail {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -563,7 +764,7 @@ a {
   box-shadow: 4px 4px 0 var(--ink);
   padding: 10px 20px;
   margin-bottom: 14px;
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.16s steps(2, end), box-shadow 0.16s steps(2, end);
 }
 
 .btn:hover {
@@ -586,11 +787,95 @@ a {
   border: 3px solid var(--ink);
   padding: 4px 14px;
   box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 0.14s steps(2, end), box-shadow 0.14s steps(2, end);
 }
 
 .back-link:hover {
   transform: translate(-1px, -1px);
   box-shadow: 4px 4px 0 var(--ink);
+}
+
+.badge.badge-wip {
+  background: var(--pink);
+}
+
+/* 開発中カードは1件だけなので、横長にして大きく見せる */
+.dev-grid {
+  display: grid;
+  gap: 32px;
+}
+
+.dev-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.dev-card img {
+  height: 100%;
+  aspect-ratio: auto;
+  border-bottom: none;
+  border-right: 4px solid var(--ink);
+}
+
+.dev-card .game-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 22px 24px 26px;
+}
+
+.dev-card h3 {
+  font-size: 1.45rem;
+}
+
+.dev-card-lead {
+  margin: 0 0 14px;
+  font-size: 0.86rem;
+  line-height: 1.85;
+}
+
+@media (max-width: 700px) {
+  .dev-card {
+    grid-template-columns: 1fr;
+  }
+
+  .dev-card img {
+    aspect-ratio: 16 / 9;
+    border-right: none;
+    border-bottom: 4px solid var(--ink);
+  }
+}
+
+/* 開発中ページ */
+.dev-lead {
+  margin: 0 0 28px;
+  padding: 18px 20px;
+  background: #fff;
+  border: 4px solid var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.dev-modes {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+}
+
+.dev-modes li {
+  margin-bottom: 14px;
+  padding-left: 16px;
+  border-left: 6px solid var(--card-color, var(--blue));
+}
+
+.dev-modes strong {
+  display: block;
+}
+
+.dev-note {
+  margin: 28px 0 0;
+  font-size: 0.84rem;
+  color: #55555c;
 }
 
 /* フッター */
@@ -605,4 +890,57 @@ a {
 .site-footer a {
   color: var(--sky);
   font-weight: 700;
+}
+
+/* ページ遷移の暗転オーバーレイ。
+   data-page-fade="out" で黒へ、遷移先の "in" で黒から4段階フェードする */
+.page-fade {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: var(--ink);
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-page-fade="in"] .page-fade {
+  animation: page-fade-in 0.28s steps(4);
+}
+
+[data-page-fade="out"] .page-fade {
+  animation: page-fade-out 0.2s steps(4) forwards;
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-fade-out {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 動きを減らす設定では、すべてのアニメーション・トランジションを止める */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

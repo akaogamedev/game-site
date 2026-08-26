@@ -1,0 +1,74 @@
+---
+// 風で揺れる草のピクセルアートSVG(8x5グリッド)。
+// 2コマ(直立/右になびく)を step-end で切り替える
+interface Props {
+  size?: number;
+  /** 揺れの位相をずらすための animation-delay */
+  delay?: string;
+  class?: string;
+}
+const { size = 32, delay = "0s", class: className } = Astro.props;
+---
+
+<svg
+  class:list={["grass", className]}
+  width={size}
+  height={size * (5 / 8)}
+  viewBox="0 0 8 5"
+  shape-rendering="crispEdges"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  style={`--sway-delay: ${delay}`}
+>
+  <g class="grass-still">
+    <rect x="1" y="1" width="1" height="4" fill="#3f7d4b"></rect>
+    <rect x="3" y="0" width="1" height="5" fill="#5cc94f"></rect>
+    <rect x="5" y="1" width="1" height="4" fill="#3f7d4b"></rect>
+    <rect x="7" y="2" width="1" height="3" fill="#5cc94f"></rect>
+  </g>
+  <g class="grass-bent">
+    <rect x="1" y="3" width="1" height="2" fill="#3f7d4b"></rect>
+    <rect x="2" y="1" width="1" height="2" fill="#3f7d4b"></rect>
+    <rect x="3" y="2" width="1" height="3" fill="#5cc94f"></rect>
+    <rect x="4" y="0" width="1" height="2" fill="#5cc94f"></rect>
+    <rect x="5" y="3" width="1" height="2" fill="#3f7d4b"></rect>
+    <rect x="6" y="1" width="1" height="2" fill="#3f7d4b"></rect>
+    <rect x="7" y="2" width="1" height="3" fill="#5cc94f"></rect>
+  </g>
+</svg>
+
+<style>
+  .grass-bent {
+    opacity: 0;
+  }
+
+  .grass-still {
+    animation: grass-still 1.6s step-end infinite;
+    animation-delay: var(--sway-delay);
+  }
+
+  .grass-bent {
+    animation: grass-bent 1.6s step-end infinite;
+    animation-delay: var(--sway-delay);
+  }
+
+  @keyframes grass-still {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes grass-bent {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+</style>

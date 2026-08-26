@@ -1,178 +1,70 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import type { Locale } from "../i18n/config";
+import { devCopy } from "../i18n/dev";
 import type { GameTranslation } from "../i18n/game";
 import { uiCopy } from "../i18n/ui";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import GameCard from "./GameCard.astro";
+import HomeTabs from "./HomeTabs.astro";
+import PixelBird from "./PixelBird.astro";
+import PixelBrowser from "./PixelBrowser.astro";
 import PixelCloud from "./PixelCloud.astro";
+import PixelHammer from "./PixelHammer.astro";
+import PixelPhone from "./PixelPhone.astro";
 import PixelScene from "./PixelScene.astro";
 
 interface Props {
   locale: Locale;
-  games: CollectionEntry<"games">[];
-  translations: Record<string, GameTranslation>;
+  games: (CollectionEntry<"games"> | CollectionEntry<"gamesEn">)[];
+  translations?: Record<string, GameTranslation>;
 }
 
 const { locale, games, translations } = Astro.props;
 const copy = uiCopy[locale].home;
-const unityroomGames = games
-  .filter((game) => game.data.category === "unityroom")
-  .sort((a, b) => {
-    const numberDiff =
-      (b.data.unityroomNo ?? 0) - (a.data.unityroomNo ?? 0);
-    return (
-      numberDiff ||
-      b.data.releaseDate.getTime() - a.data.releaseDate.getTime()
-    );
-  });
-const iosGames = games
-  .filter((game) => game.data.category === "ios")
-  .sort((a, b) => b.data.releaseDate.getTime() - a.data.releaseDate.getTime());
-const GOAL = 100;
-const published = unityroomGames.filter(
-  (game) => game.data.unityroomNo,
-).length;
-const xUrl = "https://x.com/akaogame0124";
+const dev = devCopy[locale];
 ---
 
 <BaseLayout locale={locale}>
+  <script is:inline>
+    // タイトルのせり上がりは、このセッションの初回表示だけ再生する
+    (() => {
+      try {
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        if (sessionStorage.getItem("akaoTitleAnimated")) return;
+        sessionStorage.setItem("akaoTitleAnimated", "1");
+        document.documentElement.dataset.titleAnim = "on";
+      } catch {
+        /* ストレージが使えない環境ではアニメなしで表示する */
+      }
+    })();
+  </script>
   <section class="hero">
-    <PixelCloud width={90} style="top: 36px; left: 12%;" />
-    <PixelCloud width={70} style="top: 90px; right: 10%;" />
+    <PixelCloud class="cloud-a" width={90} style="top: 36px; left: 12%;" />
+    <PixelCloud class="cloud-b" width={70} style="top: 90px; right: 10%;" />
+    <PixelBird />
     <h1>
-      {copy.heroLines[0]}<br />{copy.heroLines[1]}
+      <span class="hero-line">{copy.heroLines[0]}</span><br /><span
+        class="hero-line">{copy.heroLines[1]}</span
+      >
     </h1>
     <p>{copy.intro}</p>
     <div class="hero-buttons">
-      <a class="hero-btn" href="#unityroom">
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 16 16"
-          shape-rendering="crispEdges"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <rect x="0" y="1" width="16" height="14" fill="#16161c"></rect>
-          <rect x="2" y="3" width="12" height="2" fill="#f7e08a"></rect>
-          <rect x="2" y="6" width="12" height="7" fill="#3be2f0"></rect>
-          <rect x="6" y="7" width="2" height="5" fill="#16161c"></rect>
-          <rect x="8" y="8" width="2" height="3" fill="#16161c"></rect>
-        </svg>
+      <a class="hero-btn" href="#unityroom" data-tab-link="unityroom">
+        <PixelBrowser size={22} />
         {copy.browserButton}
       </a>
-      <a class="hero-btn" href="#ios">
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 16 16"
-          shape-rendering="crispEdges"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <rect x="3" y="0" width="10" height="16" fill="#16161c"></rect>
-          <rect x="5" y="2" width="6" height="10" fill="#3be2f0"></rect>
-          <rect x="7" y="13" width="2" height="1" fill="#fff8e8"></rect>
-        </svg>
+      <a class="hero-btn" href="#ios" data-tab-link="ios">
+        <PixelPhone size={22} />
         {copy.mobileButton}
       </a>
+      <a class="hero-btn" href="#dev" data-tab-link="dev">
+        <PixelHammer size={22} />
+        {dev.homeButton}
+      </a>
     </div>
+    <div class="press-cursor" aria-hidden="true">▼</div>
     <PixelScene />
   </section>
-  <div class="pixel-edge"></div>
 
-  <div class="ground">
-    <section class="section" id="unityroom">
-      <div class="container">
-        <h2 class="section-title with-icon">
-          <svg
-            width="28"
-            height="28"
-            viewBox="0 0 16 16"
-            shape-rendering="crispEdges"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <rect x="0" y="1" width="16" height="14" fill="#16161c"></rect>
-            <rect x="2" y="3" width="12" height="2" fill="#f7e08a"></rect>
-            <rect x="3" y="3" width="1" height="1" fill="#16161c"></rect>
-            <rect x="5" y="3" width="1" height="1" fill="#16161c"></rect>
-            <rect x="2" y="6" width="12" height="7" fill="#3be2f0"></rect>
-            <rect x="6" y="7" width="2" height="5" fill="#16161c"></rect>
-            <rect x="8" y="8" width="2" height="3" fill="#16161c"></rect>
-            <rect x="10" y="9" width="1" height="1" fill="#16161c"></rect>
-          </svg>
-          {copy.unityroomTitle}
-        </h2>
-        <p class="section-lead">
-          {copy.unityroomLeadBefore}
-          {" "}
-          <a href={xUrl} target="_blank" rel="noopener">X (Twitter)</a>
-          {copy.unityroomLeadAfter}
-        </p>
-        <div
-          class="progress"
-          role="progressbar"
-          aria-label={copy.progressLabel}
-          aria-valuenow={published}
-          aria-valuemin="0"
-          aria-valuemax={GOAL}
-        >
-          <div class="progress-fill" style={`width: ${(published / GOAL) * 100}%`}>
-          </div>
-        </div>
-        <p class="progress-label">{copy.progress(published, GOAL)}</p>
-        <div class="game-grid">
-          {
-            unityroomGames.map((game) => (
-              <GameCard
-                game={game}
-                locale={locale}
-                translation={translations[game.id]}
-              />
-            ))
-          }
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <div class="pixel-edge-dirt"></div>
-  <div class="ground-dirt">
-    <section class="section" id="ios">
-      <div class="container">
-        <h2 class="section-title with-icon">
-          <svg
-            width="28"
-            height="28"
-            viewBox="0 0 16 16"
-            shape-rendering="crispEdges"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <rect x="3" y="0" width="10" height="16" fill="#16161c"></rect>
-            <rect x="5" y="2" width="6" height="10" fill="#3be2f0"></rect>
-            <rect x="7" y="13" width="2" height="1" fill="#fff8e8"></rect>
-            <rect x="6" y="4" width="4" height="4" fill="#f7e08a"></rect>
-            <rect x="7" y="5" width="1" height="1" fill="#16161c"></rect>
-            <rect x="9" y="5" width="1" height="1" fill="#16161c"></rect>
-          </svg>
-          {copy.iosTitle}
-        </h2>
-        <p class="section-lead">{copy.iosLead}</p>
-        <div class="game-grid">
-          {
-            iosGames.map((game) => (
-              <GameCard
-                game={game}
-                locale={locale}
-                translation={translations[game.id]}
-              />
-            ))
-          }
-        </div>
-      </div>
-    </section>
-  </div>
+  <HomeTabs locale={locale} games={games} translations={translations} />
 </BaseLayout>
