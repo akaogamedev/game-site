@@ -409,7 +409,7 @@ export const esGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "¿Cómo se usan los hechizos?" },
       {
         speaker: "akao",
-        text: "Cada vez que reúnes suficiente maná, eliges una carta entre tres para mejorar un hechizo. Explosión de fuego hace estallar los bloques cercanos cada 3 golpes, relámpago en cadena salta a un bloque cercano cada 8 golpes, atadura de hielo congela la fila peligrosa cuando avanza el muro, bola fantasma aumenta mientras mantienes la racha y rayo arcano dispara un rayo desde el bastón. Cada hechizo llega hasta el nivel 5.",
+        text: "No lanzas los hechizos manualmente. Cuando reúnes suficiente maná, eliges una mejora entre tres cartas y el hechizo elegido se activa automáticamente al cumplir sus condiciones. Solo tienes que mantener la racha y acumular mejoras.",
       },
     ],
     features: [

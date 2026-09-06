@@ -409,7 +409,7 @@ export const deGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Wie setzt man die Zauber ein?" },
       {
         speaker: "akao",
-        text: "Wenn genug Mana gesammelt ist, wählst du aus drei Karten einen Zauber zum Verbessern. Die Feuerexplosion sprengt bei jedem dritten Treffer nahegelegene Blöcke, der Kettenblitz springt bei jedem achten Treffer auf einen nahen Block über, die Eisfessel friert beim Vorrücken der Mauer die Gefahrenreihe ein, die Phantomkugel vermehrt sich mit längeren Serien und der Arkanstrahl schießt einen Strahl aus dem Stab. Jeder Zauber kann Level 5 erreichen.",
+        text: "Du setzt die Zauber nicht selbst ein. Wenn genug Mana da ist, wählst du aus drei Karten eine Verbesserung; der gewählte Zauber wird automatisch ausgelöst, sobald seine Bedingungen erfüllt sind. Halte einfach deine Serie am Laufen und sammle Verbesserungen.",
       },
     ],
     features: [

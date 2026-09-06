@@ -24,7 +24,7 @@ dialogue:
   - speaker: onaga
     text: "What kinds of spells can I learn?"
   - speaker: akao
-    text: "Whenever you have enough mana, choose one of three cards to upgrade a spell. Fire Burst explodes nearby blocks every three hits, Chain Lightning jumps to a nearby block every eight hits, Ice Bind freezes the danger row when the wall advances, Phantom Ball multiplies as your rally continues, and Arcane Beam fires a beam from the staff. Every spell can reach level 5."
+    text: "You don't cast spells yourself. Whenever you have enough mana, choose an upgrade from three cards, and the selected spell triggers automatically when its conditions are met. Keep the rally going and stack your upgrades."
 ---
 
 ## Features

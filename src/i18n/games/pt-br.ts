@@ -409,7 +409,7 @@ export const ptBrGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Como os feitiços são usados?" },
       {
         speaker: "akao",
-        text: "Quando você acumula mana suficiente, escolha uma entre três cartas para melhorar um feitiço. A explosão de fogo explode blocos próximos a cada 3 acertos, o relâmpago em cadeia salta para um bloco próximo a cada 8, a prisão de gelo congela a fileira perigosa quando a parede avança, a esfera fantasma aumenta enquanto a sequência continua e o raio arcano dispara um feixe do cajado. Cada feitiço pode chegar ao nível 5.",
+        text: "Você não lança os feitiços manualmente. Quando acumular mana suficiente, escolha uma melhoria entre três cartas; o feitiço escolhido é ativado automaticamente quando suas condições são cumpridas. Basta manter a sequência e acumular melhorias.",
       },
     ],
     features: [

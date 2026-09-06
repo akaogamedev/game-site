@@ -409,7 +409,7 @@ export const frGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Comment utilise-t-on les sorts ?" },
       {
         speaker: "akao",
-        text: "Quand vous avez assez de mana, choisissez une carte parmi trois pour améliorer un sort. L'explosion de feu fait exploser les blocs voisins tous les 3 coups, la foudre en chaîne se propage vers un bloc proche tous les 8 coups, l'entrave glacée gèle la rangée dangereuse quand le mur avance, la boule fantôme se multiplie quand la série continue et le rayon arcanique tire un rayon depuis le bâton. Chaque sort peut atteindre le niveau 5.",
+        text: "Vous ne lancez pas les sorts vous-même. Quand le mana est suffisant, choisissez une amélioration parmi trois cartes : le sort choisi se déclenche automatiquement quand ses conditions sont réunies. Gardez simplement votre série et empilez les améliorations.",
       },
     ],
     features: [
