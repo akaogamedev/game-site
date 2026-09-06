@@ -406,6 +406,11 @@ export const frGames: Record<string, GameTranslation> = {
         speaker: "akao",
         text: "Exactement. Gardez votre série, développez vos sorts et visez le meilleur score avant que le mur ne vous rattrape.",
       },
+      { speaker: "onaga", text: "Comment utilise-t-on les sorts ?" },
+      {
+        speaker: "akao",
+        text: "Quand vous avez assez de mana, choisissez une carte parmi trois pour améliorer un sort. L'explosion de feu fait exploser les blocs voisins tous les 3 coups, la foudre en chaîne se propage vers un bloc proche tous les 8 coups, l'entrave glacée gèle la rangée dangereuse quand le mur avance, la boule fantôme se multiplie quand la série continue et le rayon arcanique tire un rayon depuis le bâton. Chaque sort peut atteindre le niveau 5.",
+      },
     ],
     features: [
       "Casse-briques magique sans fin avec un mur maudit qui avance",

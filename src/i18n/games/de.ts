@@ -406,6 +406,11 @@ export const deGames: Record<string, GameTranslation> = {
         speaker: "akao",
         text: "Genau. Halte deine Serie am Laufen, entwickle deine Zauber und jage den Highscore, bevor die Mauer dich erreicht.",
       },
+      { speaker: "onaga", text: "Wie setzt man die Zauber ein?" },
+      {
+        speaker: "akao",
+        text: "Wenn genug Mana gesammelt ist, wählst du aus drei Karten einen Zauber zum Verbessern. Die Feuerexplosion sprengt bei jedem dritten Treffer nahegelegene Blöcke, der Kettenblitz springt bei jedem achten Treffer auf einen nahen Block über, die Eisfessel friert beim Vorrücken der Mauer die Gefahrenreihe ein, die Phantomkugel vermehrt sich mit längeren Serien und der Arkanstrahl schießt einen Strahl aus dem Stab. Jeder Zauber kann Level 5 erreichen.",
+      },
     ],
     features: [
       "Endloser magischer Brickbreaker mit einer vorrückenden Fluchmauer",

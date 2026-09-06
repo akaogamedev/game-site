@@ -402,6 +402,11 @@ export const zhTwGames: Record<string, GameTranslation> = {
         speaker: "akao",
         text: "沒錯。保持回合不斷、強化魔法，在詛咒牆追上你之前挑戰最高分。",
       },
+      { speaker: "onaga", text: "魔法是怎麼使用的？" },
+      {
+        speaker: "akao",
+        text: "每當法力存滿，就從三張卡中選一張強化。火焰爆發每命中3次就會引發周圍爆炸，連鎖閃電每命中8次會跳向附近方塊，冰之束縛會在詛咒牆推進時凍結危險列，幻影球會隨著連擊持續增加，奧術光束則會從法杖發射光束。每種魔法都能強化到Lv5。",
+      },
     ],
     features: [
       "詛咒牆不斷推進的無盡魔法打磚塊",

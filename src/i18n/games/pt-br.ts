@@ -406,6 +406,11 @@ export const ptBrGames: Record<string, GameTranslation> = {
         speaker: "akao",
         text: "Exatamente. Mantenha a sequência, evolua seus feitiços e busque a maior pontuação antes que a parede alcance você.",
       },
+      { speaker: "onaga", text: "Como os feitiços são usados?" },
+      {
+        speaker: "akao",
+        text: "Quando você acumula mana suficiente, escolha uma entre três cartas para melhorar um feitiço. A explosão de fogo explode blocos próximos a cada 3 acertos, o relâmpago em cadeia salta para um bloco próximo a cada 8, a prisão de gelo congela a fileira perigosa quando a parede avança, a esfera fantasma aumenta enquanto a sequência continua e o raio arcano dispara um feixe do cajado. Cada feitiço pode chegar ao nível 5.",
+      },
     ],
     features: [
       "Quebra-blocos mágico infinito com uma parede amaldiçoada que avança",

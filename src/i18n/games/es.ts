@@ -406,6 +406,11 @@ export const esGames: Record<string, GameTranslation> = {
         speaker: "akao",
         text: "Exacto. Mantén la racha, mejora tus hechizos y busca la máxima puntuación antes de que te alcance.",
       },
+      { speaker: "onaga", text: "¿Cómo se usan los hechizos?" },
+      {
+        speaker: "akao",
+        text: "Cada vez que reúnes suficiente maná, eliges una carta entre tres para mejorar un hechizo. Explosión de fuego hace estallar los bloques cercanos cada 3 golpes, relámpago en cadena salta a un bloque cercano cada 8 golpes, atadura de hielo congela la fila peligrosa cuando avanza el muro, bola fantasma aumenta mientras mantienes la racha y rayo arcano dispara un rayo desde el bastón. Cada hechizo llega hasta el nivel 5.",
+      },
     ],
     features: [
       "Rompebloques mágico infinito con un muro maldito que avanza",

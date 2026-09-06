@@ -402,6 +402,11 @@ export const zhCnGames: Record<string, GameTranslation> = {
         speaker: "akao",
         text: "没错。保持回合不断、强化魔法，在诅咒墙追上你之前挑战最高分。",
       },
+      { speaker: "onaga", text: "魔法是怎么使用的？" },
+      {
+        speaker: "akao",
+        text: "每当法力攒够，就从三张卡中选择一张来强化。炎之爆发每命中3次就会引发周围爆炸，连锁闪电每命中8次会跳向附近方块，冰之束缚会在诅咒墙推进时冻结危险列，幻影球会随着连击持续增加，奥术光束则会从法杖发射光束。每种魔法都能强化到Lv5。",
+      },
     ],
     features: [
       "诅咒墙不断推进的无尽魔法打砖块",
