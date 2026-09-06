@@ -385,6 +385,36 @@ export const koGames: Record<string, GameTranslation> = {
       { label: "오른쪽 라인", text: "K 키를 누르면 우유를 붓고, 떼면 서빙" },
     ],
   },
+  "spellbreak-endless-curse": {
+    title: "SPELLBREAK!",
+    catch: "끝없이 전진하는 저주 벽을 마법으로 막아 내는 블록 깨기.",
+    genre: "액션",
+    dialogue: [
+      { speaker: "onaga", text: "SPELLBREAK!은 마법으로 블록을 깨는 게임이야?" },
+      {
+        speaker: "akao",
+        text: "마력 구슬을 받아쳐 블록을 부수고, 모은 마나로 다섯 가지 마법을 강화하며 저주 벽에 맞서는 무한 도전이야.",
+      },
+      { speaker: "onaga", text: "시간이 지날수록 저주 벽이 다가오는 거네." },
+      {
+        speaker: "akao",
+        text: "맞아. 랠리를 이어 가며 마법을 키우고, 벽에 따라잡히기 전에 최고 점수를 노려 봐.",
+      },
+    ],
+    features: [
+      "저주 벽이 계속 전진하는 무한 마법 블록 깨기",
+      "블록을 부숴 마나를 모으고 세 장의 마법 카드 중 강화 선택",
+      "화염 폭발, 연쇄 번개, 얼음 속박, 환영 구슬, 마도 빔 다섯 가지 마법",
+      "마법을 12번 강화하면 일반 구슬이 두 개로 증가",
+      "랠리와 마법 조합으로 온라인 최고 점수에 도전",
+    ],
+    controls: [
+      { label: "이동", text: "마우스 이동, 좌우 방향키 또는 A/D" },
+      { label: "시작/발사", text: "스페이스, Enter 또는 왼쪽 클릭" },
+      { label: "마법 카드", text: "방향키나 WASD로 선택 후 Enter. 클릭 또는 1, 2, 3키도 사용 가능" },
+      { label: "일시정지/재시작", text: "Esc로 일시정지, R로 재시작" },
+    ],
+  },
   "nazotoki-10s": {
     title: "10s 퍼즐",
     catch: "10을 열 개 만들어 클리어하는 수학 퍼즐 모험.",

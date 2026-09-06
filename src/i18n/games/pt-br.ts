@@ -391,6 +391,36 @@ export const ptBrGames: Record<string, GameTranslation> = {
       { label: "Faixa direita", text: "Segure K para servir leite e solte para entregar" },
     ],
   },
+  "spellbreak-endless-curse": {
+    title: "SPELLBREAK!",
+    catch: "Segure a parede amaldiçoada que avança neste quebra-blocos mágico infinito.",
+    genre: "Ação",
+    dialogue: [
+      { speaker: "onaga", text: "SPELLBREAK! é um quebra-blocos com magia?" },
+      {
+        speaker: "akao",
+        text: "Rebata a esfera mágica, quebre blocos e use a mana obtida para melhorar cinco feitiços neste desafio infinito.",
+      },
+      { speaker: "onaga", text: "Então a parede amaldiçoada avança com o tempo." },
+      {
+        speaker: "akao",
+        text: "Exatamente. Mantenha a sequência, evolua seus feitiços e busque a maior pontuação antes que a parede alcance você.",
+      },
+    ],
+    features: [
+      "Quebra-blocos mágico infinito com uma parede amaldiçoada que avança",
+      "Quebre blocos, colete mana e escolha melhorias entre três cartas de feitiço",
+      "Cinco feitiços: explosão de fogo, relâmpago em cadeia, prisão de gelo, esfera fantasma e raio arcano",
+      "Após 12 melhorias, a esfera normal se divide em duas",
+      "Mantenha sequências e combinações mágicas para subir no ranking",
+    ],
+    controls: [
+      { label: "Mover", text: "Mouse, setas esquerda/direita ou A/D" },
+      { label: "Iniciar/lançar", text: "Espaço, Enter ou clique esquerdo" },
+      { label: "Cartas de feitiço", text: "Escolha com as setas ou WASD e confirme com Enter; também é possível clicar ou usar 1, 2 e 3" },
+      { label: "Pausa/reinício", text: "Esc para pausar e R para reiniciar" },
+    ],
+  },
   "nazotoki-10s": {
     title: "Quebra-cabeça de 10s",
     catch: "Crie dez números 10 para concluir esta aventura de lógica e cálculo.",

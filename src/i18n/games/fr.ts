@@ -391,6 +391,36 @@ export const frGames: Record<string, GameTranslation> = {
       { label: "Ligne droite", text: "Maintenir K pour verser, relâcher pour servir" },
     ],
   },
+  "spellbreak-endless-curse": {
+    title: "SPELLBREAK !",
+    catch: "Repoussez le mur maudit qui avance dans ce casse-briques magique sans fin.",
+    genre: "Action",
+    dialogue: [
+      { speaker: "onaga", text: "SPELLBREAK ! est un casse-briques avec de la magie ?" },
+      {
+        speaker: "akao",
+        text: "Renvoyez la boule magique, détruisez les blocs et dépensez le mana gagné pour améliorer cinq sorts dans ce défi sans fin.",
+      },
+      { speaker: "onaga", text: "Le mur maudit avance donc avec le temps." },
+      {
+        speaker: "akao",
+        text: "Exactement. Gardez votre série, développez vos sorts et visez le meilleur score avant que le mur ne vous rattrape.",
+      },
+    ],
+    features: [
+      "Casse-briques magique sans fin avec un mur maudit qui avance",
+      "Détruisez des blocs, gagnez du mana et choisissez une amélioration parmi trois cartes",
+      "Cinq sorts : explosion de feu, foudre en chaîne, entrave glacée, boule fantôme et rayon arcanique",
+      "Après 12 améliorations, la boule normale devient double",
+      "Prolongez les séries et les combos magiques pour grimper au classement",
+    ],
+    controls: [
+      { label: "Déplacer", text: "Souris, flèches gauche/droite ou A/D" },
+      { label: "Démarrer/lancer", text: "Espace, Entrée ou clic gauche" },
+      { label: "Cartes de sorts", text: "Choisir avec les flèches ou WASD puis valider avec Entrée ; cliquer ou utiliser 1, 2 et 3 fonctionne aussi" },
+      { label: "Pause/rejouer", text: "Échap pour mettre en pause, R pour recommencer" },
+    ],
+  },
   "nazotoki-10s": {
     title: "Puzzle des 10",
     catch: "Créez dix fois 10 pour terminer cette aventure de calcul et d'énigmes.",

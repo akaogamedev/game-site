@@ -391,6 +391,36 @@ export const deGames: Record<string, GameTranslation> = {
       { label: "Rechte Bahn", text: "K zum Eingießen halten, zum Servieren loslassen" },
     ],
   },
+  "spellbreak-endless-curse": {
+    title: "SPELLBREAK!",
+    catch: "Halte die vorrückende Fluchmauer in diesem endlosen magischen Brickbreaker auf.",
+    genre: "Action",
+    dialogue: [
+      { speaker: "onaga", text: "Ist SPELLBREAK! ein Brickbreaker mit Magie?" },
+      {
+        speaker: "akao",
+        text: "Schlage die Magiekugel zurück, zerstöre Blöcke und verbessere mit dem gesammelten Mana fünf verschiedene Zauber in dieser endlosen Herausforderung.",
+      },
+      { speaker: "onaga", text: "Die Fluchmauer rückt also mit der Zeit näher." },
+      {
+        speaker: "akao",
+        text: "Genau. Halte deine Serie am Laufen, entwickle deine Zauber und jage den Highscore, bevor die Mauer dich erreicht.",
+      },
+    ],
+    features: [
+      "Endloser magischer Brickbreaker mit einer vorrückenden Fluchmauer",
+      "Blöcke zerstören, Mana sammeln und aus drei Zauberkarten eine Verbesserung wählen",
+      "Fünf Zauber: Feuerexplosion, Kettenblitz, Eisfessel, Phantomkugel und Arkanstrahl",
+      "Nach 12 Zauberverbesserungen wird die normale Kugel zu zwei Kugeln",
+      "Serien und Zauberkombinationen für die Online-Bestenliste",
+    ],
+    controls: [
+      { label: "Bewegen", text: "Maus, Pfeile links/rechts oder A/D" },
+      { label: "Start/Abschuss", text: "Leertaste, Enter oder Linksklick" },
+      { label: "Zauberkarten", text: "Mit Pfeilen oder WASD wählen und mit Enter bestätigen; Klicken oder 1, 2 und 3 geht ebenfalls" },
+      { label: "Pause/Neustart", text: "Esc zum Pausieren, R zum Neustart" },
+    ],
+  },
   "nazotoki-10s": {
     title: "10er-Rätsel",
     catch: "Erzeuge zehnmal die 10 in diesem Rechenabenteuer.",

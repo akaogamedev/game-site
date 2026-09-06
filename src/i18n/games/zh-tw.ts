@@ -387,6 +387,36 @@ export const zhTwGames: Record<string, GameTranslation> = {
       { label: "右側通道", text: "按住K鍵倒奶，放開上桌" },
     ],
   },
+  "spellbreak-endless-curse": {
+    title: "SPELLBREAK！",
+    catch: "在無盡魔法打磚塊中，擋住不斷推進的詛咒牆。",
+    genre: "動作",
+    dialogue: [
+      { speaker: "onaga", text: "SPELLBREAK！是用魔法打磚塊的遊戲嗎？" },
+      {
+        speaker: "akao",
+        text: "擊回魔力球、打碎方塊，用收集到的法力強化五種魔法，在不斷推進的詛咒牆前堅持更久。",
+      },
+      { speaker: "onaga", text: "詛咒牆會隨著時間不斷逼近，對吧？" },
+      {
+        speaker: "akao",
+        text: "沒錯。保持回合不斷、強化魔法，在詛咒牆追上你之前挑戰最高分。",
+      },
+    ],
+    features: [
+      "詛咒牆不斷推進的無盡魔法打磚塊",
+      "打碎方塊收集法力，從三張魔法卡中選擇強化",
+      "火焰爆發、連鎖閃電、冰之束縛、幻影球、奧術光束五種魔法",
+      "強化魔法12次後，普通球會增加到兩個",
+      "透過連續回合和魔法組合挑戰高分排行榜",
+    ],
+    controls: [
+      { label: "移動", text: "滑鼠移動、左右方向鍵或A/D" },
+      { label: "開始/發射", text: "空白鍵、Enter或滑鼠左鍵" },
+      { label: "魔法卡", text: "用方向鍵或WASD選擇後按Enter，也可點擊或使用1、2、3鍵" },
+      { label: "暫停/重試", text: "Esc暫停，R鍵重試" },
+    ],
+  },
   "nazotoki-10s": {
     title: "10s謎題",
     catch: "做出十個10，完成這場算術解謎冒險。",

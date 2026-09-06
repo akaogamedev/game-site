@@ -391,6 +391,36 @@ export const esGames: Record<string, GameTranslation> = {
       { label: "Carril derecho", text: "Mantén K para verter y suelta para servir" },
     ],
   },
+  "spellbreak-endless-curse": {
+    title: "SPELLBREAK!",
+    catch: "Detén el muro maldito que avanza en este rompebloques mágico sin fin.",
+    genre: "Acción",
+    dialogue: [
+      { speaker: "onaga", text: "¿SPELLBREAK! es un rompebloques con magia?" },
+      {
+        speaker: "akao",
+        text: "Devuelve la bola mágica, rompe bloques y usa el maná para mejorar cinco hechizos en este desafío infinito.",
+      },
+      { speaker: "onaga", text: "Entonces el muro maldito avanza con el tiempo." },
+      {
+        speaker: "akao",
+        text: "Exacto. Mantén la racha, mejora tus hechizos y busca la máxima puntuación antes de que te alcance.",
+      },
+    ],
+    features: [
+      "Rompebloques mágico infinito con un muro maldito que avanza",
+      "Rompe bloques, consigue maná y elige mejoras entre tres cartas",
+      "Cinco hechizos: explosión de fuego, relámpago en cadena, atadura de hielo, bola fantasma y rayo arcano",
+      "Tras mejorar los hechizos 12 veces, la bola normal se divide en dos",
+      "Mantén las rachas y las combinaciones mágicas para subir en la clasificación",
+    ],
+    controls: [
+      { label: "Mover", text: "Ratón, flechas izquierda/derecha o A/D" },
+      { label: "Iniciar/lanzar", text: "Espacio, Enter o clic izquierdo" },
+      { label: "Cartas de hechizo", text: "Elige con flechas o WASD y confirma con Enter; también puedes hacer clic o usar 1, 2 y 3" },
+      { label: "Pausa/reintento", text: "Esc para pausar y R para reintentar" },
+    ],
+  },
   "nazotoki-10s": {
     title: "Puzzle de 10s",
     catch: "Crea diez dieces para completar esta aventura de lógica y cálculo.",
