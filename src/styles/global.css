@@ -438,10 +438,32 @@ a {
 }
 
 @media (max-width: 560px) {
+  /* 3つ横並びだと折り返して「開発中」だけ2行目に落ちるので、
+     等幅3列に固定して1行に収める。長い言語はタブ内で折り返す */
+  .tab-list {
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  /* アイコンを上に載せて横幅を文字に使う。幅は文字量に応じて配分し、
+     余りは均等に分ける。日本語・韓国語は単語の途中で折らない */
   .tab {
-    gap: 6px;
-    font-size: 0.85rem;
-    padding: 7px 12px;
+    flex: 1 1 auto;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 4px;
+    font-size: 0.82rem;
+    line-height: 1.3;
+    padding: 8px 6px;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  /* 選択中は黄色+浮き上がりで分かるので、幅を食う点滅カーソルは省く */
+  .tab::before {
+    display: none;
   }
 }
 

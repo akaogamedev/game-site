@@ -49,6 +49,12 @@ import PixelGrass from "./PixelGrass.astro";
     padding: 32px 20px 0;
   }
 
+  /* svg が直接 flex の子になっているので、幅が足りないと
+     キャラや草だけが潰れてしまう。縮めるのは木側で行う */
+  .pixel-scene > :global(*) {
+    flex-shrink: 0;
+  }
+
   .tree {
     position: relative;
     line-height: 0;
@@ -105,10 +111,32 @@ import PixelGrass from "./PixelGrass.astro";
 
   @media (max-width: 520px) {
     .pixel-scene {
-      gap: 24px;
+      gap: 20px;
     }
 
     .pixel-scene :global(.grass-edge) {
+      display: none;
+    }
+
+    /* 木を 96px → 64px に縮めて、あかおの幅を確保する */
+    .tree svg {
+      width: 64px;
+      height: 68px;
+    }
+
+    .leaf {
+      top: 37px;
+      left: 12px;
+    }
+  }
+
+  /* 幅320px級の端末では内側の草も省いて、木とあかおだけにする */
+  @media (max-width: 360px) {
+    .pixel-scene {
+      gap: 16px;
+    }
+
+    .pixel-scene :global(.grass) {
       display: none;
     }
   }
