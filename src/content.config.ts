@@ -11,6 +11,8 @@ const gameSchema = z.object({
   releaseDate: z.coerce.date(),
   color: z.string().default("#ff6b9d"),
   cover: z.string(),
+  video: z.string().optional(),
+  videoPoster: z.string().optional(),
   icon: z.string().optional(),
   screenshots: z.array(z.string()).default([]),
   links: z

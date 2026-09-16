@@ -484,4 +484,55 @@ export const ptBrGames: Record<string, GameTranslation> = {
     ],
     notes: ["Uma versão rápida e diferente de Reversi. Download grátis com compras no app e vários idiomas."],
   },
+  "bachitto-pose": {
+    "title": "Bachitto Pose!",
+    "catch": "Acerte a pose, atravesse a parede — ou caia na água!",
+    "genre": "Ação",
+    "dialogue": [
+      {
+        "speaker": "onaga",
+        "text": "Será que eu passo nesse buraco? Quanto mais a parede chega perto, mais eu me atrapalho!"
+      },
+      {
+        "speaker": "akao",
+        "text": "Passar com a pose certinha é muito gostoso. Só que a próxima parede troca as opções, então não dá para relaxar."
+      },
+      {
+        "speaker": "onaga",
+        "text": "Dá vontade de se exibir depois de acertar! Mas um erro e eu vou parar na água…"
+      },
+      {
+        "speaker": "akao",
+        "text": "Os aplausos e o mergulho lembram um programa de auditório. Você sempre quer tentar de novo para passar só mais uma parede."
+      }
+    ],
+    "features": [
+      "Observe o recorte da parede e escolha a pose certa entre quatro opções",
+      "As opções mudam a cada parede, e os acertos seguidos aumentam a velocidade",
+      "A pose correta deixa você passar; um erro joga você para trás, direto na água",
+      "Rufos de tambor, aplausos e ranking online de paredes atravessadas em sequência"
+    ],
+    "controls": [
+      {
+        "label": "Escolher pose",
+        "text": "↑ / ← / ↓ / → ou clique em uma carta na parte inferior"
+      },
+      {
+        "label": "Começar / Tentar de novo",
+        "text": "Espaço / Enter ou o botão na tela"
+      },
+      {
+        "label": "Voltar ao título",
+        "text": "Esc na tela de resultados"
+      },
+      {
+        "label": "Ligar / Desligar som",
+        "text": "M ou o botão de som no canto superior direito"
+      }
+    ],
+    "notes": [
+      "Escolha a forma do buraco antes de a parede chegar e tente superar sua melhor sequência.",
+      "Recomendado para navegadores de computador. O jogo está em japonês."
+    ]
+  },
 };

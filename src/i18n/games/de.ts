@@ -484,4 +484,55 @@ export const deGames: Record<string, GameTranslation> = {
     ],
     notes: ["Eine schnelle neue Reversi-Variante. Kostenlos mit In-App-Käufen und mehreren Sprachen."],
   },
+  "bachitto-pose": {
+    "title": "Bachitto Pose!",
+    "catch": "Nimm die passende Pose ein und schlüpfe durch die Wand – sonst geht’s ins Wasser!",
+    "genre": "Action",
+    "dialogue": [
+      {
+        "speaker": "onaga",
+        "text": "Passe ich da wirklich durch? Je näher die Wand kommt, desto nervöser werde ich!"
+      },
+      {
+        "speaker": "akao",
+        "text": "Mit der richtigen Pose hindurchzuschlüpfen fühlt sich richtig gut an. Bei der nächsten Wand wechseln aber die Auswahlmöglichkeiten."
+      },
+      {
+        "speaker": "onaga",
+        "text": "Nach einem Treffer würde ich am liebsten angeben! Doch ein Fehler und ich gehe baden…"
+      },
+      {
+        "speaker": "akao",
+        "text": "Applaus und Wasserspritzer erinnern an eine TV-Spielshow. Man will gleich noch einmal ran und eine Wand mehr schaffen."
+      }
+    ],
+    "features": [
+      "Erkenne die Form der herankommenden Öffnung und wähle eine von vier Posen",
+      "Neue Auswahl bei jeder Wand; erfolgreiche Serien erhöhen die Geschwindigkeit",
+      "Die passende Pose lässt dich passieren, ein Fehler schleudert dich rückwärts ins Wasser",
+      "Trommelwirbel, Applaus und eine Online-Rangliste für aufeinanderfolgende Durchgänge"
+    ],
+    "controls": [
+      {
+        "label": "Pose wählen",
+        "text": "↑ / ← / ↓ / → oder eine Karte unten anklicken"
+      },
+      {
+        "label": "Starten / Erneut versuchen",
+        "text": "Leertaste / Enter oder die Schaltfläche im Spiel"
+      },
+      {
+        "label": "Zurück zum Titel",
+        "text": "Esc auf dem Ergebnisbildschirm"
+      },
+      {
+        "label": "Ton umschalten",
+        "text": "M oder die Tonschaltfläche oben rechts"
+      }
+    ],
+    "notes": [
+      "Passe deine Pose vor dem Eintreffen der Wand an und übertriff deine längste Serie.",
+      "Für Desktop-Browser empfohlen. Das Spiel selbst ist auf Japanisch."
+    ]
+  },
 };

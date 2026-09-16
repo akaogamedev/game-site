@@ -110,7 +110,22 @@ const externalLinks = game.data.links.map((link) => {
             class={`screenshots ${game.data.category === "ios" && game.data.screenshots.length > 0 ? "screenshots-phone" : ""}`}
           >
             {
-              !(
+              game.data.video ? (
+                <video
+                  controls
+                  muted
+                  playsinline
+                  preload="metadata"
+                  width="960"
+                  height="540"
+                  poster={game.data.videoPoster ?? game.data.cover}
+                  aria-label={view.title}
+                  style="display: block; width: 100%; height: auto; border: 4px solid var(--ink); box-shadow: var(--shadow);"
+                >
+                  <source src={game.data.video} type="video/mp4" />
+                  <img src={game.data.cover} alt={mainImageAlt} />
+                </video>
+              ) : !(
                 game.data.category === "ios" &&
                 game.data.screenshots.length > 0
               ) && (

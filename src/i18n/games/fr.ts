@@ -484,4 +484,55 @@ export const frGames: Record<string, GameTranslation> = {
     ],
     notes: ["Une version rapide et originale du Reversi. Téléchargement gratuit avec achats intégrés et plusieurs langues."],
   },
+  "bachitto-pose": {
+    "title": "Bachitto Pose!",
+    "catch": "Prenez la bonne pose pour traverser le mur… ou finir à l’eau !",
+    "genre": "Action",
+    "dialogue": [
+      {
+        "speaker": "onaga",
+        "text": "Je vais vraiment passer dans ce trou ? Plus le mur approche, plus je panique !"
+      },
+      {
+        "speaker": "akao",
+        "text": "Passer avec la pose parfaite est très satisfaisant. Mais le mur suivant renouvelle les choix : il faut rester attentif."
+      },
+      {
+        "speaker": "onaga",
+        "text": "Ça donne envie de frimer quand on réussit ! Mais une erreur et je prends un bain…"
+      },
+      {
+        "speaker": "akao",
+        "text": "Les applaudissements et les éclaboussures rappellent un jeu télévisé. On a toujours envie de retenter pour passer un mur de plus."
+      }
+    ],
+    "features": [
+      "Observez la silhouette qui approche et choisissez la bonne pose parmi quatre",
+      "Les poses proposées changent à chaque mur ; les passages consécutifs accélèrent les murs",
+      "Une réussite vous laisse passer ; une erreur vous projette en arrière dans l’eau",
+      "Roulements de tambour, applaudissements et classement en ligne des murs franchis à la suite"
+    ],
+    "controls": [
+      {
+        "label": "Choisir une pose",
+        "text": "↑ / ← / ↓ / → ou clic sur une carte en bas"
+      },
+      {
+        "label": "Démarrer / Réessayer",
+        "text": "Espace / Entrée ou le bouton à l’écran"
+      },
+      {
+        "label": "Retour au titre",
+        "text": "Échap sur l’écran des résultats"
+      },
+      {
+        "label": "Activer / Couper le son",
+        "text": "M ou le bouton de son en haut à droite"
+      }
+    ],
+    "notes": [
+      "Adoptez la forme du trou avant l’arrivée du mur et tentez de battre votre meilleure série.",
+      "Navigateur sur ordinateur recommandé. Le jeu est en japonais."
+    ]
+  },
 };
