@@ -1,0 +1,31 @@
+---
+import '../../styles/global.css';
+import documents from '../../data/numphabet-public.json';
+import descriptions from '../../data/numphabet-description.json';
+export function getStaticPaths() {
+  return [undefined, 'support', 'privacy', 'terms'].map(page => ({ params: { page } }));
+}
+const page = Astro.params.page;
+const titles = {support: 'サポート / Support', privacy: 'プライバシーポリシー / Privacy Policy', terms: '利用規約 / Terms of Use'};
+const title = page ? titles[page as keyof typeof titles] : 'NUMPHABET';
+const doc = page ? documents.pages[page as keyof typeof documents.pages] : null;
+const prefix = '/numphabet/';
+const rewrite = (html: string) => html.replace(/href="\/(support|privacy|terms)(#[^"]*)?"/g, 'href="/numphabet/$1/$2"');
+---
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width"/>
+<title>{title} | あかお＠ゲーム開発</title>
+<meta name="description" content="NUMPHABETの公式情報・サポート・プライバシーポリシー・利用規約。Official NUMPHABET information and support."/>
+<link rel="canonical" href={`https://akao-game.com${prefix}${page ? page + '/' : ''}`}/>
+</head>
+<body>
+<header><a href="/">あかお＠ゲーム開発</a><nav aria-label="NUMPHABET"><a href={prefix}>NUMPHABET</a><a href={prefix+'support/'}>Support</a><a href={prefix+'privacy/'}>Privacy</a><a href={prefix+'terms/'}>Terms</a></nav></header>
+<main><h1>{title}</h1><nav aria-label="言語 / Language"><a href="#ja">日本語</a> · <a href="#en">English</a></nav>
+{doc ? <><section id="ja" lang="ja"><h2>日本語</h2><div set:html={rewrite(doc.ja)}/></section><section id="en" lang="en"><h2>English</h2><div set:html={rewrite(doc.en)}/></section></> : <><section id="ja" lang="ja"><h2>数字で、単語を解け。</h2><div class="description">{descriptions.ja}</div></section><section id="en" lang="en"><h2>Decode words with numbers.</h2><div class="description">{descriptions['en-US']}</div></section></>}
+</main><footer>© 2026 NUMPHABET · <a href="/">あかお＠ゲーム開発</a></footer>
+</body></html>
+<style>
+header,main,footer{max-width:960px;margin:auto;padding:24px}header{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;border-bottom:1px solid #ccc}nav{display:flex;gap:18px;flex-wrap:wrap}h1{font-size:clamp(1.7rem,4vw,2.7rem);line-height:1.4;margin:30px 0}section{padding:32px 0;scroll-margin-top:20px;border-bottom:1px solid #ccc;line-height:1.9;overflow-wrap:anywhere}.description{white-space:pre-line}section :global(h3){margin:26px 0 12px}section :global(p),section :global(ul){margin:16px 0}section :global(ul){padding-left:24px}section :global(a){text-decoration:underline}footer{font-size:.9rem}
+</style>
