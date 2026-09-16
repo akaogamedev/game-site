@@ -23,7 +23,7 @@ const rewrite = (html: string) => html.replace(/href="\/(support|privacy|terms)(
 <body>
 <header><a href="/">あかお＠ゲーム開発</a><nav aria-label="NUMPHABET"><a href={prefix}>NUMPHABET</a><a href={prefix+'support/'}>Support</a><a href={prefix+'privacy/'}>Privacy</a><a href={prefix+'terms/'}>Terms</a></nav></header>
 <main><h1>{title}</h1><nav aria-label="言語 / Language"><a href="#ja">日本語</a> · <a href="#en">English</a></nav>
-{doc ? <><section id="ja" lang="ja"><h2>日本語</h2><div set:html={rewrite(doc.ja)}/></section><section id="en" lang="en"><h2>English</h2><div set:html={rewrite(doc.en)}/></section></> : <><section id="ja" lang="ja"><h2>数字で、単語を解け。</h2><div class="description">{descriptions.ja}</div></section><section id="en" lang="en"><h2>Decode words with numbers.</h2><div class="description">{descriptions['en-US']}</div></section></>}
+{doc ? <><section id="ja" lang="ja"><h2>日本語</h2><div set:html={rewrite(doc.ja)}/></section><section id="en" lang="en"><h2>English</h2><div set:html={rewrite(doc.en)}/></section></> : <><section id="ja" lang="ja"><h2>数字で、単語を解け。</h2><div class="description">{descriptions.ja.split('\n\n').slice(1).join('\n\n')}</div></section><section id="en" lang="en"><h2>Decode words with numbers.</h2><div class="description">{descriptions['en-US'].split('\n\n').slice(1).join('\n\n')}</div></section></>}
 </main><footer>© 2026 NUMPHABET · <a href="/">あかお＠ゲーム開発</a></footer>
 </body></html>
 <style>
