@@ -2,10 +2,15 @@
 
 個人開発ゲームの紹介サイト(Astro製)。
 
+- 本番サイト: https://akao-game.com/
+- 共有リポジトリ: https://github.com/akaogamedev/game-site
+- 本番ブランチ: `main`（PushするとCloudflare Pagesが自動公開）
+- [Windows・Macでのセットアップと更新手順](docs/cross-platform-workflow.md)
+
 ## 開発
 
 ```bash
-npm install       # 初回のみ
+npm ci            # 初回・依存パッケージの更新を取得したとき
 npm run dev       # 開発サーバー起動 → http://localhost:4321
 npm run build     # 本番ビルド(dist/ に出力)
 ```
@@ -40,7 +45,6 @@ links:
 - `category: unityroom` のゲームは「unityroom 100本投稿企画」セクションに表示され、
   その件数がトップページの進捗バー(◯/100本)に自動で反映されます。
 - `category: ios` のゲームは「iOSアプリ」セクションに表示されます。
-- 現在の7ゲームはすべてダミーデータです。実際のゲーム情報に差し替えてください。
 
 ## 自分の情報に書き換える箇所
 
@@ -50,7 +54,6 @@ links:
 
 ## 公開(デプロイ)
 
-静的サイトなので無料ホスティングで公開できます。
+Cloudflare Pagesの既存プロジェクト `game-site` が、GitHubの `main` ブランチを監視しています。ビルドコマンドは `npm run build`、出力ディレクトリは `dist` です。
 
-- **Cloudflare Pages / Netlify / Vercel**: リポジトリを接続し、ビルドコマンド `npm run build`、出力ディレクトリ `dist` を指定
-- **GitHub Pages**: [公式ガイド](https://docs.astro.build/ja/guides/deploy/github/) の手順でGitHub Actionsを設定
+公開前に `npm run build` で確認し、公開する変更だけをコミットして `main` にPushします。未公開の作業を別のPCへ渡す場合は作業ブランチにPushしてください。詳しい手順は [Windows・Macでの作業手順](docs/cross-platform-workflow.md) を参照してください。

@@ -16,6 +16,10 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+.env.*
+!.env.example
+.dev.vars*
+.wrangler/
 
 # macOS-specific files
 .DS_Store
@@ -25,5 +29,5 @@ pnpm-debug.log*
 
 # 作業用一時ファイル
 tmp/
-package-lock.json
 node_modules.nosync/
+artifacts/
