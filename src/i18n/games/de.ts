@@ -19,7 +19,7 @@ export const deGames: Record<string, GameTranslation> = {
     ],
     features: [
       "Gehirntraining mit umgekehrtem Alphabet",
-      "Online-Rangliste",
+      "Punkte werden in einer lokalen Rangliste auf diesem Gerät gespeichert",
     ],
     controls: [
       { label: "Start", text: "Namen eingeben und START auswählen" },
@@ -68,7 +68,7 @@ export const deGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Diese KI hat wirklich schlechte Manieren." },
       {
         speaker: "akao",
-        text: "Sieh es als mentales Training. Du musst nur zeichnen und kannst unten Farben auswählen.",
+        text: "Sieh es als mentales Training. Du hältst dein Bild für eindeutig, aber die KI erkennt etwas ganz anderes darin. Diese überraschenden Reaktionen machen auch Spaß.",
       },
     ],
     features: [
@@ -76,7 +76,7 @@ export const deGames: Record<string, GameTranslation> = {
       "Konzentriere dich trotz ihrer Kommentare",
     ],
     controls: [
-      { label: "Zeichnen", text: "Auf der Fläche ziehen und unten eine Farbe wählen" },
+      { label: "Zeichnen", text: "Zeichne auf der Fläche und wähle unten eine Farbe. Drücke danach „完了“, damit die KI antwortet. Auch nach Ablauf der Zeit folgt die Auswertung." },
     ],
   },
   muon: {
@@ -100,6 +100,7 @@ export const deGames: Record<string, GameTranslation> = {
       "Drei Schwierigkeitsgrade",
       "Lokale Rangliste für Punkte und höchste Kombo",
     ],
+    controls: [{ label: "Noten treffen", text: "D / F / J / K, von links nach rechts. Drücke die passende Taste, wenn die Note die vordere Urteilslinie erreicht." }],
   },
   "pittari-hitofudegaki": {
     title: "Perfekte Ein-Strich-Zeichnung!",
@@ -143,12 +144,12 @@ export const deGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Es gibt EASY und CRAZY..." },
       {
         speaker: "akao",
-        text: "EASY ist nur wenige Züge vom Ziel entfernt. CRAZY ist völlig zufällig; selbst ich muss es ausprobieren.",
+        text: "EASY-Felder sehen fast fertig aus, enthalten aber auch unlösbare Anordnungen mit vertauschten Zahlen. CRAZY-Felder sind völlig zufällig.",
       },
     ],
     features: [
       "Erkenne, ob ein 15-Puzzle lösbar ist",
-      "EASY-Felder kurz vor der Lösung",
+      "EASY-Felder sehen fast fertig aus, enthalten aber auch unlösbare Anordnungen mit vertauschten Zahlen.",
       "Völlig zufällige CRAZY-Felder",
       "Online-Zeitrangliste",
     ],
@@ -283,7 +284,7 @@ export const deGames: Record<string, GameTranslation> = {
       "Eigene Zeitrangliste je Modus",
     ],
     controls: [
-      { label: "Bewegen", text: "Links/rechts oder A" },
+      { label: "Bewegen", text: "Links/rechts oder A/D" },
       { label: "Langsam fallen", text: "Pfeil ab oder S" },
       { label: "Drehen", text: "Z, X oder Pfeil auf" },
       { label: "Sofort fallen", text: "Space" },
@@ -324,7 +325,7 @@ export const deGames: Record<string, GameTranslation> = {
       { label: "Farbnoten DOPA", text: "A, S, D, F von links" },
       { label: "Negative Noten DOPA", text: "J, K, L, ; von links" },
     ],
-    notes: ["Treffer erhöhen Kombo und FEVER; Farbnoten füllen DOPA. Fehler und falsche Tasten senken DOPA."],
+    notes: ["Treffer erhöhen Kombo und FEVER; Farbnoten füllen DOPA. Fehler und falsche Tasten senken DOPA. DOPA sinkt auch mit der Zeit; Fehler, leere Anschläge und falsche Tasten ziehen zusätzlich DOPA ab. Während DOPA TIME sinkt es nicht."],
   },
   "castle-pazzle": {
     title: "CASTLE PAZZLE",
@@ -334,12 +335,12 @@ export const deGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Was für ein Burgenbauspiel ist CASTLE PAZZLE?" },
       {
         speaker: "akao",
-        text: "Präge dir drei Burgen ein und baue sie anschließend so schnell wie möglich aus den verstreuten Teilen nach.",
+        text: "Präge dir pro Aufgabe eine Burg ein und baue sie aus den Teilen nach. Es gibt drei Aufgaben nacheinander.",
       },
       { speaker: "onaga", text: "Kann ich die Vorlagen beim Bauen weiter ansehen?" },
       {
         speaker: "akao",
-        text: "Im Easy-Modus kannst du die Vorlagen während des Bauens beliebig oft erneut ansehen. Im Hard-Modus sind sie nach Baubeginn überhaupt nicht mehr verfügbar, also musst du sie dir am Anfang gut einprägen.",
+        text: "In Easy kannst du die Vorlage erneut ansehen, musst aber zwischen zwei Aufrufen warten. In Hard kannst du sie nach Baubeginn nicht mehr ansehen.",
       },
       { speaker: "onaga", text: "Schnelles Merken ist also genauso wichtig wie schnelles Bauen." },
       {
@@ -349,7 +350,7 @@ export const deGames: Record<string, GameTranslation> = {
     ],
     features: [
       "3D-Puzzle zum Einprägen und Nachbauen von drei Burgen",
-      "Im Easy-Modus können die Vorlagen beim Bauen jederzeit erneut angesehen werden",
+      "In Easy lässt sich die Vorlage wiederholt ansehen, mit Wartezeit zwischen den Aufrufen",
       "Im Hard-Modus sind die Vorlagen nach Baubeginn überhaupt nicht mehr einsehbar",
       "Lose Burgteile auf den Boden oder andere Bauteile ziehen",
       "Teile und Kamera drehen, um Position und Ausrichtung zu bestimmen",
@@ -409,12 +410,12 @@ export const deGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Wie setzt man die Zauber ein?" },
       {
         speaker: "akao",
-        text: "Du setzt die Zauber nicht selbst ein. Wenn genug Mana da ist, wählst du aus drei Karten eine Verbesserung; der gewählte Zauber wird automatisch ausgelöst, sobald seine Bedingungen erfüllt sind. Halte einfach deine Serie am Laufen und sammle Verbesserungen.",
+        text: "Du setzt die Zauber nicht selbst ein. Wenn genug Mana da ist, wählst du aus bis zu drei Karten eine Verbesserung; der gewählte Zauber wird automatisch ausgelöst, sobald seine Bedingungen erfüllt sind. Halte einfach deine Serie am Laufen und sammle Verbesserungen.",
       },
     ],
     features: [
       "Endloser magischer Brickbreaker mit einer vorrückenden Fluchmauer",
-      "Blöcke zerstören, Mana sammeln und aus drei Zauberkarten eine Verbesserung wählen",
+      "Blöcke zerstören, Mana sammeln und aus bis zu drei Zauberkarten eine Verbesserung wählen",
       "Fünf Zauber: Feuerexplosion, Kettenblitz, Eisfessel, Phantomkugel und Arkanstrahl",
       "Nach 12 Zauberverbesserungen wird die normale Kugel zu zwei Kugeln",
       "Serien und Zauberkombinationen für die Online-Bestenliste",

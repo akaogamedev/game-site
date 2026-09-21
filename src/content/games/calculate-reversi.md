@@ -8,23 +8,25 @@ platforms: [unityroom]
 releaseDate: 2026-07-12
 color: "#e9a529"
 cover: /images/games/calculate-reversi/cover.jpg
+video: /videos/games/calculate-reversi/play.mp4
+videoPoster: /videos/games/calculate-reversi/poster.jpg
 links:
   - label: unityroomで遊ぶ
     url: https://unityroom.com/games/calculate-reversi
 featured: true
 dialogue:
   - speaker: onaga
-    text: "計算リバーシって、普通のリバーシと何が違うん?"
+    text: "リバーシ中に計算！？ ワイの頭、そんな同時に働けるかな。"
   - speaker: akao
-    text: "置きたいマスを選んで、出てきた計算問題に正解すると石を置ける、リアルタイムのリバーシだよ。"
+    text: "いい一手を見つけても、計算している間に盤面が動くんだ。じっくり考えたいのに、相手は待ってくれないよ。"
   - speaker: onaga
-    text: "相手が考え終わるまで待ってくれるん?"
+    text: "相手が待ってくれへんのか。焦ったら、簡単な計算まで間違えそうやな。"
   - speaker: akao
-    text: "CPUは待ってくれないよ。素早く解くほど、CPUの次の着手までにたくさん石を置けるんだ。"
+    text: "逆に言えば、計算が速ければ相手が次の石を置く前に何枚も置けるんだ。リバーシの腕だけじゃ勝負は決まらないよ。"
   - speaker: onaga
-    text: "計算中に、置きたかったマスを取られたらどうなるん?"
+    text: "ワイ、計算苦手なんやけど…"
   - speaker: akao
-    text: "相手が置いたあとも選んだマスが合法手なら、そのまま計算を続けられるよ。CPUと計算の難易度はそれぞれ3段階で、スマホならふたり対戦もできるんだ。"
+    text: "その場合は、純粋なリバーシ力でカバーしよう！"
 ---
 
 ## 特徴

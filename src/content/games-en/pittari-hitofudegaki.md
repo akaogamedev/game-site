@@ -8,6 +8,8 @@ platforms: [unityroom]
 releaseDate: 2026-06-10
 color: "#e05c8a"
 cover: /images/games/pittari-hitofudegaki/cover.png
+video: /videos/games/pittari-hitofudegaki/play.mp4
+videoPoster: /videos/games/pittari-hitofudegaki/poster.jpg
 links:
   - label: "Play on unityroom"
     url: https://unityroom.com/games/sagashimono

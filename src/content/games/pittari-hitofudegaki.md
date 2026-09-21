@@ -8,18 +8,20 @@ platforms: [unityroom]
 releaseDate: 2026-06-10
 color: "#e05c8a"
 cover: /images/games/pittari-hitofudegaki/cover.png
+video: /videos/games/pittari-hitofudegaki/play.mp4
+videoPoster: /videos/games/pittari-hitofudegaki/poster.jpg
 links:
   - label: unityroomで遊ぶ
     url: https://unityroom.com/games/sagashimono
 dialogue:
   - speaker: onaga
-    text: "お絵描きのゲームなんやね。ボク、絵はちょっと自信あるで。"
+    text: "ひとふでがき？ 何を描くん？"
   - speaker: akao
-    text: "お題を選んで、一筆でなぞるだけ。「ほし」や「さかな」のお手本の線に、どれだけ近く描けるかを競うんだ。"
+    text: "お手本の形を、一筆でできるだけそっくりに描くゲームだよ。"
   - speaker: onaga
-    text: "描き終わったら、すぐ点数出るん?"
+    text: "簡単そうやけど、一筆やと途中で失敗しても直せへんな。"
   - speaker: akao
-    text: "指やマウスを離した瞬間に採点されるよ。お題ごとにランキングもあるから、上位を狙ってみて。"
+    text: "そう。指やマウスを離すと即採点されるから、気を付けてね。"
 ---
 
 ## 特徴

@@ -8,6 +8,8 @@ platforms: [unityroom]
 releaseDate: 2026-06-06
 color: "#35a3e0"
 cover: /images/games/osyaberi-oekaki/cover.jpg
+video: /videos/games/osyaberi-oekaki/play.mp4
+videoPoster: /videos/games/osyaberi-oekaki/poster.jpg
 links:
   - label: "Play on unityroom"
     url: https://unityroom.com/games/osyaberi-oekaki
@@ -20,7 +22,7 @@ dialogue:
   - speaker: onaga
     text: "That AI has a terrible attitude."
   - speaker: akao
-    text: "Think of it as mental training. Drawing is the only control you need, and you can choose colors at the bottom of the screen."
+    text: "Think of it as mental training. You can be sure your drawing is clear, only for the AI to see something completely different. Those unexpected reactions are part of the fun."
 ---
 
 ## Features
@@ -30,4 +32,4 @@ dialogue:
 
 ## How to Play
 
-Draw directly on the canvas. You can also select a color at the bottom of the screen.
+Draw directly on the canvas with the mouse or touch, and select colors at the bottom of the screen. Press the green Done button (完了) when you finish. The AI then guesses your drawing. Running out of time also starts the judging step.

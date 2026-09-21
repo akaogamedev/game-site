@@ -8,23 +8,21 @@ platforms: [unityroom]
 releaseDate: 2026-07-15
 color: "#168696"
 cover: /images/games/pittari-tetromino/cover.png
+video: /videos/games/pittari-tetromino/play.mp4
+videoPoster: /videos/games/pittari-tetromino/poster.jpg
 links:
   - label: unityroomで遊ぶ
     url: https://unityroom.com/games/pittari-tetromino
 featured: true
 dialogue:
   - speaker: onaga
-    text: "ぴったりテトロミノって、ふつうの落ちものパズルなん?"
+    text: "テトロミノって、あの落ちてくるブロックのこと？"
   - speaker: akao
-    text: "お題と同じ形を、テトロミノを落としてぴったり作る10問タイムアタックだよ。"
+    text: "そう。そのブロックを積んで、お題と同じ形を作るゲームだよ。10問全部完成させるまでの速さを競うんだ。"
   - speaker: onaga
-    text: "ブロックを消していくだけやないんやね。後半はどうなるん?"
+    text: "形を作るんやったら、ラインを消したらあかんの？"
   - speaker: akao
-    text: "後半は、必要なラインをいったん消しながら完成形を作るんだ。形を崩さず組む順番が大事だよ。"
-  - speaker: onaga
-    text: "難しそうやけど、練習できるん?"
-  - speaker: akao
-    text: "EASYとHARDの2モードがあるよ。問題をやり直すときはRキー、タイムはモード別のオンラインランキングにも記録できるんだ。"
+    text: "それが、途中でラインを消さないと作れない形もあるんだ。どの順番で積むかも考えてみてね。"
 ---
 
 ## 特徴
@@ -36,7 +34,7 @@ dialogue:
 
 ## 操作方法
 
-- **移動**: ← → / A
+- **移動**: ← → / A・D
 - **ソフトドロップ**: ↓ / S
 - **回転**: Z / X / ↑
 - **ハードドロップ**: Space

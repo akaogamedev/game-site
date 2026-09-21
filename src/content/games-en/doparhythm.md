@@ -8,6 +8,8 @@ platforms: [unityroom]
 releaseDate: 2026-07-20
 color: "#7a2f63"
 cover: /images/games/doparhythm/cover.png
+video: /videos/games/doparhythm/play.mp4
+videoPoster: /videos/games/doparhythm/poster.jpg
 links:
   - label: "Play on unityroom"
     url: https://unityroom.com/games/dopagaki
@@ -46,6 +48,6 @@ dialogue:
 - **Colored stimulation notes**: A / S / D / F from left to right
 - **Downer notes**: Reject them with J / K / L / ; from left to right
 
-Successful hits build your combo and FEVER gauge. Colored notes also restore DOPA. Misses, empty presses, and wrong keys reduce DOPA; the game ends when it reaches zero.
+Successful hits build your combo and FEVER gauge. Colored notes also restore DOPA. DOPA drains over time, and misses, empty presses, and wrong keys reduce it further; the game ends when it reaches zero.
 
-When the FEVER gauge fills, DOPA TIME begins. Mash all four keys in normal mode or all eight keys in DOPA mode to earn a large score bonus.
+When the FEVER gauge fills, DOPA TIME begins. Mash all four keys in normal mode or all eight keys in DOPA mode to earn a large score bonus. DOPA does not drain during DOPA TIME.

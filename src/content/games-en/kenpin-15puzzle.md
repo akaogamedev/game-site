@@ -8,6 +8,8 @@ platforms: [unityroom]
 releaseDate: 2026-06-16
 color: "#e0993c"
 cover: /images/games/kenpin-15puzzle/cover.jpg
+video: /videos/games/kenpin-15puzzle/play.mp4
+videoPoster: /videos/games/kenpin-15puzzle/poster.jpg
 links:
   - label: "Play on unityroom"
     url: https://unityroom.com/games/kenpin-15puzzle
@@ -24,13 +26,13 @@ dialogue:
   - speaker: onaga
     text: "I see EASY and CRAZY modes..."
   - speaker: akao
-    text: "EASY boards are only a few moves away from completion. CRAZY boards are completely random, so even I need to move the tiles to be sure."
+    text: "EASY boards look nearly complete, but swapped tiles can make some of them impossible. CRAZY boards are completely random, so even I need to move the tiles to be sure."
 ---
 
 ## Features
 
 - A new take on the 15 puzzle: determine whether each board is solvable
-- EASY boards are generated only a few moves away from completion
+- EASY boards look nearly complete, with unsolvable boards caused by swapped tiles mixed in
 - CRAZY boards are completely random
 - Online time-attack leaderboard
 

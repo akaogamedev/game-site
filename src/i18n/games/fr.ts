@@ -19,7 +19,7 @@ export const frGames: Record<string, GameTranslation> = {
     ],
     features: [
       "Dactylographie cérébrale avec alphabet inversé",
-      "Classement en ligne",
+      "Scores enregistrés dans un classement local sur cet appareil",
     ],
     controls: [
       { label: "Démarrer", text: "Saisissez un nom puis choisissez START" },
@@ -68,7 +68,7 @@ export const frGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Cette IA a vraiment mauvais caractère." },
       {
         speaker: "akao",
-        text: "Vois ça comme un entraînement mental. Il suffit de dessiner, avec un choix de couleurs en bas.",
+        text: "Vois ça comme un entraînement mental. Tu peux trouver ton dessin très clair, puis découvrir que l’IA y voit tout autre chose. Ses réactions inattendues font aussi partie du plaisir.",
       },
     ],
     features: [
@@ -76,7 +76,7 @@ export const frGames: Record<string, GameTranslation> = {
       "Restez concentré malgré ses moqueries",
     ],
     controls: [
-      { label: "Dessiner", text: "Faites glisser sur la toile et choisissez une couleur en bas" },
+      { label: "Dessiner", text: "Dessinez sur la toile et choisissez les couleurs en bas. Appuyez sur « 完了 » pour obtenir la réponse de l’IA. Elle répond aussi à la fin du temps imparti." },
     ],
   },
   muon: {
@@ -100,6 +100,7 @@ export const frGames: Record<string, GameTranslation> = {
       "Trois niveaux de difficulté",
       "Classement local du score et du meilleur combo",
     ],
+    controls: [{ label: "Jouer les notes", text: "D / F / J / K, de gauche à droite. Appuyez quand la note atteint la ligne de jugement à l’avant." }],
   },
   "pittari-hitofudegaki": {
     title: "Dessin parfait en un trait !",
@@ -143,12 +144,12 @@ export const frGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Il y a EASY et CRAZY..." },
       {
         speaker: "akao",
-        text: "EASY n'est qu'à quelques coups de la fin. CRAZY est totalement aléatoire ; même moi, je dois essayer.",
+        text: "Les plateaux EASY ressemblent à une grille presque terminée, mais certains sont insolubles à cause de tuiles interverties. Les plateaux CRAZY sont entièrement aléatoires.",
       },
     ],
     features: [
       "Déterminez si chaque taquin est soluble",
-      "Plateaux EASY proches de la fin",
+      "Les plateaux EASY ressemblent à une grille presque terminée, mais certains sont insolubles à cause de tuiles interverties.",
       "Plateaux CRAZY totalement aléatoires",
       "Classement chronométré en ligne",
     ],
@@ -283,7 +284,7 @@ export const frGames: Record<string, GameTranslation> = {
       "Classement chronométré pour chaque mode",
     ],
     controls: [
-      { label: "Déplacer", text: "Flèches gauche/droite ou A" },
+      { label: "Déplacer", text: "Flèches gauche/droite ou A/D" },
       { label: "Descente douce", text: "Flèche bas ou S" },
       { label: "Tourner", text: "Z, X ou flèche haut" },
       { label: "Chute rapide", text: "Space" },
@@ -324,7 +325,7 @@ export const frGames: Record<string, GameTranslation> = {
       { label: "Notes colorées DOPA", text: "A, S, D, F de gauche à droite" },
       { label: "Notes négatives DOPA", text: "J, K, L, ; de gauche à droite" },
     ],
-    notes: ["Les réussites augmentent combo et FEVER ; les notes colorées restaurent DOPA. Les erreurs et mauvaises touches le réduisent."],
+    notes: ["Les réussites augmentent combo et FEVER ; les notes colorées restaurent DOPA. Les erreurs et mauvaises touches le réduisent. DOPA diminue aussi avec le temps ; les ratés, pressions à vide et mauvaises touches le réduisent davantage. Il ne diminue pas pendant DOPA TIME."],
   },
   "castle-pazzle": {
     title: "CASTLE PAZZLE",
@@ -334,12 +335,12 @@ export const frGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Quel genre de jeu de construction est CASTLE PAZZLE ?" },
       {
         speaker: "akao",
-        text: "Mémorise trois châteaux, puis reconstruis-les au plus vite avec les pièces éparpillées.",
+        text: "À chaque épreuve, mémorise un château puis reconstruis-le avec les pièces. Il y a trois épreuves successives.",
       },
       { speaker: "onaga", text: "Je peux garder les modèles sous les yeux pendant la construction ?" },
       {
         speaker: "akao",
-        text: "En mode Easy, tu peux revoir les modèles autant de fois que tu le souhaites pendant la construction. En Hard, ils deviennent totalement inaccessibles dès que la construction commence, alors mémorise-les bien au départ.",
+        text: "En Easy, tu peux revoir le modèle, avec un délai entre deux consultations. En Hard, tu ne peux plus le revoir une fois la construction commencée.",
       },
       { speaker: "onaga", text: "Mémoriser vite compte donc autant que construire vite." },
       {
@@ -349,7 +350,7 @@ export const frGames: Record<string, GameTranslation> = {
     ],
     features: [
       "Puzzle 3D où il faut mémoriser et reconstruire trois châteaux",
-      "En Easy, les modèles restent consultables à tout moment pendant la construction",
+      "En Easy, modèle consultable plusieurs fois, avec un délai entre les consultations",
       "En Hard, les modèles ne sont plus du tout consultables après le début de la construction",
       "Glissez les pièces sur le sol ou sur les autres parties du château",
       "Faites pivoter les pièces et la caméra pour trouver leur place et leur sens",
@@ -409,12 +410,12 @@ export const frGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Comment utilise-t-on les sorts ?" },
       {
         speaker: "akao",
-        text: "Vous ne lancez pas les sorts vous-même. Quand le mana est suffisant, choisissez une amélioration parmi trois cartes : le sort choisi se déclenche automatiquement quand ses conditions sont réunies. Gardez simplement votre série et empilez les améliorations.",
+        text: "Vous ne lancez pas les sorts vous-même. Quand le mana est suffisant, choisissez une amélioration parmi jusqu’à trois cartes : le sort choisi se déclenche automatiquement quand ses conditions sont réunies. Gardez simplement votre série et empilez les améliorations.",
       },
     ],
     features: [
       "Casse-briques magique sans fin avec un mur maudit qui avance",
-      "Détruisez des blocs, gagnez du mana et choisissez une amélioration parmi trois cartes",
+      "Détruisez des blocs, gagnez du mana et choisissez une amélioration parmi jusqu’à trois cartes",
       "Cinq sorts : explosion de feu, foudre en chaîne, entrave glacée, boule fantôme et rayon arcanique",
       "Après 12 améliorations, la boule normale devient double",
       "Prolongez les séries et les combos magiques pour grimper au classement",

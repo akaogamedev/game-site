@@ -12,6 +12,30 @@
   --dirt: #b5854e;
   --stone: #6f6b78;
   --shadow: 6px 6px 0 var(--ink);
+  /* 英数字のラベル用の8bitフォント。日本語は DotGothic16 にフォールバックする */
+  --font-pixel: "Press Start 2P", "DotGothic16", monospace;
+  /* ゲームのロゴ風の縁取り(4方向の墨)+落ち影 */
+  --logo-outline: -3px 0 0 var(--ink), 3px 0 0 var(--ink), 0 -3px 0 var(--ink), 0 3px 0 var(--ink),
+    -3px -3px 0 var(--ink), 3px -3px 0 var(--ink), -3px 3px 0 var(--ink), 3px 3px 0 var(--ink),
+    6px 6px 0 var(--ink);
+  /* いまの空の色。時間帯(html[data-daytime])で差し替える */
+  --sky-now: var(--sky);
+  --cloud-now: #ffffff;
+}
+
+[data-daytime="morning"] {
+  --sky-now: #9be4f2;
+  --cloud-now: #fff4e0;
+}
+
+[data-daytime="evening"] {
+  --sky-now: #f0a15e;
+  --cloud-now: #ffd9b8;
+}
+
+[data-daytime="night"] {
+  --sky-now: #1f2a55;
+  --cloud-now: #8b93b8;
 }
 
 * {
@@ -65,6 +89,10 @@ a {
   gap: 4px 12px;
 }
 
+.site-header-static {
+  position: static;
+}
+
 .site-logo {
   display: flex;
   align-items: center;
@@ -97,6 +125,41 @@ a {
 .site-nav a:hover {
   background: var(--yellow);
   border-color: var(--ink);
+}
+
+/* 効果音のON/OFF。OFFのときはスピーカーに×を重ねる */
+.sound-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 37px;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--ink);
+  border: 3px solid var(--ink);
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+.sound-toggle:hover,
+.sound-toggle:focus-visible {
+  color: var(--ink);
+  background: var(--yellow);
+  outline: none;
+}
+
+.sound-toggle .sound-off {
+  display: none;
+}
+
+[data-sound="off"] .sound-toggle .sound-wave {
+  display: none;
+}
+
+[data-sound="off"] .sound-toggle .sound-off {
+  display: block;
 }
 
 .language-select {
@@ -161,12 +224,30 @@ a {
     padding: 5px 7px;
     font-size: 0.82rem;
   }
+
+  /* 1段目にリンク3つ、2段目に音のON/OFFと言語選択をそろえて置く */
+  .site-nav {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: center;
+    align-items: center;
+    gap: 6px 8px;
+  }
+
+  .sound-toggle {
+    justify-self: end;
+  }
+
+  .language-select {
+    grid-column: 2 / span 2;
+    justify-self: start;
+  }
 }
 
 /* ヒーロー(空) */
 .hero {
   position: relative;
-  background: var(--sky);
+  background: var(--sky-now);
   text-align: center;
   padding: 72px 20px 0;
   overflow: hidden;
@@ -174,6 +255,41 @@ a {
 
 /* 雲は右から左へ、コマ送りでゆっくり流す。
    負のdelayで、読み込み直後からデザイン位置の近くに見えるよう位相をずらす */
+/* 夜は星を散らし、見出しを白抜きにする */
+[data-daytime="night"] .hero::before,
+[data-daytime="night"] .title-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='140' shape-rendering='crispEdges'><rect x='12' y='18' width='3' height='3' fill='%23fff8e8'/><rect x='70' y='40' width='2' height='2' fill='%23fff8e8'/><rect x='130' y='12' width='3' height='3' fill='%23f7e08a'/><rect x='160' y='70' width='2' height='2' fill='%23fff8e8'/><rect x='40' y='90' width='2' height='2' fill='%23fff8e8'/><rect x='100' y='110' width='3' height='3' fill='%23fff8e8'/></svg>");
+  background-size: 180px 140px;
+  opacity: 0.9;
+}
+
+[data-daytime="night"] .hero h1,
+[data-daytime="night"] .title-tagline,
+[data-daytime="night"] .title-press,
+[data-daytime="night"] .title-hint,
+[data-daytime="night"] .title-hud {
+  color: var(--cream);
+  text-shadow: 3px 3px 0 var(--ink);
+}
+
+[data-daytime="night"] .hero h1 {
+  text-shadow: 3px 3px 0 var(--ink);
+}
+
+[data-daytime="night"] .talk-hint,
+[data-daytime="night"] .hero .cloud,
+[data-daytime="night"] .title-frame .cloud {
+  opacity: 0.7;
+}
+
+.cloud rect {
+  fill: var(--cloud-now);
+}
+
 .hero .cloud {
   position: absolute;
   animation: cloud-drift 90s steps(180) infinite;
@@ -201,7 +317,7 @@ a {
   position: relative;
   font-size: clamp(1.7rem, 5vw, 2.8rem);
   font-weight: 700;
-  margin: 0 0 12px;
+  margin: 0 0 24px;
   line-height: 1.5;
   text-shadow: 3px 3px 0 rgba(255, 255, 255, 0.6);
 }
@@ -232,11 +348,126 @@ a {
   }
 }
 
-/* PRESS START風の点滅カーソル */
-.press-cursor {
+/* ===== RPGウィンドウ(会話・コマンド・クエスト共通) =====
+   外枠4pxの内側に、もう1本の細い線を inset の影で描く */
+.rpg-window {
   position: relative;
-  margin-top: 24px;
-  font-size: 1.3rem;
+  background: var(--cream);
+  border: 4px solid var(--ink);
+  box-shadow:
+    6px 6px 0 var(--ink),
+    inset 0 0 0 4px var(--cream),
+    inset 0 0 0 7px var(--ink);
+  text-align: left;
+}
+
+.rpg-window-label {
+  position: absolute;
+  top: -18px;
+  left: 18px;
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.9;
+  padding: 2px 12px;
+  letter-spacing: 0.1em;
+}
+
+/* ヒーローの会話ウィンドウ + コマンドウィンドウ */
+.hero-windows {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 28px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* あかおのセリフは吹き出し。下に立つあかおへ、右下のしっぽで向く */
+.hero-message {
+  position: relative;
+  flex: 0 1 auto;
+  max-width: 520px;
+  padding: 16px 22px 18px;
+  background: var(--cream);
+  border: 4px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+  text-align: left;
+}
+
+.speech-bubble::before,
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  right: 84px;
+  width: 16px;
+  height: 16px;
+  background: var(--cream);
+  border: 4px solid var(--ink);
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+/* 影の色のしっぽを先に描いて、その上に本体のしっぽを重ねる */
+.speech-bubble::before {
+  bottom: -14px;
+  right: 78px;
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.speech-bubble::after {
+  bottom: -12px;
+}
+
+.hero-message-body {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.hero-message-text {
+  min-width: 0;
+}
+
+.hero-message-line {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.9;
+}
+
+/* 1行目の文字送り。明転(data-home-revealed)してから1コマ1文字で出す。
+   幅は全角換算なので、欧文は早めに出きるだけ */
+/* セリフ再生中は行の高さを固定して、文字が増えても窓が動かないようにする */
+.hero-message-current {
+  min-height: calc(1.9em * 2);
+  min-width: 18em;
+}
+
+.hero-message.is-live {
+  cursor: pointer;
+  user-select: none;
+}
+
+.hero-message-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero-message-text[hidden] {
+  display: none;
+}
+
+/* 会話ウィンドウ右下の点滅カーソル */
+.press-cursor {
+  position: absolute;
+  right: 18px;
+  bottom: 10px;
+  font-size: 0.9rem;
   line-height: 1;
   animation: cursor-blink 1s step-end infinite;
 }
@@ -251,40 +482,454 @@ a {
   }
 }
 
-/* ヒーローの入口ボタン */
-.hero-buttons {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 28px;
+.hero-commands {
+  flex: 0 0 auto;
+  padding: 18px 22px 16px 18px;
 }
 
-.hero-btn {
-  display: inline-flex;
+.command-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.command {
+  display: flex;
   align-items: center;
   gap: 10px;
   font-weight: 700;
   font-size: 1rem;
   text-decoration: none;
   color: var(--ink);
-  background: var(--cream);
-  border: 4px solid var(--ink);
-  box-shadow: 5px 5px 0 var(--ink);
-  padding: 10px 22px;
-  transition: transform 0.16s steps(2, end), box-shadow 0.16s steps(2, end);
+  padding: 6px 12px 6px 8px;
+  border: 3px solid transparent;
+  white-space: nowrap;
 }
 
-.hero-btn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 7px 7px 0 var(--ink);
+.command svg {
+  flex-shrink: 0;
+}
+
+.command-cursor {
+  width: 0.9em;
+  font-size: 0.72em;
+  flex-shrink: 0;
+  opacity: 0;
+}
+
+/* 何も触っていないときは先頭に、触ったらその項目にカーソルが移る */
+.command.is-default {
+  background: var(--yellow);
+  border-color: var(--ink);
+}
+
+.command.is-default .command-cursor {
+  animation: cursor-blink 0.5s step-end infinite;
+}
+
+.command:hover,
+.command:focus-visible {
+  background: var(--yellow);
+  border-color: var(--ink);
+  outline: none;
+}
+
+.command:hover .command-cursor,
+.command:focus-visible .command-cursor {
+  opacity: 1;
+  animation: none;
+}
+
+.command-list:hover .command.is-default:not(:hover),
+.command-list:focus-within .command.is-default:not(:focus-visible) {
+  background: transparent;
+  border-color: transparent;
+}
+
+.command-list:hover .command.is-default:not(:hover) .command-cursor,
+.command-list:focus-within .command.is-default:not(:focus-visible) .command-cursor {
+  opacity: 0;
+  animation: none;
+}
+
+.command:active {
+  transform: translate(1px, 1px);
+}
+
+/* 「じっせき かいじょ」トースト。ヒーロー右下から4コマでせり上がる */
+.achievement {
+  position: absolute;
+  right: 32px;
+  bottom: 28px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--ink);
+  color: var(--cream);
+  border: 4px solid var(--cream);
+  box-shadow: 0 0 0 4px var(--ink);
+  padding: 10px 16px 10px 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.achievement.run {
+  animation: toast-in 0.4s steps(4) both;
+}
+
+.achievement.out {
+  animation: toast-out 0.3s steps(3) forwards;
+}
+
+@keyframes toast-in {
+  from {
+    transform: translateY(140%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-out {
+  to {
+    transform: translateY(140%);
+  }
+}
+
+.achievement-no {
+  width: 28px;
+  height: 28px;
+  background: var(--yellow);
+  border: 3px solid var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.achievement-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.4;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.achievement-label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--yellow);
+}
+
+/* ===== ヘッダーHUD(LV + 進捗ゲージ) ===== */
+.hud {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.hud-lv {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 1px 8px;
+  letter-spacing: 0.08em;
+}
+
+.hud-gauge {
+  display: block;
+  width: 150px;
+  height: 16px;
+  border: 3px solid var(--ink);
+  background: var(--cream);
+}
+
+.hud-gauge > span {
+  display: block;
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--yellow) 0 14px,
+    #f0d068 14px 28px
+  );
+  border-right: 3px solid var(--ink);
+  animation: gauge-flow 0.7s steps(2) infinite;
+}
+
+.hud:hover .hud-gauge {
   background: var(--yellow);
 }
 
-.hero-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 var(--ink);
+@media (max-width: 760px) {
+  .hud {
+    display: none;
+  }
+}
+
+/* ===== タイトル画面 ===== */
+/* JSが data-title-screen を立てたときだけ表示。"out" で4コマ暗転して消える */
+.title-screen {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--cream);
+  flex-direction: column;
+  cursor: pointer;
+  outline: none;
+  overflow-y: auto;
+}
+
+[data-title-screen] .title-screen {
+  display: flex;
+}
+
+[data-title-screen] {
+  overflow: hidden;
+}
+
+[data-title-screen="out"] .title-screen {
+  animation: title-out 0.3s steps(4) forwards;
+}
+
+@keyframes title-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.title-frame {
+  position: relative;
+  flex: 1 0 auto;
+  margin: clamp(16px, 3dvh, 24px);
+  background: var(--sky-now);
+  border: 4px solid var(--cream);
+  box-shadow:
+    0 0 0 4px var(--ink),
+    0 0 0 8px var(--cream);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* Keep the text above the HUD and scenery, even in short desktop windows. */
+  padding: clamp(16px, 3dvh, 28px) 20px 150px;
+}
+
+.title-frame .cloud {
+  position: absolute;
+  animation: cloud-drift 90s steps(180) infinite;
+}
+
+.title-frame .cloud-a {
+  animation-delay: -40s;
+}
+
+.title-frame .cloud-b {
+  animation-duration: 120s;
+  animation-delay: -53s;
+}
+
+.title-logo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  max-width: 100%;
+  gap: clamp(8px, 2dvh, 18px);
+  animation: logo-drop 0.6s steps(6) 0.3s both;
+}
+
+.title-logo > svg {
+  width: clamp(48px, 13dvh, 104px);
+  height: auto;
+  flex-shrink: 0;
+}
+
+@keyframes logo-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title-name {
+  margin: 0;
+  font-size: clamp(1.9rem, min(5.5vw, 7dvh), 4rem);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--cream);
+  text-shadow:
+    4px 4px 0 var(--ink),
+    8px 8px 0 rgba(22, 22, 28, 0.35);
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+}
+
+.title-tagline {
+  margin: 0;
+  text-wrap: balance;
+  font-size: clamp(0.95rem, 2vw, 1.125rem);
+  color: var(--ink);
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.6);
+}
+
+.title-start {
+  position: relative;
+  flex-shrink: 0;
+  margin-top: clamp(12px, 4dvh, 56px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  animation: title-late 0.01s step-end 1.3s both;
+}
+
+@keyframes title-late {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.title-press {
+  margin: 0;
+  font-size: clamp(1.2rem, 3vw, 1.625rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--ink);
+  text-shadow: 3px 3px 0 rgba(255, 255, 255, 0.6);
+  animation: cursor-blink 1s step-end infinite;
+}
+
+.title-hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--ink);
+  opacity: 0.75;
+}
+
+.title-hud {
+  position: absolute;
+  right: 32px;
+  bottom: 110px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  animation: title-late 0.01s step-end 1.3s both;
+}
+
+.title-hud .hud-gauge {
+  width: 120px;
+  height: 14px;
+}
+
+.title-hud .hud-gauge > span {
+  animation: none;
+  background: var(--yellow);
+}
+
+.title-scene {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 72px;
+  padding: 0 20px;
+}
+
+.title-scene > * {
+  flex-shrink: 0;
+}
+
+.title-edge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 14px;
+  background-image: linear-gradient(90deg, var(--grass) 50%, transparent 50%);
+  background-size: 28px 14px;
+}
+
+.title-copy {
+  margin: 0;
+  flex-shrink: 0;
+  padding: 0 24px clamp(8px, 2dvh, 18px);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .title-frame {
+    margin: 12px;
+    padding-bottom: 124px;
+  }
+
+  .title-scene {
+    gap: 24px;
+  }
+
+  .title-scene .grass-edge {
+    display: none;
+  }
+
+  .title-scene svg[viewBox="0 0 16 17"] {
+    width: 64px;
+    height: 68px;
+  }
+
+  .title-hud {
+    right: 16px;
+    bottom: 84px;
+    gap: 6px;
+  }
+
+  .title-hud .hud-gauge {
+    width: clamp(64px, 22vw, 120px);
+  }
+
+}
+
+@media (max-height: 650px) {
+  .title-frame {
+    padding-bottom: 124px;
+  }
+
+  .title-scene svg[viewBox="0 0 16 17"] {
+    width: 64px;
+    height: 68px;
+  }
+
+  .title-hud {
+    bottom: 84px;
+  }
 }
 
 /* 作品一覧(タブ)。地面の色は選択中のタブで決まる */
@@ -531,6 +1176,99 @@ a {
   box-shadow: var(--shadow);
 }
 
+[data-gauge-run] .progress-fill {
+  animation:
+    gauge-flow 0.7s steps(2) infinite,
+    gauge-grow 1.2s steps(var(--steps, 10)) both;
+}
+
+@keyframes gauge-grow {
+  from {
+    width: 0;
+  }
+}
+
+.road {
+  position: relative;
+  grid-column: 2;
+  height: 44px;
+  /* The scale shares the meter's inner edges, excluding its 4px border. */
+  margin: 0 4px 2px;
+}
+
+.road-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 30px;
+  height: 6px;
+  background: repeating-linear-gradient(90deg, var(--ink) 0 12px, transparent 12px 20px);
+}
+
+.road-flag {
+  position: absolute;
+  top: 12px;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 2px 4px;
+  background: #cdc8ba;
+  border: 2px solid var(--ink);
+}
+
+.road-flag.reached {
+  background: var(--yellow);
+}
+
+.road-flag::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - 1px);
+  top: 100%;
+  width: 2px;
+  height: 8px;
+  background: var(--ink);
+}
+
+.road-chara {
+  position: absolute;
+  top: 2px;
+  transform: translateX(-50%);
+  line-height: 0;
+  transition: left 1.2s steps(var(--steps, 10));
+}
+
+[data-gauge-run] .road-chara {
+  animation: chara-walk 1.2s steps(var(--steps, 10)) both;
+}
+
+@keyframes chara-walk {
+  from {
+    left: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .road {
+    height: 60px;
+  }
+
+  .road-flag {
+    top: 42px;
+  }
+
+  .road-flag::after {
+    top: auto;
+    bottom: 100%;
+    height: 6px;
+  }
+
+  .road-flag:nth-of-type(odd) {
+    display: none;
+  }
+}
+
 .progress-fill {
   height: 100%;
   background: repeating-linear-gradient(
@@ -548,12 +1286,97 @@ a {
   }
 }
 
-.progress-label {
-  color: #fff;
-  text-shadow: 2px 2px 0 var(--ink);
+/* クエスト窓の中では見出し・リードは白抜きではなく墨色で読む */
+.quest-window {
+  padding: 26px 30px 24px;
+  margin-bottom: 34px;
+}
+
+.quest-title,
+.quest-lead {
+  color: var(--ink);
+  text-shadow: none;
+}
+
+.quest-lead a {
+  color: var(--blue);
+}
+
+.quest-window .progress {
+  box-shadow: none;
+  margin: 0;
+  flex: 1 1 auto;
+}
+
+.exp-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 18px 14px;
+}
+
+.exp-label {
+  background: var(--ink);
+  color: var(--cream);
   font-weight: 700;
-  margin: 0 0 28px;
+  font-size: 0.88rem;
+  padding: 2px 10px;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+.progress-label {
+  color: var(--ink);
+  font-weight: 700;
+  margin: 8px 0 0;
   text-align: right;
+}
+
+.next-level {
+  margin: 0;
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+/* ステージセレクトの小見出し */
+.stage-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 22px;
+  color: #fff;
+  text-shadow: 3px 3px 0 var(--ink);
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.stage-heading::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  flex-shrink: 0;
+}
+
+.stage-sort {
+  margin-left: auto;
+  font-size: 0.82rem;
+  text-shadow: 2px 2px 0 var(--ink);
+}
+
+@media (max-width: 560px) {
+  .quest-window {
+    padding: 22px 18px 20px;
+  }
+
+  .quest-title {
+    font-size: 1.2rem;
+  }
+
+  .exp-row {
+    gap: 10px;
+  }
 }
 
 /* ゲームカード */
@@ -567,15 +1390,141 @@ a {
   background: var(--cream);
   border: 4px solid var(--ink);
   box-shadow: var(--shadow);
-  overflow: hidden;
+  /* STAGEプレートやNEW!が枠の外に少し出るので、切り取らない */
+  overflow: visible;
   text-decoration: none;
   color: var(--ink);
   transition: transform 0.18s steps(3, end), box-shadow 0.18s steps(3, end);
 }
 
-.game-card:hover {
+.game-card {
+  position: relative;
+}
+
+.game-card:hover,
+.game-card:focus-visible {
   transform: translate(-3px, -3px);
   box-shadow: 9px 9px 0 var(--ink);
+  outline: none;
+}
+
+/* 押した瞬間だけ1コマ沈む */
+.game-card:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink);
+  transition: none;
+}
+
+/* 一度開いたゲームには CLEAR の判子 */
+.clear-stamp {
+  display: none;
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  z-index: 2;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.6;
+  padding: 1px 10px;
+  color: var(--ink);
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  transform: rotate(-8deg);
+}
+
+.game-card.is-cleared .clear-stamp {
+  display: block;
+}
+
+body.shake {
+  animation: screen-shake 0.3s steps(6);
+}
+
+@keyframes screen-shake {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(2px, -2px);
+  }
+  40% {
+    transform: translate(-2px, 2px);
+  }
+  60% {
+    transform: translate(2px, 1px);
+  }
+  80% {
+    transform: translate(-1px, -2px);
+  }
+}
+
+/* 選択中のステージを指す点滅カーソル。カードの左外に出す */
+.card-cursor {
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--cream);
+  text-shadow: 2px 2px 0 var(--ink);
+  opacity: 0;
+}
+
+.game-card:hover .card-cursor,
+.game-card:focus-visible .card-cursor {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+.stage-plate,
+.new-flag {
+  position: absolute;
+  top: -14px;
+  z-index: 2;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.9;
+  padding: 2px 10px;
+}
+
+.stage-plate {
+  left: -8px;
+  background: var(--ink);
+  color: var(--yellow);
+  border: 3px solid var(--cream);
+  box-shadow: 0 0 0 3px var(--ink);
+}
+
+.new-flag {
+  right: -8px;
+  display: none;
+  background: var(--pink);
+  color: #fff;
+  border: 3px solid var(--ink);
+  animation: cursor-blink 0.5s step-end infinite;
+}
+
+.game-card.is-new .new-flag {
+  display: block;
+}
+
+/* 左端カードのカーソルが見切れないよう、グリッドの左に余白を持つ */
+.game-grid {
+  padding-left: 12px;
+}
+
+@media (max-width: 560px) {
+  .card-cursor {
+    display: none;
+  }
+
+  .game-grid {
+    padding-left: 0;
+  }
 }
 
 .game-card img {
@@ -619,6 +1568,668 @@ a {
 
 .badge.badge-no {
   background: var(--yellow);
+}
+
+/* ===== ゲーム詳細ページ: 劇場 ===== */
+/* 帯の下端をギザギザにして、地面のように見せる */
+.stage {
+  padding-bottom: 0;
+  border-bottom: none;
+  position: relative;
+  overflow-x: clip;
+}
+
+/* ゲームごとのドット絵タイルを、帯の色の上に薄く敷く */
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* ゲーム側の指定(--stage-tile)が無ければ共通の菱形模様 */
+  background-image: var(--stage-tile, url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' shape-rendering='crispEdges'><rect x='14' y='2' width='4' height='4' fill='%2316161c'/><rect x='12' y='6' width='8' height='4' fill='%2316161c'/><rect x='14' y='10' width='4' height='4' fill='%2316161c'/><rect x='30' y='18' width='2' height='4' fill='%2316161c'/><rect x='0' y='18' width='2' height='4' fill='%2316161c'/><rect x='28' y='22' width='4' height='4' fill='%2316161c'/><rect x='0' y='22' width='4' height='4' fill='%2316161c'/><rect x='30' y='26' width='2' height='4' fill='%2316161c'/><rect x='0' y='26' width='2' height='4' fill='%2316161c'/></svg>"));
+  background-size: 64px 64px;
+  opacity: 0.16;
+}
+
+.stage > * {
+  position: relative;
+}
+
+/* 登場: 2人が左右から歩いてくる */
+.theater[data-actors="waiting"] .theater-actor {
+  visibility: hidden;
+}
+
+.theater[data-actors="entered"] .theater-akao {
+  animation: walk-in-left 1.1s steps(10) both;
+}
+
+.theater[data-actors="entered"] .theater-onaga {
+  animation: walk-in-right 1.1s steps(10) both;
+}
+
+@keyframes walk-in-left {
+  from {
+    transform: translateX(clamp(-360px, -24vw, -120px));
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+}
+
+@keyframes walk-in-right {
+  from {
+    transform: translateX(clamp(120px, 24vw, 360px));
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+}
+
+/* 起動ノイズ: 市松をずらしながら数コマちらつかせて消す */
+.screen-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: conic-gradient(var(--cream) 0 25%, var(--ink) 0 50%, var(--cream) 0 75%, var(--ink) 0);
+  background-size: 8px 8px;
+  animation: screen-noise 0.6s steps(6) 0.1s both;
+}
+
+@keyframes screen-noise {
+  0% {
+    opacity: 1;
+    background-position: 0 0;
+  }
+  50% {
+    opacity: 1;
+    background-position: 4px 4px;
+  }
+  100% {
+    opacity: 0;
+    background-position: 0 4px;
+  }
+}
+
+/* ステージ突入のカットイン */
+.stage-cutin {
+  position: fixed;
+  inset: 0;
+  z-index: 98;
+  pointer-events: none;
+  display: none;
+}
+
+.stage-cutin.run {
+  display: block;
+}
+
+.stage-cutin::before,
+.stage-cutin::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  background: var(--ink);
+}
+
+.stage-cutin::before {
+  top: 0;
+}
+
+.stage-cutin::after {
+  bottom: 0;
+}
+
+.stage-cutin.run::before,
+.stage-cutin.run::after {
+  animation: cutin-bars 0.3s steps(4) both;
+}
+
+@keyframes cutin-bars {
+  to {
+    height: 22vh;
+  }
+}
+
+.cutin-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 120px;
+  transform: translateY(-50%);
+  background: var(--ink);
+  border-top: 4px solid var(--cream);
+  border-bottom: 4px solid var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.stage-cutin.run .cutin-band {
+  animation: cutin-band 0.25s steps(5) both;
+}
+
+@keyframes cutin-band {
+  from {
+    transform: translateY(-50%) translateX(-100%);
+  }
+  to {
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+.cutin-text {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--yellow);
+  text-shadow: 4px 4px 0 rgba(255, 248, 232, 0.25);
+}
+
+.stage-cutin.run .cutin-text {
+  animation: cutin-text 0.35s steps(6) 0.15s both;
+}
+
+@keyframes cutin-text {
+  from {
+    transform: translateX(60vw);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.stage-edge {
+  height: 14px;
+  background-image: linear-gradient(90deg, var(--ink) 50%, transparent 50%);
+  background-size: 28px 14px;
+  background-color: transparent;
+}
+
+.stage .game-hero-body {
+  padding-bottom: 8px;
+}
+
+.stage-line {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.stage-plate-static {
+  position: static;
+  display: inline-block;
+}
+
+.stage-project {
+  font-size: 0.82rem;
+  text-shadow: 2px 2px 0 rgba(22, 22, 28, 0.55);
+}
+
+/* あかお | 動画 | おナガ */
+.theater {
+  max-width: 1200px;
+  margin: 28px auto 0;
+  padding: 0 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 36px;
+}
+
+.theater-actor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  width: 150px;
+  transition: opacity 0.2s step-end;
+}
+
+.theater-sprite {
+  line-height: 0;
+}
+
+.theater-name {
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.9;
+  padding: 2px 14px;
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+/* 話していない側は薄く、話している側は跳ねて名前が黄色に */
+[data-speaker="akao"] .theater-onaga,
+[data-speaker="onaga"] .theater-akao {
+  opacity: 0.55;
+}
+
+[data-speaker="akao"] .theater-akao .theater-name,
+[data-speaker="onaga"] .theater-onaga .theater-name {
+  background: var(--yellow);
+}
+
+[data-talking="akao"] .theater-akao .theater-sprite,
+[data-talking="onaga"] .theater-onaga .theater-sprite {
+  animation: talk-hop 0.6s steps(2) infinite;
+}
+
+@keyframes talk-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.theater-screen {
+  position: relative;
+  width: 800px;
+  max-width: 100%;
+  border: 4px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+  background: var(--ink);
+  overflow: hidden;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.theater-video,
+.theater-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* 実プレイ動画は縦横比を保ち、画面端の操作説明やHUDまで表示する。 */
+.theater-video {
+  object-fit: contain;
+}
+
+/* iOSの縦長スクショは劇場の枠内で横スクロール */
+.theater-screen-phone {
+  background: var(--cream);
+}
+
+.theater-gallery {
+  margin: 0;
+  padding: 16px 16px 12px;
+}
+
+.theater-gallery img {
+  width: min(280px, 60vw);
+  box-shadow: none;
+  border-width: 3px;
+}
+
+/* 会話ウィンドウ */
+.theater-talk {
+  max-width: 1000px;
+  margin: 28px auto 0;
+  padding: 0 20px 36px;
+}
+
+/* 登場待ちは案内や空の会話枠を出さず、スクロール判定用の領域を保つ。 */
+.theater-talk[data-talk-state="idle"] {
+  visibility: hidden;
+}
+
+.talk-window {
+  color: var(--ink);
+  padding: 24px 30px 22px;
+  min-height: 112px;
+  cursor: default;
+  user-select: none;
+}
+
+[data-talk-js] {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.talk-speaker {
+  background: var(--yellow);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  line-height: 1.6;
+}
+
+.talk-count {
+  position: absolute;
+  top: -18px;
+  right: 22px;
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.9;
+  padding: 2px 10px;
+  letter-spacing: 0.1em;
+}
+
+/* 話者の小さな顔。JSが動いているときだけ出す */
+.talk-face {
+  display: none;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+[data-talk-js] .talk-face {
+  display: block;
+}
+
+.talk-face-akao,
+.talk-face-onaga {
+  display: none;
+}
+
+[data-speaker="akao"] .talk-face-akao,
+[data-speaker="onaga"] .talk-face-onaga {
+  display: block;
+}
+
+.talk-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.talk-lines[hidden],
+.talk-current[hidden],
+.talk-hint[hidden] {
+  display: none;
+}
+
+.talk-line {
+  margin: 0;
+  line-height: 1.8;
+}
+
+.talk-line-name {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 0.78rem;
+  padding: 0 8px;
+  margin-right: 8px;
+}
+
+.talk-current {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.9;
+  flex: 1 1 auto;
+  min-height: 2em;
+}
+
+.talk-cursor {
+  right: 22px;
+  bottom: 10px;
+  opacity: 0;
+}
+
+/* 会話が終わったあとの案内 */
+.talk-prompt {
+  margin: 0;
+  flex: 1 1 auto;
+  min-height: 2em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.talk-prompt[hidden] {
+  display: none;
+}
+
+.talk-prompt-cursor {
+  font-size: 0.75em;
+  animation: cursor-blink 0.5s step-end infinite;
+}
+
+[data-talk-state="idle"] .talk-window,
+[data-talk-state="ended"] .talk-window {
+  background: var(--yellow);
+  box-shadow:
+    6px 6px 0 var(--ink),
+    inset 0 0 0 4px var(--yellow),
+    inset 0 0 0 7px var(--ink);
+}
+
+[data-talk-state="idle"] .theater-actor,
+[data-talk-state="ended"] .theater-actor {
+  opacity: 1;
+}
+
+[data-talk-state="idle"] .talk-count,
+[data-talk-state="ended"] .talk-count {
+  display: none;
+}
+
+.talk-skip[hidden] {
+  display: none;
+}
+
+.talk-hint {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin: 16px 0 0;
+  font-size: 0.8rem;
+  color: #fff;
+  text-shadow: 2px 2px 0 rgba(22, 22, 28, 0.55);
+}
+
+.talk-skip {
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.talk-skip:hover {
+  color: var(--yellow);
+}
+
+.talk-restart {
+  min-height: 44px;
+  max-width: 100%;
+  padding: 6px 12px;
+  border: 2px solid var(--cream);
+  background: var(--ink);
+  color: var(--cream);
+  font: inherit;
+  font-weight: 700;
+  line-height: 1.5;
+  text-shadow: none;
+  cursor: pointer;
+}
+
+.talk-restart[hidden] {
+  display: none;
+}
+
+.talk-restart:hover {
+  color: var(--ink);
+  background: var(--yellow);
+}
+
+.talk-restart:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px var(--cream);
+}
+
+.hero-talk-restart {
+  margin-top: 12px;
+  border-color: var(--ink);
+  font-size: 0.85rem;
+}
+
+/* 本文ウィンドウ / コマンド窓 */
+.game-detail-main {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+.about-window {
+  width: 100%;
+  padding: 26px 30px 22px;
+}
+
+.about-window .prose > :first-child {
+  margin-top: 0;
+}
+
+.about-window .prose h2 {
+  border-left: none;
+  padding-left: 0;
+  font-size: 1.1rem;
+  display: inline-block;
+  background: var(--ink);
+  color: var(--cream);
+  padding: 0 12px;
+  letter-spacing: 0.08em;
+}
+
+.command-window {
+  background: var(--cream);
+  padding: 26px 26px 22px;
+}
+
+.command-window dl {
+  margin: 0;
+}
+
+.command-window .btn-command {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.btn-cursor {
+  font-size: 0.75em;
+  animation: cursor-blink 0.5s step-end infinite;
+}
+
+.game-detail-main .back-link {
+  margin-top: 0;
+}
+
+@media (max-width: 900px) {
+  .theater {
+    gap: 20px;
+  }
+
+  .theater-actor {
+    width: 110px;
+  }
+
+  .theater-akao svg {
+    width: 72px;
+    height: 86px;
+  }
+
+  .theater-onaga svg {
+    width: 84px;
+    height: 84px;
+  }
+}
+
+/* スマホ: 動画を横いっぱいにして、2人は会話ウィンドウの両脇に */
+@media (max-width: 700px) {
+  .theater {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 0 12px;
+    margin-top: 16px;
+  }
+
+  .theater-screen {
+    order: 0;
+    width: 100%;
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+
+  .theater-actor {
+    display: flex;
+    order: 1;
+    width: calc(50% - 6px);
+  }
+
+  .theater-talk {
+    padding: 0 12px 28px;
+    margin-top: 22px;
+  }
+
+  .talk-window {
+    padding: 18px 14px 20px;
+    min-height: 0;
+  }
+
+  [data-talk-js] {
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .talk-face svg {
+    width: 34px;
+    height: auto;
+  }
+
+  .talk-current {
+    font-size: 0.95rem;
+    min-height: 4.5em;
+  }
+
+  .talk-count {
+    right: 12px;
+  }
+
+  .talk-hint {
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .about-window {
+    padding: 22px 16px 18px;
+  }
+
+  .command-window {
+    padding: 22px 16px 18px;
+  }
 }
 
 /* ゲーム詳細ページ */
@@ -951,6 +2562,75 @@ a {
   }
 }
 
+@media (max-width: 760px) {
+  .hero-windows {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 32px;
+  }
+
+  .hero-message {
+    max-width: none;
+    padding: 20px 18px 18px;
+  }
+
+  .hero-message-body {
+    gap: 12px;
+  }
+
+  .hero-message-line {
+    font-size: 0.95rem;
+  }
+
+  .hero-message-current {
+    min-height: calc(1.8em * 3);
+    min-width: 0;
+  }
+
+  /* スマホでは コマンド → 吹き出し → 草原 の順にして、しっぽが真下のあかおを指すようにする */
+  .hero-commands {
+    order: -1;
+  }
+
+  .hero-message {
+    max-width: none;
+    width: 100%;
+  }
+
+  .speech-bubble::before,
+  .speech-bubble::after {
+    right: auto;
+    left: calc(50% - 8px);
+  }
+
+  .speech-bubble::before {
+    left: calc(50% - 2px);
+  }
+
+  .hero-commands {
+    padding: 16px 14px 14px;
+  }
+
+  .command {
+    white-space: normal;
+    font-size: 0.95rem;
+  }
+
+  /* スマホでは草原のキャラを隠さないよう、画面下に固定の通知として出す */
+  .achievement {
+    position: fixed;
+    right: 12px;
+    left: 12px;
+    bottom: 12px;
+    z-index: 20;
+    padding: 8px 12px;
+  }
+
+  .achievement-text {
+    font-size: 13px;
+  }
+}
+
 /* 動きを減らす設定では、すべてのアニメーション・トランジションを止める */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -966,3 +2646,134 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* ===== ゲームUIらしい文字 ===== */
+/* 英数字のラベルは8bitフォント。小さめにして字間を空ける */
+.hud,
+.hud-lv,
+.exp-label,
+.stage-plate,
+.stage-plate-static,
+.new-flag,
+.clear-stamp,
+.talk-count,
+.title-press,
+.cutin-text,
+.achievement-no,
+.road-flag,
+.sound-toggle .sound-state,
+.progress-count {
+  font-family: var(--font-pixel);
+  font-weight: 400;
+}
+
+.hud {
+  font-size: 0.6rem;
+  gap: 12px;
+}
+
+.hud-lv {
+  padding: 3px 8px 2px;
+}
+
+.exp-label {
+  font-size: 0.62rem;
+  padding: 5px 10px 3px;
+}
+
+.stage-plate,
+.stage-plate-static,
+.new-flag,
+.clear-stamp {
+  font-size: 0.6rem;
+  padding: 5px 10px 3px;
+  line-height: 1.4;
+}
+
+.talk-count {
+  font-size: 0.55rem;
+  padding: 5px 10px 3px;
+}
+
+.title-press {
+  font-size: clamp(0.9rem, 2.2vw, 1.25rem);
+  letter-spacing: 0.1em;
+}
+
+.cutin-text {
+  font-size: clamp(1.4rem, 4.5vw, 2.6rem);
+  letter-spacing: 0.1em;
+}
+
+.achievement-no {
+  font-size: 0.7rem;
+  padding-top: 2px;
+}
+
+.road-flag {
+  font-size: 0.45rem;
+  padding: 3px 4px 2px;
+}
+
+.sound-toggle .sound-state {
+  font-size: 0.55rem;
+  padding-top: 2px;
+}
+
+/* 大見出しはゲームのロゴ風に縁取る */
+.hero h1,
+.title-name,
+.game-hero h1 {
+  color: var(--cream);
+  text-shadow: var(--logo-outline);
+  letter-spacing: 0.06em;
+  line-height: 1.55;
+}
+
+[data-daytime="night"] .hero h1 {
+  text-shadow: var(--logo-outline);
+}
+
+/* ウィンドウの文字は少し大きく、字間を広めに */
+.hero-message-line,
+.talk-current,
+.talk-prompt {
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  line-height: 1.9;
+}
+
+.rpg-window-label {
+  letter-spacing: 0.16em;
+}
+
+/* 見出し類も字間を広めに */
+.section-title,
+.stage-heading,
+.quest-title {
+  letter-spacing: 0.08em;
+}
+
+.command,
+.tab {
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 760px) {
+  .hero-message-line,
+  .talk-current,
+  .talk-prompt {
+    font-size: 0.98rem;
+  }
+
+  .cutin-text {
+    font-size: 1.3rem;
+  }
+}
+
+/* Shared pixel pictograms keep navigation and game information recognizable. */
+.site-nav a, .icon-label { display: inline-flex; align-items: center; gap: 6px; }
+.site-nav a > svg, .icon-label > svg, .btn-command > svg { flex-shrink: 0; }
+.about-window .prose h2::before { content: ''; display: inline-block; width: 24px; height: 24px; margin-right: 10px; vertical-align: -4px; background: url('/images/ui/feature-star.svg') center / contain no-repeat; }
+.about-window .prose h2:is(.controls-heading, [id='操作方法'], [id='how-to-play'], [id='controls'])::before { background-image: url('/images/ui/controls.svg'); }

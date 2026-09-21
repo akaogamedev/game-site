@@ -10,6 +10,8 @@ interface LayoutCopy {
   updatesAfter: string;
   privacy: string;
   languageLabel: string;
+  /** 効果音トグルのaria-label */
+  soundLabel: string;
 }
 
 interface HomeCopy {
@@ -25,6 +27,22 @@ interface HomeCopy {
   progressLabel: string;
   iosTitle: string;
   iosLead: string;
+  /** タイトル画面の操作ヒント */
+  titleHint: string;
+  titleStart: string;
+  /** ヘッダーHUDの本数表示 */
+  hudCount: (published: number, goal: number) => string;
+  /** ヒーローの会話ウィンドウ2行目 */
+  messageLine: (published: number) => string;
+  /** ヒーローの会話ウィンドウで順に流れる挨拶。{n} は投稿本数 */
+  greeting: string[];
+  commandLabel: string;
+  questLabel: string;
+  nextLevel: (remaining: number) => string;
+  stageSelect: string;
+  sortNewest: string;
+  achievementLabel: string;
+  achievementText: (no: number, title: string) => string;
 }
 
 interface AboutCopy {
@@ -78,6 +96,19 @@ interface GameCopy {
   howToPlay: string;
   akao: string;
   onaga: string;
+  /** 劇場: プレイ動画のラベル */
+  video: string;
+  /** 劇場: 自動で進む旨のヒント */
+  autoHint: string;
+  skip: string;
+  /** 会話が始まる前の案内 / 終わったあとの案内 */
+  talkStart: string;
+  talkAgain: string;
+  talkRestart: string;
+  talkIntro: (number: number, title: string) => string;
+  /** 本文ウィンドウの名前タブ */
+  about: string;
+  command: string;
 }
 
 interface UiCopy {
@@ -106,6 +137,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       updatesAfter: "で発信中",
       privacy: "プライバシーポリシー",
       languageLabel: "表示言語を選択",
+      soundLabel: "効果音",
     },
     home: {
       heroLines: ["思いついたゲームを、", "どんどん投稿していく。"],
@@ -123,6 +155,19 @@ export const uiCopy: Record<Locale, UiCopy> = {
       iosTitle: "iOSアプリ",
       iosLead:
         "App Storeで配信中のゲームアプリ。スマホでじっくり遊べます。",
+      titleHint: "クリックか タップで はじめる",
+      titleStart: "PRESS START",
+      hudCount: (published, goal) => `${published}/${goal}本`,
+      messageLine: (published) =>
+        `いま${published}本目まで投稿したところ。ぜんぶブラウザですぐ遊べます。`,
+      commandLabel: "コマンド",
+      questLabel: "メインクエスト",
+      nextLevel: (remaining) => `つぎのレベルまで あと ${remaining}本`,
+      stageSelect: "ステージセレクト",
+      sortNewest: "新しい順",
+      achievementLabel: "じっせき かいじょ",
+      achievementText: (no, title) => `${no}本目「${title}」を投稿`,
+      greeting: ["ようこそ！ ぼくは あかお。ひとりでゲームを作ってるよ。", "ここは、思いついたゲームをどんどん置いていく場所。", "いま{n}本目。ぜんぶブラウザですぐ遊べるから、気になるステージを選んでみて！"],
     },
     aboutPage: {
       title: "開発者について",
@@ -186,6 +231,15 @@ export const uiCopy: Record<Locale, UiCopy> = {
       howToPlay: "操作方法",
       akao: "あかお",
       onaga: "おナガ",
+      video: "プレイ動画",
+      autoHint: "自動で進みます(タップで早送り)",
+      skip: "▶▶ とばす",
+      talkStart: "タップして はなしかける",
+      talkAgain: "もういちど せつめいを きく",
+      talkRestart: "最初から聞く",
+      talkIntro: (number, title) => `${number === 1 ? "記念すべき" : ""}${number}本目は、「${title}」というゲームだよ。`,
+      about: "ゲームについて",
+      command: "コマンド",
     },
   },
   en: {
@@ -200,6 +254,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       updatesAfter: "",
       privacy: "Privacy Policy",
       languageLabel: "Select display language",
+      soundLabel: "Sound effects",
     },
     home: {
       heroLines: ["New ideas become", "new games."],
@@ -216,6 +271,19 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "Choose a category",
       iosTitle: "iOS Games",
       iosLead: "Games available on the App Store for iPhone and iPad.",
+      titleHint: "Click or tap to start",
+      titleStart: "PRESS START",
+      hudCount: (published, goal) => `${published}/${goal}`,
+      messageLine: (published) =>
+        `Game #${published} is out. Every one of them runs in your browser.`,
+      commandLabel: "COMMAND",
+      questLabel: "MAIN QUEST",
+      nextLevel: (remaining) => `${remaining} more to the next level`,
+      stageSelect: "STAGE SELECT",
+      sortNewest: "Newest first",
+      achievementLabel: "ACHIEVEMENT UNLOCKED",
+      achievementText: (no, title) => `Published game #${no}: ${title}`,
+      greeting: ["Welcome! I'm Akao, and I make games on my own.", "This is where every idea I get turns into a game.", "Game #{n} is out. Every one runs in your browser, so pick a stage!"],
     },
     aboutPage: {
       title: "About the Developer",
@@ -279,6 +347,15 @@ export const uiCopy: Record<Locale, UiCopy> = {
       howToPlay: "How to Play",
       akao: "Akao",
       onaga: "Onaga",
+      video: "Gameplay video",
+      autoHint: "Plays on its own (tap to fast-forward)",
+      skip: "▶▶ Skip",
+      talkStart: "Tap to talk",
+      talkAgain: "Hear it again",
+      talkRestart: "Listen from the start",
+      talkIntro: (number, title) => number === 1 ? `Our very first game is “${title}”!` : `Game number ${number} is “${title}”!`,
+      about: "ABOUT THIS GAME",
+      command: "COMMAND",
     },
   },
   "zh-cn": {
@@ -293,6 +370,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       updatesAfter: "关注最新作品",
       privacy: "隐私政策",
       languageLabel: "选择显示语言",
+      soundLabel: "音效",
     },
     home: {
       heroLines: ["把想到的点子，", "不断做成游戏。"],
@@ -307,6 +385,19 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "选择作品分类",
       iosTitle: "iOS 游戏",
       iosLead: "可在 App Store 下载并在 iPhone 和 iPad 上游玩的游戏。",
+      titleHint: "点击或轻触开始",
+      titleStart: "PRESS START",
+      hudCount: (published, goal) => `${published}/${goal}款`,
+      messageLine: (published) =>
+        `刚刚发布了第${published}款。所有游戏都能直接在浏览器中游玩。`,
+      commandLabel: "指令",
+      questLabel: "主线任务",
+      nextLevel: (remaining) => `距离下一级还差 ${remaining} 款`,
+      stageSelect: "选择关卡",
+      sortNewest: "最新优先",
+      achievementLabel: "成就解锁",
+      achievementText: (no, title) => `已发布第${no}款《${title}》`,
+      greeting: ["欢迎！我是 Akao，一个人在做游戏。", "这里是我把想到的点子不断做成游戏的地方。", "现在是第{n}款。全部都能在浏览器里直接玩，挑一个关卡试试吧！"],
     },
     aboutPage: {
       title: "关于开发者",
@@ -370,6 +461,15 @@ export const uiCopy: Record<Locale, UiCopy> = {
       howToPlay: "操作方法",
       akao: "Akao",
       onaga: "Onaga",
+      video: "游玩视频",
+      autoHint: "自动播放(点击可快进)",
+      skip: "▶▶ 跳过",
+      talkStart: "点击开始对话",
+      talkAgain: "再听一次介绍",
+      talkRestart: "从头听介绍",
+      talkIntro: (number, title) => `${number === 1 ? "值得纪念的" : ""}第${number}款游戏是《${title}》！`,
+      about: "关于这款游戏",
+      command: "指令",
     },
   },
   "zh-tw": {
@@ -384,6 +484,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       updatesAfter: "追蹤最新作品",
       privacy: "隱私權政策",
       languageLabel: "選擇顯示語言",
+      soundLabel: "音效",
     },
     home: {
       heroLines: ["把想到的點子，", "不斷做成遊戲。"],
@@ -398,6 +499,19 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "選擇作品分類",
       iosTitle: "iOS 遊戲",
       iosLead: "可在 App Store 下載並於 iPhone 和 iPad 遊玩的遊戲。",
+      titleHint: "點擊或輕觸開始",
+      titleStart: "PRESS START",
+      hudCount: (published, goal) => `${published}/${goal}款`,
+      messageLine: (published) =>
+        `剛剛發布了第${published}款。所有遊戲都能直接在瀏覽器中遊玩。`,
+      commandLabel: "指令",
+      questLabel: "主線任務",
+      nextLevel: (remaining) => `距離下一級還差 ${remaining} 款`,
+      stageSelect: "選擇關卡",
+      sortNewest: "最新優先",
+      achievementLabel: "成就解鎖",
+      achievementText: (no, title) => `已發布第${no}款《${title}》`,
+      greeting: ["歡迎！我是 Akao，一個人在做遊戲。", "這裡是我把想到的點子不斷做成遊戲的地方。", "現在是第{n}款。全部都能在瀏覽器裡直接玩，挑一個關卡試試吧！"],
     },
     aboutPage: {
       title: "關於開發者",
@@ -461,6 +575,15 @@ export const uiCopy: Record<Locale, UiCopy> = {
       howToPlay: "操作方式",
       akao: "Akao",
       onaga: "Onaga",
+      video: "遊玩影片",
+      autoHint: "自動播放(點擊可快轉)",
+      skip: "▶▶ 跳過",
+      talkStart: "點擊開始對話",
+      talkAgain: "再聽一次介紹",
+      talkRestart: "從頭聽介紹",
+      talkIntro: (number, title) => `${number === 1 ? "值得紀念的" : ""}第${number}款遊戲是《${title}》！`,
+      about: "關於這款遊戲",
+      command: "指令",
     },
   },
   ko: {
@@ -475,6 +598,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       updatesAfter: "에서 확인하세요",
       privacy: "개인정보 처리방침",
       languageLabel: "표시 언어 선택",
+      soundLabel: "효과음",
     },
     home: {
       heroLines: ["떠오른 아이디어를", "계속 게임으로 만듭니다."],
@@ -491,6 +615,19 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "작품 카테고리 선택",
       iosTitle: "iOS 게임",
       iosLead: "App Store에서 iPhone과 iPad용으로 제공되는 게임입니다.",
+      titleHint: "클릭하거나 탭하여 시작",
+      titleStart: "PRESS START",
+      hudCount: (published, goal) => `${published}/${goal}개`,
+      messageLine: (published) =>
+        `방금 ${published}번째 게임을 공개했습니다. 전부 브라우저에서 바로 즐길 수 있어요.`,
+      commandLabel: "커맨드",
+      questLabel: "메인 퀘스트",
+      nextLevel: (remaining) => `다음 레벨까지 ${remaining}개 남음`,
+      stageSelect: "스테이지 선택",
+      sortNewest: "최신순",
+      achievementLabel: "업적 달성",
+      achievementText: (no, title) => `${no}번째 게임 「${title}」 공개`,
+      greeting: ["어서 와! 나는 Akao, 혼자서 게임을 만들고 있어.", "여기는 떠오른 아이디어를 계속 게임으로 만들어 두는 곳이야.", "지금 {n}번째. 전부 브라우저에서 바로 즐길 수 있으니 마음에 드는 스테이지를 골라 봐!"],
     },
     aboutPage: {
       title: "개발자 소개",
@@ -554,6 +691,15 @@ export const uiCopy: Record<Locale, UiCopy> = {
       howToPlay: "플레이 방법",
       akao: "Akao",
       onaga: "Onaga",
+      video: "플레이 영상",
+      autoHint: "자동으로 진행됩니다 (탭하면 빨리감기)",
+      skip: "▶▶ 건너뛰기",
+      talkStart: "탭해서 말 걸기",
+      talkAgain: "설명 다시 듣기",
+      talkRestart: "처음부터 듣기",
+      talkIntro: (number, title) => number === 1 ? `뜻깊은 첫 번째 게임은 「${title}」야!` : `${number}번째 게임은 「${title}」야!`,
+      about: "이 게임에 대해",
+      command: "커맨드",
     },
   },
   es: {
@@ -568,6 +714,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       updatesAfter: "",
       privacy: "Política de privacidad",
       languageLabel: "Seleccionar idioma",
+      soundLabel: "Efectos de sonido",
     },
     home: {
       heroLines: ["Cada idea se convierte", "en un nuevo juego."],
@@ -584,6 +731,19 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "Elegir una categoría",
       iosTitle: "Juegos para iOS",
       iosLead: "Juegos disponibles en App Store para iPhone y iPad.",
+      titleHint: "Haz clic o toca para empezar",
+      titleStart: "PRESS START",
+      hudCount: (published, goal) => `${published}/${goal}`,
+      messageLine: (published) =>
+        `Acabo de publicar el juego n.º ${published}. Todos se juegan en el navegador.`,
+      commandLabel: "COMANDOS",
+      questLabel: "MISIÓN PRINCIPAL",
+      nextLevel: (remaining) => `Faltan ${remaining} para el siguiente nivel`,
+      stageSelect: "SELECCIÓN DE NIVEL",
+      sortNewest: "Más recientes primero",
+      achievementLabel: "LOGRO DESBLOQUEADO",
+      achievementText: (no, title) => `Juego n.º ${no} publicado: ${title}`,
+      greeting: ["¡Bienvenido! Soy Akao y hago juegos por mi cuenta.", "Aquí es donde cada idea que tengo se convierte en un juego.", "Ya va el n.º {n}. Todos se juegan en el navegador, ¡elige un nivel!"],
     },
     aboutPage: {
       title: "Acerca del desarrollador",
@@ -647,6 +807,15 @@ export const uiCopy: Record<Locale, UiCopy> = {
       howToPlay: "Cómo jugar",
       akao: "Akao",
       onaga: "Onaga",
+      video: "Vídeo de juego",
+      autoHint: "Avanza sola (toca para adelantar)",
+      skip: "▶▶ Saltar",
+      talkStart: "Toca para hablar",
+      talkAgain: "Volver a escuchar",
+      talkRestart: "Escuchar desde el principio",
+      talkIntro: (number, title) => number === 1 ? `¡Nuestro primer juego es «${title}»!` : `¡El juego número ${number} es «${title}»!`,
+      about: "SOBRE ESTE JUEGO",
+      command: "COMANDOS",
     },
   },
   fr: {
@@ -661,6 +830,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       updatesAfter: "",
       privacy: "Politique de confidentialité",
       languageLabel: "Choisir la langue",
+      soundLabel: "Effets sonores",
     },
     home: {
       heroLines: ["Chaque idée devient", "un nouveau jeu."],
@@ -677,6 +847,19 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "Choisir une catégorie",
       iosTitle: "Jeux iOS",
       iosLead: "Jeux disponibles sur l'App Store pour iPhone et iPad.",
+      titleHint: "Cliquez ou touchez pour commencer",
+      titleStart: "PRESS START",
+      hudCount: (published, goal) => `${published}/${goal}`,
+      messageLine: (published) =>
+        `Le jeu n° ${published} vient de sortir. Tous se jouent dans le navigateur.`,
+      commandLabel: "COMMANDES",
+      questLabel: "QUÊTE PRINCIPALE",
+      nextLevel: (remaining) => `Encore ${remaining} avant le prochain niveau`,
+      stageSelect: "SÉLECTION DU NIVEAU",
+      sortNewest: "Plus récents d'abord",
+      achievementLabel: "SUCCÈS DÉBLOQUÉ",
+      achievementText: (no, title) => `Jeu n° ${no} publié : ${title}`,
+      greeting: ["Bienvenue ! Je suis Akao, je fais des jeux tout seul.", "C'est ici que chaque idée devient un jeu.", "On en est au n° {n}. Tout se joue dans le navigateur, choisis un niveau !"],
     },
     aboutPage: {
       title: "À propos du développeur",
@@ -740,6 +923,15 @@ export const uiCopy: Record<Locale, UiCopy> = {
       howToPlay: "Comment jouer",
       akao: "Akao",
       onaga: "Onaga",
+      video: "Vidéo de jeu",
+      autoHint: "Avance toute seule (touchez pour accélérer)",
+      skip: "▶▶ Passer",
+      talkStart: "Touchez pour parler",
+      talkAgain: "Réécouter l'explication",
+      talkRestart: "Écouter depuis le début",
+      talkIntro: (number, title) => number === 1 ? `Notre tout premier jeu, c'est « ${title} » !` : `Le jeu numéro ${number}, c'est « ${title} » !`,
+      about: "À PROPOS DU JEU",
+      command: "COMMANDES",
     },
   },
   de: {
@@ -754,6 +946,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       updatesAfter: "",
       privacy: "Datenschutzerklärung",
       languageLabel: "Anzeigesprache wählen",
+      soundLabel: "Soundeffekte",
     },
     home: {
       heroLines: ["Aus neuen Ideen werden", "neue Spiele."],
@@ -770,6 +963,19 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "Kategorie wählen",
       iosTitle: "iOS-Spiele",
       iosLead: "Spiele aus dem App Store für iPhone und iPad.",
+      titleHint: "Klicken oder tippen zum Starten",
+      titleStart: "PRESS START",
+      hudCount: (published, goal) => `${published}/${goal}`,
+      messageLine: (published) =>
+        `Spiel Nr. ${published} ist gerade erschienen. Alle laufen direkt im Browser.`,
+      commandLabel: "BEFEHLE",
+      questLabel: "HAUPTQUEST",
+      nextLevel: (remaining) => `Noch ${remaining} bis zum nächsten Level`,
+      stageSelect: "LEVELAUSWAHL",
+      sortNewest: "Neueste zuerst",
+      achievementLabel: "ERFOLG FREIGESCHALTET",
+      achievementText: (no, title) => `Spiel Nr. ${no} veröffentlicht: ${title}`,
+      greeting: ["Willkommen! Ich bin Akao und mache Spiele im Alleingang.", "Hier wird jede Idee, die ich habe, zu einem Spiel.", "Gerade ist Nr. {n} draußen. Alle laufen im Browser, such dir ein Level aus!"],
     },
     aboutPage: {
       title: "Über den Entwickler",
@@ -833,6 +1039,15 @@ export const uiCopy: Record<Locale, UiCopy> = {
       howToPlay: "Steuerung",
       akao: "Akao",
       onaga: "Onaga",
+      video: "Gameplay-Video",
+      autoHint: "Läuft von selbst (Tippen zum Vorspulen)",
+      skip: "▶▶ Überspringen",
+      talkStart: "Tippen zum Ansprechen",
+      talkAgain: "Noch einmal anhören",
+      talkRestart: "Von Anfang an anhören",
+      talkIntro: (number, title) => number === 1 ? `Unser allererstes Spiel heißt „${title}“!` : `Spiel Nummer ${number} heißt „${title}“!`,
+      about: "ÜBER DAS SPIEL",
+      command: "BEFEHLE",
     },
   },
   "pt-br": {
@@ -847,6 +1062,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       updatesAfter: "",
       privacy: "Política de Privacidade",
       languageLabel: "Selecionar idioma",
+      soundLabel: "Efeitos sonoros",
     },
     home: {
       heroLines: ["Novas ideias viram", "novos jogos."],
@@ -862,6 +1078,19 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "Escolher uma categoria",
       iosTitle: "Jogos para iOS",
       iosLead: "Jogos disponíveis na App Store para iPhone e iPad.",
+      titleHint: "Clique ou toque para começar",
+      titleStart: "PRESS START",
+      hudCount: (published, goal) => `${published}/${goal}`,
+      messageLine: (published) =>
+        `Acabei de publicar o jogo nº ${published}. Todos rodam direto no navegador.`,
+      commandLabel: "COMANDOS",
+      questLabel: "MISSÃO PRINCIPAL",
+      nextLevel: (remaining) => `Faltam ${remaining} para o próximo nível`,
+      stageSelect: "SELEÇÃO DE FASE",
+      sortNewest: "Mais recentes primeiro",
+      achievementLabel: "CONQUISTA DESBLOQUEADA",
+      achievementText: (no, title) => `Jogo nº ${no} publicado: ${title}`,
+      greeting: ["Bem-vindo! Eu sou o Akao e faço jogos sozinho.", "Aqui é onde cada ideia que tenho vira um jogo.", "Já estamos no nº {n}. Todos rodam no navegador, escolha uma fase!"],
     },
     aboutPage: {
       title: "Sobre o desenvolvedor",
@@ -925,6 +1154,15 @@ export const uiCopy: Record<Locale, UiCopy> = {
       howToPlay: "Como jogar",
       akao: "Akao",
       onaga: "Onaga",
+      video: "Vídeo de gameplay",
+      autoHint: "Avança sozinha (toque para adiantar)",
+      skip: "▶▶ Pular",
+      talkStart: "Toque para conversar",
+      talkAgain: "Ouvir de novo",
+      talkRestart: "Ouvir desde o início",
+      talkIntro: (number, title) => number === 1 ? `Nosso primeiro jogo é “${title}”!` : `O jogo número ${number} é “${title}”!`,
+      about: "SOBRE O JOGO",
+      command: "COMANDOS",
     },
   },
 };

@@ -8,23 +8,24 @@ platforms: [unityroom]
 releaseDate: 2026-08-08
 color: "#b9784c"
 cover: /images/games/coffee-milk/cover.jpg
+video: /videos/games/coffee-milk/play.mp4
+videoPoster: /videos/games/coffee-milk/poster.jpg
+bgTile: /images/tiles/coffee-milk.svg
 links:
   - label: unityroomで遊ぶ
     url: https://unityroom.com/games/coffee-milk
 featured: true
 dialogue:
   - speaker: onaga
-    text: "コーヒーミルクって、コーヒーにミルクを入れるだけのゲームなん?"
+    text: "コーヒーミルク？ 喫茶店のゲームなん？"
   - speaker: akao
-    text: "3つのレーンを同時に担当して、お客さんのお題と同じ濃さのコーヒーを作る60秒のスコアアタックだよ。"
+    text: "コーヒーにミルクを注いで、お客さん好みの濃さに合わせるゲームだよ。お手本とコーヒーの色を見比べて、どこまで注ぐか判断するんだ。"
   - speaker: onaga
-    text: "どれくらい入れたか、数字やゲージで分かるん?"
+    text: "色で濃さを見極めるんやな。それならワイにもできそうや。"
   - speaker: akao
-    text: "頼れるのは色だけ。D・スペース・Kを長押しして左・中央・右にミルクを注ぎ、キーを離した瞬間に提供するんだ。"
+    text: "ただし、注文は3列同時に来るよ。お客さんを待たせすぎると帰っちゃうから、ひとつのカップばかり見ていられないんだ。"
   - speaker: onaga
-    text: "3つを同時に見ながら、ちょうどいい色で止めるんやね。忙しそう!"
-  - speaker: akao
-    text: "注ぎすぎに気をつけて、60秒でできるだけ多くの注文を完成させよう。ハイスコアランキングにも挑戦できるよ。"
+    text: "3つも見るんか！ のんびりコーヒー淹れてる場合ちゃうな。"
 ---
 
 ## 特徴

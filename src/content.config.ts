@@ -11,10 +11,13 @@ const gameSchema = z.object({
   releaseDate: z.coerce.date(),
   color: z.string().default("#ff6b9d"),
   cover: z.string(),
-  video: z.string().optional(),
-  videoPoster: z.string().optional(),
   icon: z.string().optional(),
   screenshots: z.array(z.string()).default([]),
+  /** 詳細ページの劇場に流すプレイ動画(無音ループ前提)。無ければ cover を表示 */
+  video: z.string().optional(),
+  videoPoster: z.string().optional(),
+  /** 詳細ページの帯に薄く敷くドット絵タイル(SVG)。無ければ共通の菱形模様 */
+  bgTile: z.string().optional(),
   links: z
     .array(z.object({ label: z.string(), url: z.string().url() }))
     .default([]),

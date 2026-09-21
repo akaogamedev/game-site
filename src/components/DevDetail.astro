@@ -37,6 +37,7 @@ const shots = devScreenshots.map((src, index) => ({
 ---
 
 <BaseLayout
+  stickyHeader={false}
   title={devTitle}
   description={copy.catch}
   image={devCover}
@@ -49,7 +50,6 @@ const shots = devScreenshots.map((src, index) => ({
           <img class="game-hero-icon" src={devIcon} alt={appIconAlt} />
           <div class="game-hero-text">
             <h1>{devTitle}</h1>
-            <p><a href="/numphabet/">{locale === "ja" ? "最新の公式情報・サポート" : "Latest official information & support"}</a></p>
             <p class="catch">{copy.catch}</p>
             <div class="badges">
               <span class="badge badge-wip">{copy.status}</span>

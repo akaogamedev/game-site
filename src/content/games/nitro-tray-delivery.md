@@ -8,23 +8,25 @@ platforms: [unityroom]
 releaseDate: 2026-07-10
 color: "#b95a2a"
 cover: /images/games/nitro-tray-delivery/cover.jpg
+video: /videos/games/nitro-tray-delivery/play.mp4
+videoPoster: /videos/games/nitro-tray-delivery/poster.jpg
 links:
   - label: unityroomで遊ぶ
     url: https://unityroom.com/games/nitro-tray-delivery
 featured: true
 dialogue:
   - speaker: onaga
-    text: "ニトロお盆配達って、何を配達するん?"
+    text: "ニトログリセリンをお盆で配達？容器の選び方おかしない？"
   - speaker: akao
-    text: "ニトログリセリンを載せたお盆を運んで、危険な工場のゴールを目指す3Dタイムアタックだよ。"
+    text: "早く届けるのを競うタイムアタック形式だけど、落とすのはもちろんちょっと揺らしただけで爆発しちゃうよ"
   - speaker: onaga
-    text: "名前からして嫌な予感するわ。走ったらどうなるん?"
+    text: "なんやそれ…。3億円のツボ持つより怖いやんけ"
   - speaker: akao
-    text: "急加速や衝突、風、回転バーで揺れゲージが増えて、最大になると瓶が倒れて爆発するんだ。"
+    text: "でも無事に運びきったときはほっとするよ。慣れてくると、今度はもう少し速く行ける気がしてくるんだ。"
   - speaker: onaga
-    text: "急がなあかんのに、揺らしたらあかんのやね。どう進むん?"
+    text: "何のためにそんなことするん？"
   - speaker: akao
-    text: "慎重歩きで揺れを抑えながら、障害物のタイミングと複数ルートを見極めるよ。緑のゲートを通ればタイムが5秒縮まるんだ。"
+    text: "この企画のゲームにそんなこと言うたらあかん"
 ---
 
 ## 特徴

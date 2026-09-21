@@ -8,29 +8,34 @@ platforms: [unityroom]
 releaseDate: 2026-09-06
 color: "#5b3e96"
 cover: /images/games/spellbreak/cover.jpg
+bgTile: /images/tiles/spellbreak.svg
+video: /videos/games/spellbreak/play.mp4
+videoPoster: /videos/games/spellbreak/poster.jpg
 links:
   - label: unityroomで遊ぶ
     url: https://unityroom.com/games/spellbreak-endless-curse
 featured: true
 dialogue:
   - speaker: onaga
-    text: "スペルブレイク！って、魔法でブロック崩しするゲームなん?"
+    text: "スペルって、魔法の呪文のこと？ どんなゲームなん？"
   - speaker: akao
-    text: "魔力球を打ち返してブロックを壊し、集めたマナで5種類の魔法を強化するエンドレスのブロック崩しだよ。"
+    text: "球を打ち返してブロックを壊す、魔法のブロック崩しだよ。ブロックを壊してマナをためると、魔法を選んで強化できるんだ。"
   - speaker: onaga
-    text: "呪壁っていうのが時間と一緒に近づいてくるんやね。"
+    text: "ただ球を打ち返すだけやなくて、魔法も使えるんか！"
   - speaker: akao
-    text: "そう。迫る壁に飲み込まれる前に、ラリーを続けて魔法を育て、ハイスコアを狙うんだ。"
+    text: "そう。炎の爆発や連鎖する雷で、ブロックをまとめて攻撃できるよ。"
+  - speaker: akao
+    text: "ただし、ブロックの壁もだんだん迫ってくるから、球を打ち返しながら壊していかないと追いつかれちゃうんだ。"
   - speaker: onaga
-    text: "魔法はどんなふうに使うん?"
+    text: "壁のほうから来るんか！ どの魔法を強くするか、悩みそうやな。"
   - speaker: akao
-    text: "魔法は自分で撃つんじゃなくて、マナが溜まるたびに3枚のカードから強化を選ぶだけ。選んだ魔法は条件を満たすと自動で発動するから、ラリーを続けて強化を重ねるんだ。"
+    text: "ひとつの魔法を集中して育てても、いろんな魔法を組み合わせてもいいよ。自分に合った強化の仕方を探してみてね。"
 ---
 
 ## 特徴
 
 - 迫る呪壁から生き残るエンドレスの魔法ブロック崩し
-- ブロックを壊してマナを集め、3枚の魔法カードから強化を選択
+- ブロックを壊してマナを集め、最大3枚の魔法カードから強化を選択
 - 炎の爆発、連鎖する雷、氷の呪縛、幻影球、魔導ビームの5種類の魔法
 - 魔法を12回強化すると通常球が2個に増加
 - ラリーと魔法の組み合わせでハイスコアを狙うランキング対応

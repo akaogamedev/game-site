@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import PixelStatusIcon from './PixelStatusIcon.astro';
 import { getLocalePrefix, type Locale } from "../i18n/config";
 import type { GameTranslation } from "../i18n/game";
 
@@ -7,34 +8,46 @@ interface Props {
   game: CollectionEntry<"games"> | CollectionEntry<"gamesEn">;
   locale?: Locale;
   translation?: GameTranslation;
+  /** 最新作なら true。公開から14日以内のあいだ、JSが NEW! フラグを立てる */
+  newest?: boolean;
 }
 
-const { game, locale = "ja", translation } = Astro.props;
+const { game, locale = "ja", translation, newest = false } = Astro.props;
 const view = translation ?? game.data;
 const href = `${getLocalePrefix(locale)}/games/${game.id}/`;
 const imageAlt =
   locale === "ja"
     ? `${view.title}のカバー画像`
     : `${view.title} cover art`;
+const stageNo = game.data.unityroomNo;
 ---
 
-<a class="game-card" href={href}>
+<a
+  class="game-card"
+  href={href}
+  data-slug={game.id}
+  data-stage={stageNo}
+  data-newest={newest ? "" : undefined}
+  data-release={newest ? game.data.releaseDate.toISOString() : undefined}
+>
+  <span class="card-cursor" aria-hidden="true">▶</span>
+  {stageNo && <span class="stage-plate" aria-hidden="true">STAGE {stageNo}</span>}
+  {newest && <span class="new-flag" aria-hidden="true">NEW!</span>}
+  <span class="clear-stamp" aria-hidden="true">CLEAR</span>
   <img src={game.data.cover} alt={imageAlt} loading="lazy" />
   <div class="game-card-body">
     <h3>{view.title}</h3>
     <p class="catch">{view.catch}</p>
     <div class="badges">
       {
-        game.data.unityroomNo && (
+        stageNo && (
           <span class="badge badge-no">
-            {locale === "ja"
-              ? `${game.data.unityroomNo}本目`
-              : `#${game.data.unityroomNo}`}
+            {locale === "ja" ? `${stageNo}本目` : `#${stageNo}`}
           </span>
         )
       }
-      <span class="badge">{view.genre}</span>
-      {game.data.platforms.map((p) => <span class="badge">{p}</span>)}
+      <span class="badge icon-label"><PixelStatusIcon kind="gamepad" size={20}/>{view.genre}</span>
+      {game.data.platforms.map((p) => <span class="badge icon-label"><PixelStatusIcon kind={/ios|android/i.test(p) ? 'phone' : 'browser'} size={20}/>{p}</span>)}
     </div>
   </div>
 </a>

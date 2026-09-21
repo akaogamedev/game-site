@@ -1,6 +1,8 @@
 ---
 import "../styles/global.css";
+import { getCollection } from "astro:content";
 import PixelChara from "../components/PixelChara.astro";
+import PixelStatusIcon from '../components/PixelStatusIcon.astro';
 import {
   defaultLocale,
   getLocalizedPath,
@@ -16,6 +18,7 @@ interface Props {
   /** OGP用の画像(絶対URL、またはpublic/からのパス) */
   image?: string;
   locale?: Locale;
+  stickyHeader?: boolean;
 }
 
 const xUrl = "https://x.com/akaogame0124";
@@ -26,9 +29,16 @@ const {
   title,
   image = "/ogp.png",
   locale = defaultLocale,
+  stickyHeader = true,
 } = Astro.props;
 
 const copy = uiCopy[locale].layout;
+const homeCopy = uiCopy[locale].home;
+// ヘッダーHUDの進捗。100本企画にカウントするのは unityroomNo 付きのゲームだけ
+const HUD_GOAL = 100;
+const hudPublished = (await getCollection("games")).filter(
+  (game) => game.data.unityroomNo,
+).length;
 const meta = localeMeta[locale];
 const description = Astro.props.description ?? copy.description;
 const siteName = copy.siteName;
@@ -61,7 +71,7 @@ const ogImage = image
 ---
 
 <!doctype html>
-<html lang={meta.htmlLang}>
+<html lang={meta.htmlLang} data-sound="off">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -105,7 +115,7 @@ const ogImage = image
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
     <script is:inline>
@@ -184,18 +194,62 @@ const ogImage = image
     }
   </head>
   <body>
-    <header class="site-header">
+    <header class:list={["site-header", { "site-header-static": !stickyHeader }]}>
       <div class="container">
         <a class="site-logo" href={getLocalizedPath("/", locale)}>
           <PixelChara size={22} />
           {siteName}
         </a>
+        <a
+          class="hud"
+          href={`${getLocalizedPath("/", locale)}#unityroom`}
+          aria-label={`${homeCopy.progressLabel}: ${homeCopy.hudCount(hudPublished, HUD_GOAL)}`}
+        >
+          <span class="hud-lv" aria-hidden="true">LV.{hudPublished}</span>
+          <span class="hud-gauge" aria-hidden="true"
+            ><span style={`width: ${(hudPublished / HUD_GOAL) * 100}%`}></span></span
+          >
+          <span aria-hidden="true">{homeCopy.hudCount(hudPublished, HUD_GOAL)}</span>
+        </a>
         <nav class="site-nav">
           <a href={`${getLocalizedPath("/", locale)}#unityroom`}>
-            {copy.unityroom}
+            <PixelStatusIcon kind="flag" size={24}/>{copy.unityroom}
           </a>
-          <a href={`${getLocalizedPath("/", locale)}#ios`}>{copy.ios}</a>
-          <a href={getLocalizedPath("/about/", locale)}>{copy.about}</a>
+          <a href={`${getLocalizedPath("/", locale)}#ios`}><PixelStatusIcon kind="phone" size={24}/>{copy.ios}</a>
+          <a href={getLocalizedPath("/about/", locale)}><PixelChara size={20}/>{copy.about}</a>
+          <button
+            type="button"
+            class="sound-toggle"
+            data-sound-toggle
+            aria-label={copy.soundLabel}
+            aria-pressed="false"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              shape-rendering="crispEdges"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <rect x="1" y="6" width="3" height="4" fill="currentColor"></rect>
+              <rect x="4" y="4" width="2" height="8" fill="currentColor"></rect>
+              <rect x="6" y="2" width="2" height="12" fill="currentColor"></rect>
+              <rect class="sound-wave" x="10" y="5" width="1" height="6" fill="currentColor"></rect>
+              <rect class="sound-wave" x="12" y="3" width="1" height="10" fill="currentColor"></rect>
+              <rect class="sound-off" x="9" y="4" width="1" height="1" fill="currentColor"></rect>
+              <rect class="sound-off" x="10" y="5" width="1" height="1" fill="currentColor"></rect>
+              <rect class="sound-off" x="11" y="6" width="1" height="1" fill="currentColor"></rect>
+              <rect class="sound-off" x="12" y="7" width="1" height="1" fill="currentColor"></rect>
+              <rect class="sound-off" x="13" y="8" width="1" height="1" fill="currentColor"></rect>
+              <rect class="sound-off" x="13" y="4" width="1" height="1" fill="currentColor"></rect>
+              <rect class="sound-off" x="12" y="5" width="1" height="1" fill="currentColor"></rect>
+              <rect class="sound-off" x="11" y="6" width="1" height="1" fill="currentColor"></rect>
+              <rect class="sound-off" x="10" y="7" width="1" height="1" fill="currentColor"></rect>
+              <rect class="sound-off" x="9" y="8" width="1" height="1" fill="currentColor"></rect>
+            </svg>
+            <span class="sound-state" aria-hidden="true">OFF</span>
+          </button>
           <label class="language-select">
             <span class="sr-only">{copy.languageLabel}</span>
             <select aria-label={copy.languageLabel} data-language-select>
@@ -245,6 +299,163 @@ const ogImage = image
       )
     }
     <div class="page-fade" aria-hidden="true"></div>
+    <!-- ステージ突入のカットイン。カードをクリックしたときだけ走る -->
+    <div class="stage-cutin" data-stage-cutin aria-hidden="true">
+      <div class="cutin-band">
+        <span class="cutin-text" data-cutin-text></span>
+      </div>
+    </div>
+    <script is:inline>
+      // クリア記録(訪れたゲームに CLEAR の判子)と、実績時の画面揺れ
+      (() => {
+        const KEY = "akaoCleared";
+        const read = () => {
+          try {
+            return JSON.parse(localStorage.getItem(KEY) || "[]");
+          } catch {
+            return [];
+          }
+        };
+        const page = document.querySelector("[data-game-slug]");
+        if (page) {
+          const set = new Set(read());
+          set.add(page.dataset.gameSlug);
+          try {
+            localStorage.setItem(KEY, JSON.stringify([...set]));
+          } catch {
+            /* 記録できなければ判子が付かないだけ */
+          }
+        }
+        const cleared = new Set(read());
+        document.querySelectorAll(".game-card[data-slug]").forEach((card) => {
+          if (cleared.has(card.dataset.slug)) card.classList.add("is-cleared");
+        });
+
+        window.akaoShake = () => {
+          if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          document.body.classList.remove("shake");
+          void document.body.offsetWidth;
+          document.body.classList.add("shake");
+          setTimeout(() => document.body.classList.remove("shake"), 400);
+        };
+      })();
+    </script>
+    <script is:inline>
+      // 8bit風の効果音。矩形波・三角波を短く鳴らすだけなので音声ファイルは持たない。
+      // ブラウザの自動再生制限により、最初のクリックやキー入力があるまでは鳴らない
+      (() => {
+        const KEY = "akaoSound";
+        const root = document.documentElement;
+        let enabled = false;
+        try {
+          enabled = localStorage.getItem(KEY) === "on";
+        } catch {
+          /* ストレージが使えなければOFFで開始する */
+        }
+        root.dataset.sound = enabled ? "on" : "off";
+
+        let ctx = null;
+        let master = null;
+        const ensure = () => {
+          if (ctx) return ctx;
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return null;
+          ctx = new AC();
+          master = ctx.createGain();
+          master.gain.value = 0.12;
+          master.connect(ctx.destination);
+          return ctx;
+        };
+
+        // 1音: 波形・周波数・長さ・開始オフセット(秒)
+        const tone = (type, freq, duration, at = 0, gain = 1, slideTo = null) => {
+          const c = ensure();
+          if (!c || c.state !== "running") return;
+          const t0 = c.currentTime + at;
+          const osc = c.createOscillator();
+          const env = c.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, t0);
+          if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, t0 + duration);
+          env.gain.setValueAtTime(gain, t0);
+          env.gain.exponentialRampToValueAtTime(0.001, t0 + duration);
+          osc.connect(env).connect(master);
+          osc.start(t0);
+          osc.stop(t0 + duration + 0.02);
+        };
+
+        const sounds = {
+          // 文字送りのピッ
+          blip: () => tone("square", 1760, 0.035, 0, 0.5),
+          // カーソル移動
+          move: () => tone("square", 660, 0.05, 0, 0.7),
+          // 決定
+          decide: () => { tone("square", 880, 0.06, 0, 0.8); tone("square", 1320, 0.09, 0.06, 0.8); },
+          // タブ切替(市松ワイプに合わせて2段)
+          tab: () => { tone("square", 523, 0.05, 0, 0.7); tone("square", 784, 0.07, 0.07, 0.7); },
+          // PRESS START
+          start: () => [523, 659, 784, 1047].forEach((f, i) => tone("square", f, 0.12, i * 0.09, 0.8)),
+          // じっせき かいじょ
+          fanfare: () => { [784, 1047, 1319].forEach((f, i) => tone("triangle", f, 0.14, i * 0.1, 1)); tone("triangle", 1568, 0.45, 0.3, 1); },
+        };
+
+        const play = (name) => {
+          if (root.dataset.sound !== "on") return;
+          const fn = sounds[name];
+          if (fn) fn();
+        };
+        window.akaoSfx = { play };
+
+        // 音声ONのときだけ、操作に合わせて AudioContext を起こす
+        const unlock = () => {
+          if (root.dataset.sound !== "on") return;
+          const c = ensure();
+          if (c && c.state === "suspended") c.resume();
+        };
+        ["pointerdown", "keydown", "touchstart"].forEach((type) =>
+          addEventListener(type, unlock, { passive: true }),
+        );
+
+        const toggle = document.querySelector("[data-sound-toggle]");
+        const paint = () => {
+          const on = root.dataset.sound === "on";
+          toggle.setAttribute("aria-pressed", on ? "true" : "false");
+          toggle.querySelector(".sound-state").textContent = on ? "ON" : "OFF";
+        };
+        paint();
+        toggle.addEventListener("click", () => {
+          const on = root.dataset.sound !== "on";
+          root.dataset.sound = on ? "on" : "off";
+          try {
+            localStorage.setItem(KEY, on ? "on" : "off");
+          } catch {
+            /* 記録できなければこのページ内だけ */
+          }
+          paint();
+          if (on) {
+            unlock();
+            play("decide");
+          }
+        });
+
+        // 共通のUI音: ホバーで move、クリックで decide
+        const hoverable = ".command, .tab, .game-card, .btn, .back-link, .site-nav a, .hud, .talk-skip";
+        let lastHover = null;
+        document.addEventListener("pointerover", (event) => {
+          const el = event.target.closest(hoverable);
+          if (!el || el === lastHover) return;
+          lastHover = el;
+          play("move");
+        });
+        document.addEventListener("pointerout", (event) => {
+          if (event.target.closest(hoverable) === lastHover && !event.relatedTarget?.closest(hoverable)) lastHover = null;
+        });
+        document.addEventListener("click", (event) => {
+          if (event.target.closest("[data-sound-toggle], [data-tab-btn], [data-talk], .talk-skip")) return;
+          if (event.target.closest(hoverable)) play("decide");
+        });
+      })();
+    </script>
     <script is:inline>
       // 内部リンクの遷移前に4段階の暗転を挟む(ゲームのシーン切り替え風)
       (() => {
@@ -276,13 +487,29 @@ const ogImage = image
           } catch {
             /* フラグが立たなければ遷移先で明転しないだけ */
           }
+
+          // ゲームカードからは「STAGE N」のカットインを挟んでから暗転する
+          const card = link.closest(".game-card[data-stage]");
+          const cutin = document.querySelector("[data-stage-cutin]");
+          const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+          if (card && cutin && !reduce) {
+            cutin.querySelector("[data-cutin-text]").textContent = "STAGE " + card.dataset.stage;
+            cutin.classList.add("run");
+            window.akaoSfx?.play("start");
+            setTimeout(() => (document.documentElement.dataset.pageFade = "out"), 700);
+            setTimeout(() => location.assign(url.href), 900);
+            return;
+          }
           document.documentElement.dataset.pageFade = "out";
           setTimeout(() => location.assign(url.href), 200);
         });
 
         // 戻るボタンでbfcacheから復帰したときに黒画面を残さない
         addEventListener("pageshow", (event) => {
-          if (event.persisted) delete document.documentElement.dataset.pageFade;
+          if (event.persisted) {
+            delete document.documentElement.dataset.pageFade;
+            document.querySelector("[data-stage-cutin]")?.classList.remove("run");
+          }
         });
       })();
     </script>

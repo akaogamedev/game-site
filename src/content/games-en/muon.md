@@ -8,6 +8,8 @@ platforms: [unityroom]
 releaseDate: 2026-06-09
 color: "#5a5a6e"
 cover: /images/games/muon/cover.jpg
+video: /videos/games/muon/play.mp4
+videoPoster: /videos/games/muon/poster.jpg
 links:
   - label: "Play on unityroom"
     url: https://unityroom.com/games/muon
@@ -27,3 +29,11 @@ dialogue:
 - A different kind of rhythm game with sound effects but no background music
 - Three difficulty levels
 - Local leaderboards for score and highest combo
+
+## Controls
+
+Choose a difficulty and select the game start button.
+
+- **Hit notes**: D / F / J / K, from the left lane to the right
+
+Press the matching key when a note reaches the judgment line at the front.

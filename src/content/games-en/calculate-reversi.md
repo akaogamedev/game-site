@@ -8,6 +8,8 @@ platforms: [unityroom]
 releaseDate: 2026-07-12
 color: "#e9a529"
 cover: /images/games/calculate-reversi/cover.jpg
+video: /videos/games/calculate-reversi/play.mp4
+videoPoster: /videos/games/calculate-reversi/poster.jpg
 links:
   - label: "Play on unityroom"
     url: https://unityroom.com/games/calculate-reversi

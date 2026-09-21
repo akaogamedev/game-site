@@ -19,7 +19,7 @@ export const zhCnGames: Record<string, GameTranslation> = {
     ],
     features: [
       "按A得到Z、按B得到Y的脑力训练式打字",
-      "支持在线排行榜",
+      "成绩保存在本设备的本地排行榜",
     ],
     controls: [
       { label: "开始", text: "在标题画面输入玩家名并选择START" },
@@ -68,12 +68,12 @@ export const zhCnGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "这个AI的性格也太差了吧。" },
       {
         speaker: "akao",
-        text: "就当作心理训练吧。只需要画画，也可以在画面下方选择颜色。",
+        text: "就当作心理训练吧。明明觉得画得很像，AI却看成另一种东西——这种出乎意料的反应也很有趣。",
       },
     ],
     features: ["让AI猜中你的画即可过关", "在AI不断吐槽的干扰下坚持作画"],
     controls: [
-      { label: "绘画", text: "直接在画布上拖动，并可在画面下方选择颜色" },
+      { label: "绘画", text: "在画布上绘画，并可在下方选择颜色。画好后按「完了」，让AI回答；时间耗尽也会进入判定。" },
     ],
   },
   muon: {
@@ -97,6 +97,7 @@ export const zhCnGames: Record<string, GameTranslation> = {
       "三个难度等级",
       "记录分数与最高连击的本地排行榜",
     ],
+    controls: [{ label: "敲击音符", text: "从左到右使用 D / F / J / K。音符到达前方判定线时，按下对应按键。" }],
   },
   "pittari-hitofudegaki": {
     title: "完美一笔画！",
@@ -137,12 +138,12 @@ export const zhCnGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "还有EASY和CRAZY模式……" },
       {
         speaker: "akao",
-        text: "EASY只离完成状态几步，CRAZY则完全随机，连我也得动一动才能确定。",
+        text: "EASY的盘面接近完成形，但也混有数字被交换的无解盘面。 CRAZY的盘面完全随机。",
       },
     ],
     features: [
       "不解拼图，而是判断盘面是否有解",
-      "EASY盘面只离完成状态几步",
+      "EASY的盘面接近完成形，但也混有数字被交换的无解盘面。",
       "CRAZY盘面完全随机",
       "支持在线竞速排行榜",
     ],
@@ -277,7 +278,7 @@ export const zhCnGames: Record<string, GameTranslation> = {
       "各模式独立的在线时间排行榜",
     ],
     controls: [
-      { label: "移动", text: "左右方向键或A" },
+      { label: "移动", text: "左右方向键或A/D" },
       { label: "软降", text: "下方向键或S" },
       { label: "旋转", text: "Z、X或上方向键" },
       { label: "硬降", text: "Space" },
@@ -319,7 +320,7 @@ export const zhCnGames: Record<string, GameTranslation> = {
       { label: "DOPA模式低落音符", text: "从左到右用J、K、L、;击退" },
     ],
     notes: [
-      "成功会增加连击和FEVER槽，彩色音符还会恢复DOPA。MISS、空按或按错都会减少DOPA。",
+      "成功会增加连击和FEVER槽，彩色音符还会恢复DOPA。MISS、空按或按错都会减少DOPA。 DOPA也会随时间减少；MISS、空按和按错键会进一步扣除。DOPA TIME期间不会减少。",
     ],
   },
   "castle-pazzle": {
@@ -330,12 +331,12 @@ export const zhCnGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "CASTLE PAZZLE是怎样的城堡建造游戏？" },
       {
         speaker: "akao",
-        text: "先记住展示的三座城堡，再用散落的零件尽快把它们重建出来。",
+        text: "每题先记住一座城堡，再用零件重建，共挑战三题。",
       },
       { speaker: "onaga", text: "建造时还能一直看着示例吗？" },
       {
         speaker: "akao",
-        text: "Easy模式下，组装过程中可以随时重新查看示例。Hard模式开始组装后完全无法再次查看，所以必须一开始就仔细记住。",
+        text: "Easy可以反复查看示例，但每次查看后需要等待才能再次查看。Hard在开始组装后不能再看示例。",
       },
       { speaker: "onaga", text: "看来记得快和建得快一样重要。" },
       {
@@ -345,7 +346,7 @@ export const zhCnGames: Record<string, GameTranslation> = {
     ],
     features: [
       "记住并重建三座城堡的3D益智游戏",
-      "Easy模式下，组装过程中可随时重新查看示例",
+      "Easy可反复查看示例，每次查看之间有等待时间",
       "Hard模式下，开始组装后完全无法再次查看示例",
       "拖动散落的城堡零件，放到地面或其他城堡部件上",
       "旋转零件和镜头，判断正确的位置与方向",
@@ -405,12 +406,12 @@ export const zhCnGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "魔法是怎么使用的？" },
       {
         speaker: "akao",
-        text: "魔法不用自己施放。法力攒够时从三张卡里选择强化，选中的魔法满足条件后会自动发动；保持连击，叠加强化就行。",
+        text: "魔法不用自己施放。法力攒够时从最多三张卡里选择强化，选中的魔法满足条件后会自动发动；保持连击，叠加强化就行。",
       },
     ],
     features: [
       "诅咒墙不断推进的无尽魔法打砖块",
-      "打碎方块收集法力，从三张魔法卡中选择强化",
+      "打碎方块收集法力，从最多三张魔法卡中选择强化",
       "火焰爆发、连锁闪电、冰之束缚、幻影球、奥术光束五种魔法",
       "强化魔法12次后，普通球会增加到两个",
       "通过连续回合和魔法组合挑战高分排行榜",

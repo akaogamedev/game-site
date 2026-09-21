@@ -1,6 +1,6 @@
 ---
 title: CASTLE PAZZLE
-catch: 3つの城を記憶して、お題どおりに組み立てるタイムアタック。
+catch: お城を覚えて、お題どおりに組み立てる。全3問のタイムアタック。
 category: unityroom
 unityroomNo: 12
 genre: パズル
@@ -8,29 +8,30 @@ platforms: [unityroom]
 releaseDate: 2026-08-02
 color: "#c8922e"
 cover: /images/games/castle-pazzle/cover.jpg
+video: /videos/games/castle-pazzle/play.mp4
+videoPoster: /videos/games/castle-pazzle/poster.jpg
+bgTile: /images/tiles/castle-pazzle.svg
 links:
   - label: unityroomで遊ぶ
     url: https://unityroom.com/games/castle-pazzle
 featured: true
 dialogue:
   - speaker: onaga
-    text: "CASTLE PAZZLEって、どんな城を作るゲームなん?"
+    text: "お城のパズル？ どんなことするん？"
   - speaker: akao
-    text: "最初に見せられる3つの城を記憶して、バラバラになったパーツをお題どおりに組み立てるタイムアタックだよ。"
+    text: "最初にお題のお城を覚えて、そのあとバラバラのパーツを組み立てて、同じお城を作るゲームだよ。"
   - speaker: onaga
-    text: "見本はずっと見られへんの?"
+    text: "覚えなあかんのか。途中で忘れたら、もう一回見せてもらえるん？"
   - speaker: akao
-    text: "イージーモードなら組み立て中もお題を何度でも再確認できるよ。ハードモードでは一切再確認できないから、最初にしっかり覚える必要があるんだ。"
+    text: "イージーなら、少し待てば見直せるよ。ハードは見直せないから、パーツの場所や向きまでしっかり覚えてね。"
   - speaker: onaga
-    text: "急いで建てるだけやなくて、覚える速さも大事なんやね。"
-  - speaker: akao
-    text: "そう。3つの城を完成させるまでのタイムを競うんだ。ハードモードにも挑戦できるよ。"
+    text: "むずそうやけど、おもろそうやな。ワイもやってみるか！"
 ---
 
 ## 特徴
 
-- お題の3つの城を記憶して組み立てる3Dパズル
-- イージーモードでは組み立て中もお題を何度でも再確認可能
+- 1問ずつお城を記憶して組み立てる、全3問の3Dパズル
+- イージーモードでは待ち時間を挟んで、お題を何度でも再確認可能
 - ハードモードでは組み立て開始後にお題を一切再確認できない
 - バラバラの城パーツをドラッグして地面や城の上に配置
 - パーツとカメラを回転させ、正しい向きと場所を見極める

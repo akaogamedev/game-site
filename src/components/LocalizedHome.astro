@@ -12,6 +12,7 @@ import PixelCloud from "./PixelCloud.astro";
 import PixelHammer from "./PixelHammer.astro";
 import PixelPhone from "./PixelPhone.astro";
 import PixelScene from "./PixelScene.astro";
+import TitleScreen from "./TitleScreen.astro";
 
 interface Props {
   locale: Locale;
@@ -22,22 +23,37 @@ interface Props {
 const { locale, games, translations } = Astro.props;
 const copy = uiCopy[locale].home;
 const dev = devCopy[locale];
+const akaoName = uiCopy[locale].game.akao;
+
+const GOAL = 100;
+const numbered = games.filter((game) => game.data.unityroomNo);
+const published = numbered.length;
+// 実績トーストに出す最新作(番号がいちばん大きいもの)
+const latest = numbered.reduce<(typeof numbered)[number] | undefined>(
+  (best, game) =>
+    !best || (game.data.unityroomNo ?? 0) > (best.data.unityroomNo ?? 0)
+      ? game
+      : best,
+  undefined,
+);
+const latestTitle = latest
+  ? (translations?.[latest.id]?.title ?? latest.data.title)
+  : "";
+// 会話ウィンドウで順に流す挨拶。本数を差し込む
+const greeting = copy.greeting.map((line) => line.replace("{n}", String(published)));
 ---
 
 <BaseLayout locale={locale}>
   <script is:inline>
-    // タイトルのせり上がりは、このセッションの初回表示だけ再生する
+    // 時間帯で空の色を変える(朝5-9 / 昼 / 夕16-19 / 夜19-5)。描画前に決める
     (() => {
-      try {
-        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        if (sessionStorage.getItem("akaoTitleAnimated")) return;
-        sessionStorage.setItem("akaoTitleAnimated", "1");
-        document.documentElement.dataset.titleAnim = "on";
-      } catch {
-        /* ストレージが使えない環境ではアニメなしで表示する */
-      }
+      const h = new Date().getHours();
+      document.documentElement.dataset.daytime =
+        h >= 5 && h < 9 ? "morning" : h >= 9 && h < 16 ? "day" : h >= 16 && h < 19 ? "evening" : "night";
     })();
   </script>
+  <TitleScreen locale={locale} published={published} goal={GOAL} />
+
   <section class="hero">
     <PixelCloud class="cloud-a" width={90} style="top: 36px; left: 12%;" />
     <PixelCloud class="cloud-b" width={70} style="top: 90px; right: 10%;" />
@@ -47,24 +63,224 @@ const dev = devCopy[locale];
         class="hero-line">{copy.heroLines[1]}</span
       >
     </h1>
-    <p>{copy.intro}</p>
-    <div class="hero-buttons">
-      <a class="hero-btn" href="#unityroom" data-tab-link="unityroom">
-        <PixelBrowser size={22} />
-        {copy.browserButton}
-      </a>
-      <a class="hero-btn" href="#ios" data-tab-link="ios">
-        <PixelPhone size={22} />
-        {copy.mobileButton}
-      </a>
-      <a class="hero-btn" href="#dev" data-tab-link="dev">
-        <PixelHammer size={22} />
-        {dev.homeButton}
-      </a>
+
+    <div class="hero-windows">
+      <!-- RPGの会話ウィンドウ。1行目は明転後に文字送りで出る -->
+      <div class="hero-message speech-bubble" aria-label={akaoName}>
+        <div class="hero-message-body" data-hero-talk>
+          <!-- JSが無ければ3つとも並べて読める -->
+          <div class="hero-message-text" data-hero-lines>
+            {greeting.map((line) => <p class="hero-message-line">{line}</p>)}
+          </div>
+          <p class="hero-message-line hero-message-current" data-hero-text hidden></p>
+        </div>
+        <button type="button" class="talk-restart hero-talk-restart" data-hero-restart hidden>
+          {uiCopy[locale].game.talkRestart}
+        </button>
+        <span class="press-cursor" aria-hidden="true" data-hero-cursor>▼</span>
+      </div>
+
+      <!-- コマンドウィンドウ。既存の入口ボタン3つを縦のメニューにしたもの -->
+      <nav class="rpg-window hero-commands" aria-label={copy.commandLabel}>
+        <span class="rpg-window-label">{copy.commandLabel}</span>
+        <div class="command-list">
+          <a
+            class="command is-default"
+            href="#unityroom"
+            data-tab-link="unityroom"
+          >
+            <span class="command-cursor" aria-hidden="true">▶</span>
+            <PixelBrowser size={22} />
+            {copy.browserButton}
+          </a>
+          <a class="command" href="#ios" data-tab-link="ios">
+            <span class="command-cursor" aria-hidden="true">▶</span>
+            <PixelPhone size={22} />
+            {copy.mobileButton}
+          </a>
+          <a class="command" href="#dev" data-tab-link="dev">
+            <span class="command-cursor" aria-hidden="true">▶</span>
+            <PixelHammer size={22} />
+            {dev.homeButton}
+          </a>
+        </div>
+      </nav>
     </div>
-    <div class="press-cursor" aria-hidden="true">▼</div>
+
     <PixelScene />
+
+    {
+      latest && (
+        <div
+          class="achievement"
+          data-achievement
+          data-release={latest.data.releaseDate.toISOString()}
+          role="status"
+          hidden
+        >
+          <span class="achievement-no">{latest.data.unityroomNo}</span>
+          <span class="achievement-text">
+            <span class="achievement-label">{copy.achievementLabel}</span>
+            <span>{copy.achievementText(latest.data.unityroomNo ?? 0, latestTitle)}</span>
+          </span>
+        </div>
+      )
+    }
   </section>
 
   <HomeTabs locale={locale} games={games} translations={translations} />
+
+  <script is:inline>
+    // 「じっせき かいじょ」トーストと NEW! フラグ。
+    // どちらも最新作の公開から14日以内だけ。トーストはセッションに1回だけ出す
+    (() => {
+      const NEW_DAYS = 14;
+      const withinNewWindow = (iso) => {
+        const days = (Date.now() - new Date(iso).getTime()) / 864e5;
+        return days >= 0 && days <= NEW_DAYS;
+      };
+
+      document.querySelectorAll("[data-newest]").forEach((card) => {
+        if (withinNewWindow(card.dataset.release)) card.classList.add("is-new");
+      });
+
+      // 明転したらEXPゲージを0からせり上げる
+      const startGauge = () => setTimeout(() => (document.documentElement.dataset.gaugeRun = "on"), 900);
+      if (document.documentElement.dataset.titleScreen) {
+        document.addEventListener("akao:home-revealed", startGauge, { once: true });
+      } else {
+        startGauge();
+      }
+
+      // 会話ウィンドウ: 明転後に挨拶が1文字ずつ順に流れる。クリックで早送り、最後まで行ったら止まる(再クリックで最初から)
+      (() => {
+        const box = document.querySelector("[data-hero-talk]");
+        if (!box) return;
+        const lines = Array.from(box.querySelectorAll("[data-hero-lines] p")).map((p) => p.textContent);
+        const listEl = box.querySelector("[data-hero-lines]");
+        const textEl = box.querySelector("[data-hero-text]");
+        const cursor = document.querySelector("[data-hero-cursor]");
+        const restartBtn = document.querySelector("[data-hero-restart]");
+        const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const SPEED = 45;
+        const holdFor = (text) => Math.max(2200, 1000 + Array.from(text).length * 60);
+        let index = 0;
+        let shown = 0;
+        let chars = [];
+        let done = false;
+        let ended = false;
+        let timer = null;
+        let wait = null;
+
+        const paint = () => {
+          textEl.textContent = chars.slice(0, shown).join("");
+          cursor.style.opacity = done ? "1" : "0";
+        };
+        const clear = () => {
+          clearInterval(timer);
+          clearTimeout(wait);
+        };
+        const finishLine = () => {
+          clear();
+          shown = chars.length;
+          done = true;
+          paint();
+          if (index === lines.length - 1) {
+            ended = true;
+            return;
+          }
+          wait = setTimeout(() => start(index + 1), holdFor(lines[index]));
+        };
+        const start = (i) => {
+          clear();
+          index = i;
+          ended = false;
+          chars = Array.from(lines[i]);
+          shown = reduce ? chars.length : 0;
+          done = false;
+          paint();
+          if (reduce) {
+            finishLine();
+            return;
+          }
+          timer = setInterval(() => {
+            if (shown >= chars.length) {
+              finishLine();
+              return;
+            }
+            shown++;
+            if (shown % 2 === 0) window.akaoSfx?.play("blip");
+            paint();
+          }, SPEED);
+        };
+
+        const begin = () => {
+          listEl.hidden = true;
+          textEl.hidden = false;
+          restartBtn.hidden = false;
+          box.closest(".hero-message").classList.add("is-live");
+          start(0);
+        };
+        restartBtn.addEventListener("click", (event) => {
+          event.stopPropagation();
+          window.akaoSfx?.play("decide");
+          start(0);
+        });
+        box.closest(".hero-message").addEventListener("click", () => {
+          if (listEl.hidden === false) return;
+          window.akaoSfx?.play("decide");
+          if (ended) start(0);
+          else if (!done) finishLine();
+          else start(index + 1);
+        });
+        document.addEventListener("visibilitychange", () => {
+          if (listEl.hidden === false) return;
+          if (document.hidden) clear();
+          else if (!ended) (done ? finishLine() : start(index));
+        });
+        if (document.documentElement.dataset.titleScreen) {
+          document.addEventListener("akao:home-revealed", () => setTimeout(begin, 600), { once: true });
+        } else {
+          setTimeout(begin, 600);
+        }
+      })();
+
+      const toast = document.querySelector("[data-achievement]");
+      if (!toast || !withinNewWindow(toast.dataset.release)) return;
+      const key = "akaoAchievement";
+      try {
+        if (sessionStorage.getItem(key) === toast.dataset.release) return;
+      } catch {
+        /* ストレージが使えなくても表示はする */
+      }
+
+      const show = () => {
+        window.akaoSfx?.play("fanfare");
+        window.akaoShake?.();
+        try {
+          sessionStorage.setItem(key, toast.dataset.release);
+        } catch {
+          /* 記録できなければ次回も出るだけ */
+        }
+        toast.hidden = false;
+        toast.classList.add("run");
+        const hide = () => {
+          toast.classList.remove("run");
+          toast.classList.add("out");
+          setTimeout(() => (toast.hidden = true), 400);
+        };
+        toast.addEventListener("click", hide, { once: true });
+        setTimeout(hide, 6500);
+      };
+
+      // タイトル画面の明転を待ってから出す(タイトルが無ければすぐ)
+      if (document.documentElement.dataset.titleScreen) {
+        document.addEventListener("akao:home-revealed", () => setTimeout(show, 1400), {
+          once: true,
+        });
+      } else {
+        setTimeout(show, 1400);
+      }
+    })();
+  </script>
 </BaseLayout>

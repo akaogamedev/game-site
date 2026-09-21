@@ -19,7 +19,7 @@ export const koGames: Record<string, GameTranslation> = {
     ],
     features: [
       "A는 Z, B는 Y로 판정되는 두뇌 훈련 타이핑",
-      "온라인 랭킹 지원",
+      "점수는 이 기기의 로컬 랭킹에 저장",
     ],
     controls: [
       { label: "시작", text: "타이틀 화면에서 이름을 입력하고 START 선택" },
@@ -68,12 +68,12 @@ export const koGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "성격이 정말 나쁜 AI네." },
       {
         speaker: "akao",
-        text: "멘탈 훈련이라고 생각해. 그림만 그리면 되고 화면 아래에서 색도 고를 수 있어.",
+        text: "정신력 훈련이라고 생각해. 제법 잘 그렸다고 생각했는데 AI가 전혀 다른 걸로 볼 때도 있어. 그 엉뚱한 반응도 재미있지.",
       },
     ],
     features: ["AI가 그림을 알아맞히면 클리어", "계속되는 AI의 야유 속에서 그림 완성"],
     controls: [
-      { label: "그리기", text: "캔버스에 직접 드래그하고 화면 아래에서 색 선택" },
+      { label: "그리기", text: "캔버스에 그리고 아래에서 색을 선택하세요. 다 그리면 「完了」를 눌러 AI의 답을 확인하세요. 시간이 끝나도 판정이 시작됩니다." },
     ],
   },
   muon: {
@@ -97,6 +97,7 @@ export const koGames: Record<string, GameTranslation> = {
       "세 단계 난이도",
       "점수와 최대 콤보 로컬 랭킹",
     ],
+    controls: [{ label: "노트 치기", text: "왼쪽부터 D / F / J / K. 노트가 앞쪽 판정선에 닿을 때 해당 키를 누르세요." }],
   },
   "pittari-hitofudegaki": {
     title: "완벽한 한붓그리기!",
@@ -137,12 +138,12 @@ export const koGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "EASY와 CRAZY 모드가 있네..." },
       {
         speaker: "akao",
-        text: "EASY는 완성에서 몇 수만 떨어져 있고, CRAZY는 완전히 무작위라 나도 움직여 봐야 알 수 있어.",
+        text: "EASY는 완성형에 가까운 판이지만, 숫자가 뒤바뀐 풀 수 없는 판도 섞여 있어. CRAZY는 완전히 무작위야.",
       },
     ],
     features: [
       "퍼즐을 풀지 않고 해결 가능 여부를 판별",
-      "완성에서 몇 수만 떨어진 EASY",
+      "EASY는 완성형에 가까운 판이지만, 숫자가 뒤바뀐 풀 수 없는 판도 섞여 있어.",
       "완전히 무작위인 CRAZY",
       "온라인 타임어택 랭킹",
     ],
@@ -277,7 +278,7 @@ export const koGames: Record<string, GameTranslation> = {
       "모드별 온라인 타임 랭킹",
     ],
     controls: [
-      { label: "이동", text: "좌우 방향 키 또는 A" },
+      { label: "이동", text: "좌우 방향 키 또는 A/D" },
       { label: "소프트 드롭", text: "아래 방향 키 또는 S" },
       { label: "회전", text: "Z, X 또는 위 방향 키" },
       { label: "하드 드롭", text: "Space" },
@@ -318,7 +319,7 @@ export const koGames: Record<string, GameTranslation> = {
       { label: "DOPA 모드 색깔 노트", text: "왼쪽부터 A, S, D, F" },
       { label: "DOPA 모드 다운 노트", text: "왼쪽부터 J, K, L, ;로 거절" },
     ],
-    notes: ["성공하면 콤보와 FEVER가 오르고 색깔 노트는 DOPA도 회복합니다. MISS, 헛누름, 오입력은 DOPA를 줄입니다."],
+    notes: ["성공하면 콤보와 FEVER가 오르고 색깔 노트는 DOPA도 회복합니다. MISS, 헛누름, 오입력은 DOPA를 줄입니다. DOPA는 시간 경과로도 줄고, MISS·헛누름·오입력으로 더 줄어듭니다. DOPA TIME 중에는 줄지 않습니다."],
   },
   "castle-pazzle": {
     title: "CASTLE PAZZLE",
@@ -328,12 +329,12 @@ export const koGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "CASTLE PAZZLE은 어떤 성 만들기 게임이야?" },
       {
         speaker: "akao",
-        text: "처음에 보여 주는 세 개의 성을 기억한 뒤, 흩어진 부품으로 최대한 빨리 다시 만드는 게임이야.",
+        text: "한 문제마다 성 하나를 기억하고 부품으로 다시 만들어. 모두 세 문제에 도전하는 거야.",
       },
       { speaker: "onaga", text: "만드는 동안 견본을 계속 볼 수 있어?" },
       {
         speaker: "akao",
-        text: "Easy 모드에서는 조립 중에도 견본을 몇 번이든 다시 볼 수 있어. Hard 모드는 조립이 시작되면 전혀 다시 볼 수 없으니 처음에 확실히 외워야 해.",
+        text: "Easy는 견본을 여러 번 볼 수 있지만 다시 보려면 대기 시간이 있어. Hard는 조립을 시작하면 다시 볼 수 없어.",
       },
       { speaker: "onaga", text: "빨리 만드는 것만큼 빨리 외우는 것도 중요하네." },
       {
@@ -343,7 +344,7 @@ export const koGames: Record<string, GameTranslation> = {
     ],
     features: [
       "세 개의 성을 기억하고 재현하는 3D 퍼즐",
-      "Easy 모드에서는 조립 중에도 견본을 언제든 다시 확인 가능",
+      "Easy는 견본 재확인 가능, 다시 보기 사이에 대기 시간 있음",
       "Hard 모드에서는 조립 시작 후 견본을 전혀 다시 확인할 수 없음",
       "흩어진 성 부품을 드래그해 바닥이나 다른 부품 위에 배치",
       "부품과 카메라를 회전해 올바른 위치와 방향을 판별",
@@ -403,12 +404,12 @@ export const koGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "마법은 어떻게 사용하는 거야?" },
       {
         speaker: "akao",
-        text: "마법을 직접 발사하는 건 아니야. 마나가 차면 세 장의 카드 중 강화 하나를 고르고, 선택한 마법은 조건이 되면 자동으로 발동해. 랠리를 이어 가며 강화를 쌓으면 돼.",
+        text: "마법을 직접 발사하는 건 아니야. 마나가 차면 최대 세 장의 카드 중 강화 하나를 고르고, 선택한 마법은 조건이 되면 자동으로 발동해. 랠리를 이어 가며 강화를 쌓으면 돼.",
       },
     ],
     features: [
       "저주 벽이 계속 전진하는 무한 마법 블록 깨기",
-      "블록을 부숴 마나를 모으고 세 장의 마법 카드 중 강화 선택",
+      "블록을 부숴 마나를 모으고 최대 세 장의 마법 카드 중 강화 선택",
       "화염 폭발, 연쇄 번개, 얼음 속박, 환영 구슬, 마도 빔 다섯 가지 마법",
       "마법을 12번 강화하면 일반 구슬이 두 개로 증가",
       "랠리와 마법 조합으로 온라인 최고 점수에 도전",

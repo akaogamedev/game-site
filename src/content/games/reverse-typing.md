@@ -8,24 +8,30 @@ platforms: [unityroom]
 releaseDate: 2026-05-26
 color: "#7d5cc9"
 cover: /images/games/reverse-typing/cover.jpg
+video: /videos/games/reverse-typing/play.mp4
+videoPoster: /videos/games/reverse-typing/poster.jpg
 links:
   - label: unityroomで遊ぶ
     url: https://unityroom.com/games/reverse-typing
 dialogue:
   - speaker: onaga
-    text: "普通のタイピングと、なにが違うん?"
+    text: "タイピングなら任せてや。ワイの速さ、見せたるで！"
   - speaker: akao
-    text: "打ったキーがA↔Z、B↔Yのように、アルファベット順で反転して入力されるんだ。"
+    text: "でも、ここではAを打つとZになるんだ。いつもの指の動きが通じなくて、知ってる単語にも頭をひねるよ。"
   - speaker: onaga
-    text: "Aを押したらZになるん!? 頭こんがらがるわ…。"
+    text: "得意なはずやのに、指が先走ってまう…！"
   - speaker: akao
-    text: "いい脳トレになるよ。制限時間内に単語を打って、ランキング上位を狙ってみて。記念すべき100本投稿企画の1本目だよ。"
+    text: "いつもなら簡単に打てる単語なのにね。間違えずに打てると、ちょっとうれしいんだ。"
+  - speaker: onaga
+    text: "でも、これに慣れちゃうと普段が…"
+  - speaker: akao
+    text: "そうだね。普段のタイピング作業に支障をきたす可能性が否定できないから、そこは自己責任だよ。"
 ---
 
 ## 特徴
 
 - Aを押すとZ、Bを押すとYになる脳トレ系タイピング
-- オンラインランキング搭載
+- スコアを端末内のローカルランキングに記録
 
 ## 操作方法
 

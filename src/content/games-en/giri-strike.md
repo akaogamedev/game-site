@@ -8,6 +8,9 @@ platforms: [unityroom]
 releaseDate: 2026-06-01
 color: "#d1495b"
 cover: /images/games/giri-strike/cover.jpg
+video: /videos/games/giri-strike/play.mp4
+videoPoster: /videos/games/giri-strike/poster.jpg
+bgTile: /images/tiles/giri-strike.svg
 links:
   - label: "Play on unityroom"
     url: https://unityroom.com/games/giri-strike

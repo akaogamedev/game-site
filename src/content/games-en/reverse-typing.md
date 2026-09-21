@@ -8,6 +8,8 @@ platforms: [unityroom]
 releaseDate: 2026-05-26
 color: "#7d5cc9"
 cover: /images/games/reverse-typing/cover.jpg
+video: /videos/games/reverse-typing/play.mp4
+videoPoster: /videos/games/reverse-typing/poster.jpg
 links:
   - label: "Play on unityroom"
     url: https://unityroom.com/games/reverse-typing
@@ -25,7 +27,7 @@ dialogue:
 ## Features
 
 - Brain-training typing where A becomes Z, B becomes Y, and so on
-- Online leaderboard
+- Scores saved to a local leaderboard on this device
 
 ## How to Play
 

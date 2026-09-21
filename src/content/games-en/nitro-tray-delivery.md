@@ -8,6 +8,8 @@ platforms: [unityroom]
 releaseDate: 2026-07-10
 color: "#b95a2a"
 cover: /images/games/nitro-tray-delivery/cover.jpg
+video: /videos/games/nitro-tray-delivery/play.mp4
+videoPoster: /videos/games/nitro-tray-delivery/poster.jpg
 links:
   - label: "Play on unityroom"
     url: https://unityroom.com/games/nitro-tray-delivery

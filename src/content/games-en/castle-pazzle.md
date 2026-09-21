@@ -1,6 +1,6 @@
 ---
 title: "CASTLE PAZZLE"
-catch: "Memorize three castles and rebuild them in this 3D time attack."
+catch: "Memorize a castle and rebuild it. Three rounds of 3D time attack."
 category: unityroom
 unityroomNo: 12
 genre: "Puzzle"
@@ -8,6 +8,9 @@ platforms: [unityroom]
 releaseDate: 2026-08-02
 color: "#c8922e"
 cover: /images/games/castle-pazzle/cover.jpg
+video: /videos/games/castle-pazzle/play.mp4
+videoPoster: /videos/games/castle-pazzle/poster.jpg
+bgTile: /images/tiles/castle-pazzle.svg
 links:
   - label: "Play on unityroom"
     url: https://unityroom.com/games/castle-pazzle
@@ -16,11 +19,11 @@ dialogue:
   - speaker: onaga
     text: "What kind of castle-building game is CASTLE PAZZLE?"
   - speaker: akao
-    text: "Memorize three castles, then rebuild each one from scattered pieces as quickly as you can."
+    text: "In each round, memorize one castle and rebuild it from scattered pieces as quickly as you can. There are three rounds in total."
   - speaker: onaga
     text: "Can I keep looking at the examples while I build?"
   - speaker: akao
-    text: "Easy mode lets you review the reference designs as often as you like while building. Hard mode never lets you view them again after construction begins, so you need to memorize them carefully at the start."
+    text: "Easy mode lets you review the reference as often as you like, with a cooldown between reviews. Hard mode never lets you view it again after construction begins, so you need to memorize it carefully."
   - speaker: onaga
     text: "So remembering quickly matters just as much as building quickly."
   - speaker: akao
@@ -29,8 +32,8 @@ dialogue:
 
 ## Features
 
-- Memorize and rebuild three castle designs in a 3D puzzle
-- Review the reference designs at any time while building in Easy mode
+- Memorize and rebuild one castle per round, across three rounds
+- Review the reference repeatedly in Easy mode, with a cooldown between reviews
 - Once construction begins in Hard mode, the reference designs cannot be viewed again
 - Drag loose castle pieces onto the ground or other castle sections
 - Rotate pieces and the camera to identify the correct positions and angles

@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import { getLocalePrefix, type Locale, type AdditionalLocale } from '../i18n/config';
+import { localizedGames } from '../i18n/games';
+interface Props { id: string; locale: Locale; }
+const { id, locale } = Astro.props;
+const games = (await getCollection(locale === 'en' ? 'gamesEn' : 'games'))
+  .filter(game => game.data.unityroomNo)
+  .sort((a, b) => a.data.unityroomNo! - b.data.unityroomNo!);
+const index = games.findIndex(game => game.id === id);
+const labels: Record<Locale, [string, string]> = {
+  ja: ['前のゲーム', '次のゲーム'], en: ['Previous game', 'Next game'],
+  'zh-cn': ['上一个游戏', '下一个游戏'], 'zh-tw': ['上一個遊戲', '下一個遊戲'],
+  ko: ['이전 게임', '다음 게임'], es: ['Juego anterior', 'Siguiente juego'],
+  fr: ['Jeu précédent', 'Jeu suivant'], de: ['Vorheriges Spiel', 'Nächstes Spiel'],
+  'pt-br': ['Jogo anterior', 'Próximo jogo'],
+};
+const neighbors = index < 0 ? [] : [games[index - 1], games[index + 1]];
+const titleFor = (game: typeof games[number]) => locale === 'ja' || locale === 'en'
+  ? game.data.title : localizedGames[locale as AdditionalLocale][game.id]?.title ?? game.data.title;
+---
+{index >= 0 && <nav class="stage-navigation" aria-label={labels[locale].join(' / ')}>
+  {neighbors.map((game, direction) => game && <a class:list={['stage-link', {next: direction === 1}]} href={`${getLocalePrefix(locale)}/games/${game.id}/`}>
+    <span class="direction">{direction === 0 ? '◀' : '▶'} {labels[locale][direction]}</span>
+    <span class="stage-preview"><img src={game.data.cover} alt="" loading="lazy" width="88" height="58"/><span><small>STAGE {game.data.unityroomNo}</small><strong>{titleFor(game)}</strong></span></span>
+  </a>)}
+</nav>}
+<style>
+  .stage-navigation { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 28px 0; }
+  .stage-link { display: block; padding: 14px; background: var(--cream); color: var(--ink); border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); text-decoration: none; transition: transform 120ms steps(2), background 120ms; }
+  .stage-link.next { grid-column: 2; }
+  .direction { display: block; font-size: 13px; color: var(--blue); margin-bottom: 10px; }
+  .stage-preview { display: flex; align-items: center; gap: 12px; }
+  img { width: 88px; height: 58px; object-fit: cover; border: 2px solid var(--ink); flex-shrink: 0; }
+  small { display: block; font-size: 11px; }
+  strong { display: block; font-size: 15px; line-height: 1.6; overflow-wrap: anywhere; }
+  .stage-link:hover { background: var(--yellow); transform: translateY(-3px); }
+  .stage-link:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+  @media(max-width: 560px) { .stage-navigation { grid-template-columns: 1fr; } .stage-link.next { grid-column: 1; } }
+  @media(prefers-reduced-motion: reduce) { .stage-link { transition: none; } .stage-link:hover { transform: none; } }
+</style>

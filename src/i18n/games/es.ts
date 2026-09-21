@@ -19,7 +19,7 @@ export const esGames: Record<string, GameTranslation> = {
     ],
     features: [
       "Mecanografía de entrenamiento mental con el alfabeto invertido",
-      "Clasificación en línea",
+      "Guarda tu puntuación en una clasificación local de este dispositivo",
     ],
     controls: [
       { label: "Inicio", text: "Introduce un nombre y selecciona START" },
@@ -68,7 +68,7 @@ export const esGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Esa IA tiene muy mal carácter." },
       {
         speaker: "akao",
-        text: "Tómatelo como entrenamiento mental. Solo tienes que dibujar y puedes elegir colores abajo.",
+        text: "Tómatelo como entrenamiento mental. Puedes estar convencido de que tu dibujo se entiende y descubrir que la IA ve algo totalmente distinto. Esa sorpresa también tiene su gracia.",
       },
     ],
     features: [
@@ -76,7 +76,7 @@ export const esGames: Record<string, GameTranslation> = {
       "Mantén la concentración a pesar de sus burlas",
     ],
     controls: [
-      { label: "Dibujar", text: "Arrastra sobre el lienzo y elige un color en la parte inferior" },
+      { label: "Dibujar", text: "Dibuja en el lienzo y elige colores abajo. Pulsa «完了» al terminar para que la IA responda; también responde al agotarse el tiempo." },
     ],
   },
   muon: {
@@ -100,6 +100,7 @@ export const esGames: Record<string, GameTranslation> = {
       "Tres niveles de dificultad",
       "Clasificación local de puntuación y combo máximo",
     ],
+    controls: [{ label: "Golpear notas", text: "D / F / J / K, de izquierda a derecha. Pulsa la tecla cuando la nota llegue a la línea de juicio frontal." }],
   },
   "pittari-hitofudegaki": {
     title: "¡Dibujo perfecto de un solo trazo!",
@@ -143,12 +144,12 @@ export const esGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Veo modos EASY y CRAZY..." },
       {
         speaker: "akao",
-        text: "EASY está a pocos movimientos de completarse. CRAZY es totalmente aleatorio; hasta yo tengo que mover fichas para estar seguro.",
+        text: "EASY muestra tableros parecidos al estado final, pero también incluye tableros imposibles con fichas intercambiadas. CRAZY genera tableros completamente aleatorios.",
       },
     ],
     features: [
       "Decide si cada puzzle puede resolverse",
-      "Tableros EASY a pocos movimientos del final",
+      "EASY muestra tableros parecidos al estado final, pero también incluye tableros imposibles con fichas intercambiadas.",
       "Tableros CRAZY completamente aleatorios",
       "Clasificación contrarreloj en línea",
     ],
@@ -283,7 +284,7 @@ export const esGames: Record<string, GameTranslation> = {
       "Clasificación de tiempo para cada modo",
     ],
     controls: [
-      { label: "Mover", text: "Flechas izquierda/derecha o A" },
+      { label: "Mover", text: "Flechas izquierda/derecha o A/D" },
       { label: "Caída suave", text: "Flecha abajo o S" },
       { label: "Girar", text: "Z, X o flecha arriba" },
       { label: "Caída rápida", text: "Space" },
@@ -324,7 +325,7 @@ export const esGames: Record<string, GameTranslation> = {
       { label: "Notas de color DOPA", text: "A, S, D, F de izquierda a derecha" },
       { label: "Notas negativas DOPA", text: "J, K, L, ; de izquierda a derecha" },
     ],
-    notes: ["Los aciertos aumentan combo y FEVER; las notas de color recuperan DOPA. Los fallos y teclas incorrectas reducen DOPA."],
+    notes: ["Los aciertos aumentan combo y FEVER; las notas de color recuperan DOPA. Los fallos y teclas incorrectas reducen DOPA. DOPA también disminuye con el tiempo; los fallos, pulsaciones vacías y teclas incorrectas lo reducen aún más. Durante DOPA TIME no disminuye."],
   },
   "castle-pazzle": {
     title: "CASTLE PAZZLE",
@@ -334,12 +335,12 @@ export const esGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "¿Qué clase de juego de construir castillos es CASTLE PAZZLE?" },
       {
         speaker: "akao",
-        text: "Memoriza tres castillos y luego reconstrúyelos lo más rápido posible con las piezas sueltas.",
+        text: "En cada prueba memorizas un castillo y lo reconstruyes con las piezas. Hay tres pruebas consecutivas.",
       },
       { speaker: "onaga", text: "¿Puedo seguir mirando los modelos mientras construyo?" },
       {
         speaker: "akao",
-        text: "En el modo Easy puedes volver a consultar los modelos tantas veces como quieras mientras construyes. En Hard no puedes volver a verlos una vez iniciada la construcción, así que debes memorizarlos bien al principio.",
+        text: "Easy permite volver a ver el modelo, con una espera entre consultas. En Hard no puedes volver a verlo una vez iniciada la construcción.",
       },
       { speaker: "onaga", text: "Así que memorizar rápido importa tanto como construir rápido." },
       {
@@ -349,7 +350,7 @@ export const esGames: Record<string, GameTranslation> = {
     ],
     features: [
       "Puzle 3D de memorizar y reconstruir tres castillos",
-      "En Easy puedes consultar los modelos en cualquier momento mientras construyes",
+      "En Easy puedes consultar el modelo de nuevo, con una espera entre consultas",
       "En Hard no puedes volver a ver los modelos una vez iniciada la construcción",
       "Arrastra las piezas sobre el suelo u otras secciones del castillo",
       "Gira las piezas y la cámara para encontrar su posición y orientación",
@@ -409,12 +410,12 @@ export const esGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "¿Cómo se usan los hechizos?" },
       {
         speaker: "akao",
-        text: "No lanzas los hechizos manualmente. Cuando reúnes suficiente maná, eliges una mejora entre tres cartas y el hechizo elegido se activa automáticamente al cumplir sus condiciones. Solo tienes que mantener la racha y acumular mejoras.",
+        text: "No lanzas los hechizos manualmente. Cuando reúnes suficiente maná, eliges una mejora entre hasta tres cartas y el hechizo elegido se activa automáticamente al cumplir sus condiciones. Solo tienes que mantener la racha y acumular mejoras.",
       },
     ],
     features: [
       "Rompebloques mágico infinito con un muro maldito que avanza",
-      "Rompe bloques, consigue maná y elige mejoras entre tres cartas",
+      "Rompe bloques, consigue maná y elige mejoras entre hasta tres cartas",
       "Cinco hechizos: explosión de fuego, relámpago en cadena, atadura de hielo, bola fantasma y rayo arcano",
       "Tras mejorar los hechizos 12 veces, la bola normal se divide en dos",
       "Mantén las rachas y las combinaciones mágicas para subir en la clasificación",

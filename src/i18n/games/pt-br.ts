@@ -19,7 +19,7 @@ export const ptBrGames: Record<string, GameTranslation> = {
     ],
     features: [
       "Treino de digitação com alfabeto invertido",
-      "Ranking on-line",
+      "Salve sua pontuação no ranking local deste dispositivo",
     ],
     controls: [
       { label: "Iniciar", text: "Digite um nome e selecione START" },
@@ -68,7 +68,7 @@ export const ptBrGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Essa IA tem uma personalidade horrível." },
       {
         speaker: "akao",
-        text: "Pense como um treino mental. Basta desenhar e escolher cores na parte de baixo.",
+        text: "Pense nisso como treino mental. Você pode achar seu desenho bem claro, mas a IA enxerga algo completamente diferente. Essas reações inesperadas também são divertidas.",
       },
     ],
     features: [
@@ -76,7 +76,7 @@ export const ptBrGames: Record<string, GameTranslation> = {
       "Mantenha o foco apesar das provocações",
     ],
     controls: [
-      { label: "Desenhar", text: "Arraste sobre a tela e escolha uma cor na parte inferior" },
+      { label: "Desenhar", text: "Desenhe na tela e escolha as cores abaixo. Ao terminar, aperte «完了» para receber a resposta da IA. O fim do tempo também inicia a avaliação." },
     ],
   },
   muon: {
@@ -100,6 +100,7 @@ export const ptBrGames: Record<string, GameTranslation> = {
       "Três níveis de dificuldade",
       "Ranking local de pontos e maior combo",
     ],
+    controls: [{ label: "Acertar notas", text: "D / F / J / K, da esquerda para a direita. Pressione a tecla quando a nota alcançar a linha de julgamento na frente." }],
   },
   "pittari-hitofudegaki": {
     title: "Desenho perfeito em um traço!",
@@ -143,12 +144,12 @@ export const ptBrGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Vejo modos EASY e CRAZY..." },
       {
         speaker: "akao",
-        text: "EASY fica a poucos movimentos da solução. CRAZY é totalmente aleatório; até eu preciso testar.",
+        text: "Os tabuleiros EASY parecem quase completos, mas também incluem casos impossíveis com números trocados. Os tabuleiros CRAZY são totalmente aleatórios.",
       },
     ],
     features: [
       "Descubra se cada tabuleiro pode ser resolvido",
-      "Tabuleiros EASY próximos da solução",
+      "Os tabuleiros EASY parecem quase completos, mas também incluem casos impossíveis com números trocados.",
       "Tabuleiros CRAZY totalmente aleatórios",
       "Ranking on-line de tempo",
     ],
@@ -283,7 +284,7 @@ export const ptBrGames: Record<string, GameTranslation> = {
       "Ranking de tempo por modo",
     ],
     controls: [
-      { label: "Mover", text: "Setas esquerda/direita ou A" },
+      { label: "Mover", text: "Setas esquerda/direita ou A/D" },
       { label: "Descida suave", text: "Seta para baixo ou S" },
       { label: "Girar", text: "Z, X ou seta para cima" },
       { label: "Queda rápida", text: "Space" },
@@ -324,7 +325,7 @@ export const ptBrGames: Record<string, GameTranslation> = {
       { label: "Notas coloridas DOPA", text: "A, S, D, F da esquerda para a direita" },
       { label: "Notas negativas DOPA", text: "J, K, L, ; da esquerda para a direita" },
     ],
-    notes: ["Acertos aumentam combo e FEVER; notas coloridas recuperam DOPA. Erros e teclas incorretas reduzem DOPA."],
+    notes: ["Acertos aumentam combo e FEVER; notas coloridas recuperam DOPA. Erros e teclas incorretas reduzem DOPA. DOPA também cai com o tempo; erros, teclas sem nota e teclas erradas reduzem ainda mais. Durante DOPA TIME, ele não diminui."],
   },
   "castle-pazzle": {
     title: "CASTLE PAZZLE",
@@ -334,12 +335,12 @@ export const ptBrGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Que tipo de jogo de construir castelos é CASTLE PAZZLE?" },
       {
         speaker: "akao",
-        text: "Memorize três castelos e depois reconstrua cada um o mais rápido possível com as peças espalhadas.",
+        text: "Em cada desafio, memorize um castelo e reconstrua-o com as peças. São três desafios consecutivos.",
       },
       { speaker: "onaga", text: "Posso continuar olhando os modelos enquanto construo?" },
       {
         speaker: "akao",
-        text: "No modo Easy, você pode rever os modelos quantas vezes quiser durante a construção. No Hard, eles não podem ser vistos novamente depois que a construção começa, então é preciso memorizá-los bem no início.",
+        text: "No Easy, você pode rever o modelo, mas precisa esperar entre consultas. No Hard, não é possível revê-lo depois de começar a construção.",
       },
       { speaker: "onaga", text: "Então memorizar rápido importa tanto quanto construir rápido." },
       {
@@ -349,7 +350,7 @@ export const ptBrGames: Record<string, GameTranslation> = {
     ],
     features: [
       "Quebra-cabeça 3D para memorizar e reconstruir três castelos",
-      "No Easy, os modelos podem ser consultados a qualquer momento durante a construção",
+      "No Easy, consulte o modelo várias vezes, com um intervalo de espera entre consultas",
       "No Hard, os modelos não podem ser vistos novamente após o início da construção",
       "Arraste as peças soltas para o chão ou sobre outras partes do castelo",
       "Gire as peças e a câmera para descobrir a posição e a orientação certas",
@@ -409,12 +410,12 @@ export const ptBrGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "Como os feitiços são usados?" },
       {
         speaker: "akao",
-        text: "Você não lança os feitiços manualmente. Quando acumular mana suficiente, escolha uma melhoria entre três cartas; o feitiço escolhido é ativado automaticamente quando suas condições são cumpridas. Basta manter a sequência e acumular melhorias.",
+        text: "Você não lança os feitiços manualmente. Quando acumular mana suficiente, escolha uma melhoria entre até três cartas; o feitiço escolhido é ativado automaticamente quando suas condições são cumpridas. Basta manter a sequência e acumular melhorias.",
       },
     ],
     features: [
       "Quebra-blocos mágico infinito com uma parede amaldiçoada que avança",
-      "Quebre blocos, colete mana e escolha melhorias entre três cartas de feitiço",
+      "Quebre blocos, colete mana e escolha melhorias entre até três cartas de feitiço",
       "Cinco feitiços: explosão de fogo, relâmpago em cadeia, prisão de gelo, esfera fantasma e raio arcano",
       "Após 12 melhorias, a esfera normal se divide em duas",
       "Mantenha sequências e combinações mágicas para subir no ranking",

@@ -19,7 +19,7 @@ export const zhTwGames: Record<string, GameTranslation> = {
     ],
     features: [
       "按A得到Z、按B得到Y的腦力訓練式打字",
-      "支援線上排行榜",
+      "成績儲存在此裝置的本機排行榜",
     ],
     controls: [
       { label: "開始", text: "在標題畫面輸入玩家名稱並選擇START" },
@@ -68,12 +68,12 @@ export const zhTwGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "這個AI的個性也太差了吧。" },
       {
         speaker: "akao",
-        text: "就當作心理訓練吧。只需要畫畫，也能在畫面下方選擇顏色。",
+        text: "就當作心理訓練吧。明明覺得畫得很像，AI卻看成另一種東西——這種出乎意料的反應也很有趣。",
       },
     ],
     features: ["讓AI猜中你的畫即可過關", "在AI不斷吐槽的干擾下堅持作畫"],
     controls: [
-      { label: "繪畫", text: "直接在畫布上拖曳，並可在畫面下方選擇顏色" },
+      { label: "繪畫", text: "在畫布上繪畫，並可在下方選擇顏色。畫好後按「完了」，讓AI回答；時間耗盡也會進入判定。" },
     ],
   },
   muon: {
@@ -97,6 +97,7 @@ export const zhTwGames: Record<string, GameTranslation> = {
       "三個難度等級",
       "記錄分數與最高連擊的本機排行榜",
     ],
+    controls: [{ label: "敲擊音符", text: "由左至右使用 D / F / J / K。音符到達前方判定線時，按下對應按鍵。" }],
   },
   "pittari-hitofudegaki": {
     title: "完美一筆畫！",
@@ -137,12 +138,12 @@ export const zhTwGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "還有EASY和CRAZY模式……" },
       {
         speaker: "akao",
-        text: "EASY只離完成狀態幾步，CRAZY則完全隨機，連我也得動一動才能確定。",
+        text: "EASY的盤面接近完成形，但也混有數字被交換的無解盤面。 CRAZY的盤面完全隨機。",
       },
     ],
     features: [
       "不解拼圖，而是判斷盤面是否有解",
-      "EASY盤面只離完成狀態幾步",
+      "EASY的盤面接近完成形，但也混有數字被交換的無解盤面。",
       "CRAZY盤面完全隨機",
       "支援線上競速排行榜",
     ],
@@ -277,7 +278,7 @@ export const zhTwGames: Record<string, GameTranslation> = {
       "各模式獨立的線上時間排行榜",
     ],
     controls: [
-      { label: "移動", text: "左右方向鍵或A" },
+      { label: "移動", text: "左右方向鍵或A/D" },
       { label: "軟降", text: "下方向鍵或S" },
       { label: "旋轉", text: "Z、X或上方向鍵" },
       { label: "硬降", text: "Space" },
@@ -319,7 +320,7 @@ export const zhTwGames: Record<string, GameTranslation> = {
       { label: "DOPA模式低落音符", text: "由左至右用J、K、L、;擊退" },
     ],
     notes: [
-      "成功會增加連擊與FEVER槽，彩色音符也會恢復DOPA。MISS、空按或按錯都會減少DOPA。",
+      "成功會增加連擊與FEVER槽，彩色音符也會恢復DOPA。MISS、空按或按錯都會減少DOPA。 DOPA也會隨時間減少；MISS、空按和按錯鍵會進一步扣除。DOPA TIME期間不會減少。",
     ],
   },
   "castle-pazzle": {
@@ -330,12 +331,12 @@ export const zhTwGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "CASTLE PAZZLE是怎樣的城堡建造遊戲？" },
       {
         speaker: "akao",
-        text: "先記住展示的三座城堡，再用散落的零件盡快把它們重建出來。",
+        text: "每題先記住一座城堡，再用零件重建，共挑戰三題。",
       },
       { speaker: "onaga", text: "建造時還能一直看著範例嗎？" },
       {
         speaker: "akao",
-        text: "Easy模式下，組裝過程中可以隨時重新查看範例。Hard模式開始組裝後完全無法再次查看，所以必須一開始就仔細記住。",
+        text: "Easy可以反覆查看範例，但每次查看後需要等待才能再次查看。Hard在開始組裝後不能再看範例。",
       },
       { speaker: "onaga", text: "看來記得快和建得快一樣重要。" },
       {
@@ -345,7 +346,7 @@ export const zhTwGames: Record<string, GameTranslation> = {
     ],
     features: [
       "記住並重建三座城堡的3D益智遊戲",
-      "Easy模式下，組裝過程中可隨時重新查看範例",
+      "Easy可反覆查看範例，每次查看之間有等待時間",
       "Hard模式下，開始組裝後完全無法再次查看範例",
       "拖動散落的城堡零件，放到地面或其他城堡部件上",
       "旋轉零件和鏡頭，判斷正確的位置與方向",
@@ -405,12 +406,12 @@ export const zhTwGames: Record<string, GameTranslation> = {
       { speaker: "onaga", text: "魔法是怎麼使用的？" },
       {
         speaker: "akao",
-        text: "魔法不用自己施放。法力存滿時從三張卡裡選擇強化，選中的魔法達成條件後會自動發動；保持連擊，疊加強化就好。",
+        text: "魔法不用自己施放。法力存滿時從最多三張卡裡選擇強化，選中的魔法達成條件後會自動發動；保持連擊，疊加強化就好。",
       },
     ],
     features: [
       "詛咒牆不斷推進的無盡魔法打磚塊",
-      "打碎方塊收集法力，從三張魔法卡中選擇強化",
+      "打碎方塊收集法力，從最多三張魔法卡中選擇強化",
       "火焰爆發、連鎖閃電、冰之束縛、幻影球、奧術光束五種魔法",
       "強化魔法12次後，普通球會增加到兩個",
       "透過連續回合和魔法組合挑戰高分排行榜",

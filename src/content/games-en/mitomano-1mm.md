@@ -8,6 +8,8 @@ platforms: [unityroom]
 releaseDate: 2026-06-25
 color: "#2f8f46"
 cover: /images/games/mitomano-1mm/cover.jpg
+video: /videos/games/mitomano-1mm/play.mp4
+videoPoster: /videos/games/mitomano-1mm/poster.jpg
 links:
   - label: "Play on unityroom"
     url: https://unityroom.com/games/mitomano1mm

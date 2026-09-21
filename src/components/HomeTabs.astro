@@ -8,6 +8,7 @@ import { devCopy } from "../i18n/dev";
 import { uiCopy } from "../i18n/ui";
 import DevCard from "./DevCard.astro";
 import GameCard from "./GameCard.astro";
+import PixelChara from "./PixelChara.astro";
 import PixelBrowser from "./PixelBrowser.astro";
 import PixelHammer from "./PixelHammer.astro";
 import PixelPhone from "./PixelPhone.astro";
@@ -113,38 +114,68 @@ const published = unityroomGames.filter((game) => game.data.unityroomNo).length;
       data-tab-panel="unityroom"
     >
       <div class="container">
-        <h2 class="section-title with-icon">
-          <PixelBrowser size={28} />
-          {copy.unityroomTitle}
-        </h2>
-        <p class="section-lead">
-          {copy.unityroomLeadBefore}
-          {" "}
-          <a href={xUrl} target="_blank" rel="noopener">X (Twitter)</a>
-          {copy.unityroomLeadAfter}
-        </p>
-        <div
-          class="progress"
-          role="progressbar"
-          aria-label={copy.progressLabel}
-          aria-valuenow={published}
-          aria-valuemin="0"
-          aria-valuemax={GOAL}
-        >
-          <div
-            class="progress-fill"
-            style={`width: ${(published / GOAL) * 100}%`}
-          >
+        <div class="rpg-window quest-window">
+          <span class="rpg-window-label">{copy.questLabel}</span>
+          <h2 class="section-title with-icon quest-title">
+            <PixelBrowser size={28} />
+            {copy.unityroomTitle}
+          </h2>
+          <p class="section-lead quest-lead">
+            {copy.unityroomLeadBefore}
+            {" "}
+            <a href={xUrl} target="_blank" rel="noopener">X (Twitter)</a>
+            {copy.unityroomLeadAfter}
+          </p>
+          <div class="exp-row" style={`--progress: ${Math.min(100, (published / GOAL) * 100)}%; --steps: ${Math.max(1, published)}`}>
+            <span class="exp-label" aria-hidden="true">EXP</span>
+            <div
+              class="progress"
+              role="progressbar"
+              aria-label={copy.progressLabel}
+              aria-valuenow={published}
+              aria-valuemin="0"
+              aria-valuemax={GOAL}
+            >
+              <div
+                class="progress-fill"
+                style="width: var(--progress)"
+              >
+              </div>
+            </div>
+            <!-- 100本までの道のり。10本ごとに旗、いまの位置にあかお -->
+            <div class="road" aria-hidden="true">
+              <div class="road-line"></div>
+              {
+                Array.from({ length: GOAL / 10 }, (_, i) => (i + 1) * 10).map((mark) => (
+                  <span
+                    class:list={["road-flag", { reached: published >= mark }]}
+                    style={`left: ${mark}%`}
+                  >
+                    {mark}
+                  </span>
+                ))
+              }
+              <div class="road-chara" style="left: var(--progress)">
+                <PixelChara size={24} />
+              </div>
+            </div>
           </div>
+          <p class="progress-label">{copy.progress(published, GOAL)}</p>
+          <p class="next-level">{copy.nextLevel(GOAL - published)}</p>
         </div>
-        <p class="progress-label">{copy.progress(published, GOAL)}</p>
+
+        <div class="stage-heading">
+          <span>{copy.stageSelect}</span>
+          <span class="stage-sort">{copy.sortNewest}</span>
+        </div>
         <div class="game-grid">
           {
-            unityroomGames.map((game) => (
+            unityroomGames.map((game, index) => (
               <GameCard
                 game={game}
                 locale={locale}
                 translation={translations?.[game.id]}
+                newest={index === 0 && Boolean(game.data.unityroomNo)}
               />
             ))
           }
@@ -255,6 +286,7 @@ const published = unityroomGames.filter((game) => game.data.unityroomNo).length;
       tab.addEventListener("click", (event) => {
         // タブ自身は画面内にあるので、スクロールさせず切り替えだけ行う
         event.preventDefault();
+        if (root.dataset.tab !== tab.dataset.tabBtn) window.akaoSfx?.play("tab");
         switchTo(tab.dataset.tabBtn, false);
         history.replaceState(null, "", "#" + tab.dataset.tabBtn);
       });
@@ -268,6 +300,7 @@ const published = unityroomGames.filter((game) => game.data.unityroomNo).length;
         else if (event.key === "End") next = tabs[tabs.length - 1];
         if (!next) return;
         event.preventDefault();
+        window.akaoSfx?.play("tab");
         select(next.dataset.tabBtn, true);
         history.replaceState(null, "", "#" + next.dataset.tabBtn);
       });

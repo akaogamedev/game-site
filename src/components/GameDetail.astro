@@ -1,7 +1,10 @@
 ---
 import { render, type CollectionEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Dialogue from "./Dialogue.astro";
+import PixelChara from "./PixelChara.astro";
+import PixelOnaga from "./PixelOnaga.astro";
+import PixelStatusIcon from './PixelStatusIcon.astro';
+import StageNavigation from './StageNavigation.astro';
 import {
   getLocalePrefix,
   localeMeta,
@@ -57,16 +60,34 @@ const externalLinks = game.data.links.map((link) => {
 
   return { label: copy.playUnityroom, url: link.url };
 });
+
+// 劇場に流す動画。無いゲームはカバー画像(iOSはスクショ列)をそのまま出す
+const video = game.data.video;
+const videoPoster = game.data.videoPoster ?? game.data.cover;
+const isPhoneGallery =
+  game.data.category === "ios" && game.data.screenshots.length > 0;
+const stageNo = game.data.unityroomNo;
+const lines = stageNo
+  ? [{ speaker: "akao" as const, text: copy.talkIntro(stageNo, view.title) }, ...view.dialogue]
+  : view.dialogue;
+const speakerName = (speaker: "akao" | "onaga") => copy[speaker];
+// 帯に薄く敷くタイル。無いゲームは共通の菱形模様(CSS側のデフォルト)
+const stageTile = game.data.bgTile ? `url("${game.data.bgTile}")` : undefined;
 ---
 
 <BaseLayout
+  stickyHeader={false}
   title={view.title}
   description={view.catch}
   image={game.data.cover}
   locale={locale}
 >
-  <div style={`--card-color: ${game.data.color}`}>
-    <section class="game-hero">
+  <div
+    style={`--card-color: ${game.data.color};${stageTile ? ` --stage-tile: ${stageTile};` : ""}`}
+    data-game-slug={game.id}
+  >
+    <!-- ステージ: ゲームの色の帯にタイトル → 劇場(あかお|動画|おナガ) → 会話ウィンドウ -->
+    <section class="game-hero stage">
       <div class="container">
         <div
           class={`game-hero-body ${game.data.category === "ios" ? "with-icon" : ""}`}
@@ -81,114 +102,183 @@ const externalLinks = game.data.links.map((link) => {
             )
           }
           <div class="game-hero-text">
+            {
+              stageNo && (
+                <div class="stage-line">
+                  <span class="stage-plate stage-plate-static">STAGE {stageNo}</span>
+                  <span class="stage-project">{copy.project}</span>
+                </div>
+              )
+            }
             <h1>{view.title}</h1>
             <p class="catch">{view.catch}</p>
             <div class="badges">
               {
-                game.data.unityroomNo && (
+                stageNo && (
                   <span class="badge badge-no">
                     {locale === "ja"
-                      ? `${copy.project} ${game.data.unityroomNo}本目`
-                      : `${copy.project} #${game.data.unityroomNo}`}
+                      ? `${copy.project} ${stageNo}本目`
+                      : `${copy.project} #${stageNo}`}
                   </span>
                 )
               }
-              <span class="badge">{view.genre}</span>
+              <span class="badge icon-label"><PixelStatusIcon kind="gamepad" size={20}/>{view.genre}</span>
               {game.data.platforms.map((platform) => (
-                <span class="badge">{platform}</span>
+                <span class="badge icon-label"><PixelStatusIcon kind={/ios|android/i.test(platform) ? 'phone' : 'browser'} size={20}/>{platform}</span>
               ))}
             </div>
           </div>
         </div>
       </div>
+
+      <div class="theater" data-theater>
+        <div class="theater-actor theater-akao" data-actor="akao">
+          <div class="theater-sprite"><PixelChara size={104} animate /></div>
+          <span class="theater-name">{copy.akao}</span>
+        </div>
+
+        <div class={`theater-screen ${isPhoneGallery ? "theater-screen-phone" : ""}`}>
+          <!-- 起動ノイズ。読み込み直後に一瞬ちらついて消える -->
+          <span class="screen-noise" aria-hidden="true"></span>
+          {
+            video ? (
+              <video
+                class="theater-video"
+                autoplay
+                muted
+                controls={game.data.category === "unityroom"}
+                loop
+                playsinline
+                preload="metadata"
+                poster={videoPoster}
+                aria-label={`${view.title} ${copy.video}`}
+                data-theater-video
+              >
+                <source src={video} type="video/mp4" />
+                <img src={game.data.cover} alt={mainImageAlt} />
+              </video>
+            ) : isPhoneGallery ? (
+              <div class="screenshots screenshots-phone theater-gallery">
+                {game.data.screenshots.map((shot, index) => (
+                  <img src={shot} alt={screenshotAlt(index)} loading="lazy" />
+                ))}
+              </div>
+            ) : (
+              <img class="theater-cover" src={game.data.cover} alt={mainImageAlt} />
+            )
+          }
+        </div>
+
+        <div class="theater-actor theater-onaga" data-actor="onaga">
+          <div class="theater-sprite"><PixelOnaga size={120} /></div>
+          <span class="theater-name">{copy.onaga}</span>
+        </div>
+      </div>
+
+      {
+        lines.length > 0 && (
+          <div class="theater-talk">
+            <div class="rpg-window talk-window" data-talk role="region" aria-live="polite" tabindex="0">
+              <span class="rpg-window-label talk-speaker" data-talk-speaker>
+                {speakerName(lines[0].speaker)}
+              </span>
+              <span class="talk-count" data-talk-count aria-hidden="true">1 / {lines.length}</span>
+              <div class="talk-face" data-talk-face aria-hidden="true">
+                <span class="talk-face-akao"><PixelChara size={46} /></span>
+                <span class="talk-face-onaga"><PixelOnaga size={52} /></span>
+              </div>
+              <!-- JSが無ければ全行をそのまま並べて読めるようにしておく -->
+              <div class="talk-lines" data-talk-lines>
+                {lines.map((line) => (
+                  <p class="talk-line" data-speaker={line.speaker}>
+                    <b class="talk-line-name">{speakerName(line.speaker)}</b>
+                    <span class="talk-line-text">{line.text}</span>
+                  </p>
+                ))}
+              </div>
+              <p class="talk-current" data-talk-text hidden></p>
+              <p class="talk-prompt" data-talk-prompt hidden>
+                <span class="talk-prompt-cursor" aria-hidden="true">▶</span>
+                <span data-talk-prompt-text>{copy.talkAgain}</span>
+              </p>
+              <span class="press-cursor talk-cursor" data-talk-cursor aria-hidden="true">▼</span>
+            </div>
+            <p class="talk-hint" data-talk-hint hidden data-again={copy.talkAgain}>
+              <span data-talk-hint-text>{copy.autoHint}</span>
+              <button type="button" class="talk-restart" data-talk-restart>{copy.talkRestart}</button>
+              <button type="button" class="talk-skip" data-talk-skip>{copy.skip}</button>
+            </p>
+          </div>
+        )
+      }
+      <div class="stage-edge" aria-hidden="true"></div>
     </section>
 
     <div class="container">
       <div class="game-detail">
-        <div>
-          <div
-            class={`screenshots ${game.data.category === "ios" && game.data.screenshots.length > 0 ? "screenshots-phone" : ""}`}
-          >
-            {
-              game.data.video ? (
-                <video
-                  controls
-                  muted
-                  playsinline
-                  preload="metadata"
-                  width="960"
-                  height="540"
-                  poster={game.data.videoPoster ?? game.data.cover}
-                  aria-label={view.title}
-                  style="display: block; width: 100%; height: auto; border: 4px solid var(--ink); box-shadow: var(--shadow);"
-                >
-                  <source src={game.data.video} type="video/mp4" />
-                  <img src={game.data.cover} alt={mainImageAlt} />
-                </video>
-              ) : !(
-                game.data.category === "ios" &&
-                game.data.screenshots.length > 0
-              ) && (
-                <img
-                  src={game.data.cover}
-                  alt={mainImageAlt}
-                />
-              )
-            }
-            {
-              game.data.screenshots.map((shot, index) => (
-                <img
-                  src={shot}
-                  alt={screenshotAlt(index)}
-                  loading="lazy"
-                />
-              ))
-            }
-          </div>
+        <div class="game-detail-main">
           {
-            view.dialogue.length > 0 && (
-              <Dialogue lines={view.dialogue} locale={locale} />
+            video && isPhoneGallery && (
+              <div class="screenshots screenshots-phone">
+                {game.data.screenshots.map((shot, index) => (
+                  <img src={shot} alt={screenshotAlt(index)} loading="lazy" />
+                ))}
+              </div>
             )
           }
-          <div class="prose">
-            {
-              translation ? (
-                <>
-                  <h2>{copy.features}</h2>
-                  <ul>
-                    {translation.features.map((feature) => (
-                      <li>{feature}</li>
-                    ))}
-                  </ul>
-                  {
-                    translation.controls &&
-                      translation.controls.length > 0 && (
-                        <>
-                          <h2>{copy.howToPlay}</h2>
-                          <ul>
-                            {translation.controls.map((control) => (
-                              <li>
-                                {control.label && (
-                                  <strong>{control.label}: </strong>
-                                )}
-                                {control.text}
-                              </li>
-                            ))}
-                          </ul>
-                        </>
-                      )
-                  }
-                  {translation.notes?.map((note) => <p>{note}</p>)}
-                </>
-              ) : (
-                <Content />
-              )
-            }
+          <div class="rpg-window about-window">
+            <span class="rpg-window-label">{copy.about}</span>
+            <div class="prose">
+              {
+                translation ? (
+                  <>
+                  <h2 class="feature-heading">{copy.features}</h2>
+                    <ul>
+                      {translation.features.map((feature) => (
+                        <li>{feature}</li>
+                      ))}
+                    </ul>
+                    {
+                      translation.controls &&
+                        translation.controls.length > 0 && (
+                          <>
+                            <h2 class="controls-heading">{copy.howToPlay}</h2>
+                            <ul>
+                              {translation.controls.map((control) => (
+                                <li>
+                                  {control.label && (
+                                    <strong>{control.label}: </strong>
+                                  )}
+                                  {control.text}
+                                </li>
+                              ))}
+                            </ul>
+                          </>
+                        )
+                    }
+                    {translation.notes?.map((note) => <p>{note}</p>)}
+                  </>
+                ) : (
+                  <Content />
+                )
+              }
+            </div>
           </div>
+          {stageNo && <StageNavigation id={game.id} locale={locale}/>}
           <a class="back-link" href={gameListHref}>{copy.back}</a>
         </div>
 
-        <aside class="info-box">
+        <aside class="info-box rpg-window command-window">
+          <span class="rpg-window-label">{copy.command}</span>
+          {
+            externalLinks.map((link) => (
+              <a class="btn btn-command" href={link.url} target="_blank" rel="noopener">
+                <span class="btn-cursor" aria-hidden="true">▶</span>
+                <PixelStatusIcon kind="play" size={24}/>
+                {link.label}
+              </a>
+            ))
+          }
           <dl>
             <dt>{copy.genre}</dt>
             <dd>{view.genre}</dd>
@@ -197,15 +287,218 @@ const externalLinks = game.data.links.map((link) => {
             <dt>{copy.releaseDate}</dt>
             <dd>{releaseLabel}</dd>
           </dl>
-          {
-            externalLinks.map((link) => (
-              <a class="btn" href={link.url} target="_blank" rel="noopener">
-                {link.label}
-              </a>
-            ))
-          }
         </aside>
       </div>
     </div>
   </div>
+
+  <script is:inline>
+    // 説明エリアへのスクロールで2人が登場し、登場後に会話が始まる。
+    // 1文字ずつ出して、出きったら文字数に応じて待って次へ。最後まで行ったら止まり、もう一度タップで最初から。
+    // 再生中のタップは早送り(文字送り中なら全文、表示済みなら次へ)。タブが裏に回ったら止める
+    (() => {
+      const box = document.querySelector("[data-talk]");
+      if (!box) return;
+      const lines = Array.from(box.querySelectorAll(".talk-line")).map((p) => ({
+        speaker: p.dataset.speaker,
+        name: p.querySelector(".talk-line-name").textContent,
+        text: p.querySelector(".talk-line-text").textContent,
+      }));
+      if (lines.length === 0) return;
+
+      const SPEED = 45;
+      // 2人の登場を待ってから1行目を始める。
+      const INTRO_DELAY = 1200;
+      // 行を読む時間: 下限2.4秒 + 1文字あたり60ms(長いセリフほど長く止まる)
+      const holdFor = (text) => Math.max(2400, 1200 + Array.from(text).length * 60);
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      const listEl = box.querySelector("[data-talk-lines]");
+      const textEl = box.querySelector("[data-talk-text]");
+      const promptEl = box.querySelector("[data-talk-prompt]");
+      const promptText = box.querySelector("[data-talk-prompt-text]");
+      const speakerEl = box.querySelector("[data-talk-speaker]");
+      const countEl = box.querySelector("[data-talk-count]");
+      const cursorEl = box.querySelector("[data-talk-cursor]");
+      const hint = document.querySelector("[data-talk-hint]");
+      const hintText = document.querySelector("[data-talk-hint-text]");
+      const skipBtn = document.querySelector("[data-talk-skip]");
+      const restartBtn = document.querySelector("[data-talk-restart]");
+      const theater = document.querySelector("[data-theater]");
+      const video = document.querySelector("[data-theater-video]");
+      theater.dataset.actors = "waiting";
+      const againLabel = hint ? hint.dataset.again : promptText.textContent;
+      const autoLabel = hintText ? hintText.textContent : "";
+
+      listEl.hidden = true;
+      box.dataset.talkJs = "on";
+
+      // idle: 登場待ち / playing: 再生中 / ended: 最後まで流れた
+      let state = "idle";
+      let index = 0;
+      let shown = 0;
+      let done = false;
+      let timer = null;
+      let wait = null;
+      let chars = [];
+
+      const paint = () => {
+        const line = lines[index];
+        textEl.textContent = chars.slice(0, shown).join("");
+        speakerEl.textContent = line.name;
+        countEl.textContent = `${index + 1} / ${lines.length}`;
+        box.dataset.speaker = line.speaker;
+        theater.dataset.speaker = line.speaker;
+        theater.dataset.talking = state === "playing" && !done ? line.speaker : "";
+        cursorEl.style.opacity = done ? "1" : "0";
+      };
+
+      const setState = (next) => {
+        state = next;
+        box.dataset.talkState = next;
+        box.closest(".theater-talk").dataset.talkState = next;
+        theater.dataset.talkState = next;
+        const idle = next !== "playing";
+        promptEl.hidden = next !== "ended";
+        textEl.hidden = idle;
+        if (hint) {
+          hint.hidden = false;
+          hintText.textContent = next === "ended" ? againLabel : autoLabel;
+          if (skipBtn) skipBtn.hidden = idle;
+        }
+        promptText.textContent = againLabel;
+        if (idle) theater.dataset.talking = "";
+      };
+
+      const clear = () => {
+        clearInterval(timer);
+        clearTimeout(wait);
+      };
+
+      const finishLine = () => {
+        clear();
+        shown = chars.length;
+        done = true;
+        paint();
+        const hold = holdFor(lines[index].text);
+        if (index === lines.length - 1) {
+          wait = setTimeout(() => setState("ended"), hold);
+          return;
+        }
+        wait = setTimeout(() => start(index + 1), hold);
+      };
+
+      const start = (i) => {
+        showActors();
+        clear();
+        setState("playing");
+        index = i;
+        chars = Array.from(lines[i].text);
+        shown = reduce ? chars.length : 0;
+        done = false;
+        paint();
+        if (reduce) {
+          finishLine();
+          return;
+        }
+        timer = setInterval(() => {
+          if (shown >= chars.length) {
+            finishLine();
+            return;
+          }
+          shown++;
+          if (shown % 2 === 0) window.akaoSfx?.play("blip");
+          paint();
+        }, SPEED);
+      };
+
+      let intro = null;
+      let entranceObserver = null;
+      const showActors = () => {
+        if (theater.dataset.actors === "entered") return;
+        theater.dataset.actors = "entered";
+        entranceObserver?.disconnect();
+        window.removeEventListener("scroll", checkEntrance);
+      };
+      const checkEntrance = () => {
+        if (document.hidden || theater.dataset.actors === "entered" || window.scrollY <= 0) return;
+        const rect = box.getBoundingClientRect();
+        if (rect.top >= window.innerHeight * 0.88 || rect.bottom <= 0) return;
+        showActors();
+        intro = setTimeout(() => start(0), reduce ? 0 : INTRO_DELAY);
+      };
+      const tap = () => {
+        clearTimeout(intro);
+        window.akaoSfx?.play("decide");
+        if (state !== "playing") {
+          start(0);
+          return;
+        }
+        if (!done) finishLine();
+        else if (index < lines.length - 1) start(index + 1);
+        else setState("ended");
+      };
+
+      box.addEventListener("click", tap);
+      box.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          tap();
+        }
+      });
+      skipBtn?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        clearTimeout(intro);
+        window.akaoSfx?.play("decide");
+        start(lines.length - 1);
+      });
+      restartBtn?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        clearTimeout(intro);
+        window.akaoSfx?.play("decide");
+        start(0);
+      });
+
+      // 裏に回ったら止めて、戻ってきたら続きから
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          clear();
+          clearTimeout(intro);
+          video?.pause();
+        } else {
+          if (state === "idle") {
+            if (theater.dataset.actors === "entered") intro = setTimeout(() => start(0), INTRO_DELAY);
+            else checkEntrance();
+          }
+          if (state === "playing") {
+            if (done) finishLine();
+            else start(index);
+          }
+          if (!reduce) video?.play().catch(() => {});
+        }
+      });
+
+      if (reduce && video) {
+        video.removeAttribute("autoplay");
+        video.pause();
+        video.controls = true;
+        // 解析時に始まった自動再生要求をリセットし、ポスターの待機表示に戻す。
+        video.load();
+      }
+
+      // 最初は1行目の話者を立たせて、案内だけ出す
+      index = 0;
+      chars = Array.from(lines[0].text);
+      shown = 0;
+      paint();
+      setState("idle");
+      // 初期表示では待機。スクロール・アンカー移動・履歴の位置復元に対応する。
+      window.addEventListener("scroll", checkEntrance, { passive: true });
+      if ("IntersectionObserver" in window) {
+        entranceObserver = new IntersectionObserver(checkEntrance, { rootMargin: "0px 0px -12% 0px" });
+        entranceObserver.observe(box);
+      }
+      checkEntrance();
+    })();
+  </script>
 </BaseLayout>

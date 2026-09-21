@@ -8,18 +8,21 @@ platforms: [unityroom]
 releaseDate: 2026-06-01
 color: "#d1495b"
 cover: /images/games/giri-strike/cover.jpg
+video: /videos/games/giri-strike/play.mp4
+videoPoster: /videos/games/giri-strike/poster.jpg
+bgTile: /images/tiles/giri-strike.svg
 links:
   - label: unityroomで遊ぶ
     url: https://unityroom.com/games/giri-strike
 dialogue:
   - speaker: onaga
-    text: "野球のゲームやね。どうやって遊ぶん?"
+    text: "ど真ん中にズバッと決めたら、気持ちよさそうやな！"
   - speaker: akao
-    text: "ギリギリにストライクを投げるだけのゲームだよ。ストライクゾーンのぎりぎりを突くほど高得点なんだ。"
+    text: "このゲームで狙いたいのは、ゾーンのぎりぎり。外れそうな一球がストライクになる、あの緊張感を楽しんでほしいんだ。"
   - speaker: onaga
-    text: "ほな、ずっと同じところに投げ続けたらええんちゃうの?"
+    text: "一回決まったら、同じとこ狙いたなるわ。"
   - speaker: akao
-    text: "それが、同じコースや同じ球種を続けると打たれやすくなるんだ。6球種を使い分ける駆け引きが大事だよ。"
+    text: "そこは打者にも読まれるよ。球種やコースを変えて裏をかき、とっておきの一球を決めるのが面白いんだ。"
 ---
 
 ## 特徴

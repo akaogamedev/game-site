@@ -8,6 +8,9 @@ platforms: [unityroom]
 releaseDate: 2026-09-06
 color: "#5b3e96"
 cover: /images/games/spellbreak/cover.jpg
+bgTile: /images/tiles/spellbreak.svg
+video: /videos/games/spellbreak/play.mp4
+videoPoster: /videos/games/spellbreak/poster.jpg
 links:
   - label: "Play on unityroom"
     url: https://unityroom.com/games/spellbreak-endless-curse
@@ -24,13 +27,13 @@ dialogue:
   - speaker: onaga
     text: "What kinds of spells can I learn?"
   - speaker: akao
-    text: "You don't cast spells yourself. Whenever you have enough mana, choose an upgrade from three cards, and the selected spell triggers automatically when its conditions are met. Keep the rally going and stack your upgrades."
+    text: "You don't cast spells yourself. Whenever you have enough mana, choose an upgrade from up to three cards, and the selected spell triggers automatically when its conditions are met. Keep the rally going and stack your upgrades."
 ---
 
 ## Features
 
 - An endless magical block breaker where a curse wall steadily advances
-- Collect mana from broken blocks and choose upgrades from three spell cards
+- Collect mana from broken blocks and choose upgrades from up to three spell cards
 - Five spells: Fire Burst, Chain Lightning, Ice Bind, Phantom Ball, and Arcane Beam
 - Upgrade spells 12 times to split the normal ball into two
 - Keep rallies and spell combinations going to chase the high-score ranking

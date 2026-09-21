@@ -8,6 +8,9 @@ platforms: [unityroom]
 releaseDate: 2026-08-08
 color: "#b9784c"
 cover: /images/games/coffee-milk/cover.jpg
+video: /videos/games/coffee-milk/play.mp4
+videoPoster: /videos/games/coffee-milk/poster.jpg
+bgTile: /images/tiles/coffee-milk.svg
 links:
   - label: "Play on unityroom"
     url: https://unityroom.com/games/coffee-milk

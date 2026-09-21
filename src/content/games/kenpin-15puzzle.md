@@ -8,31 +8,29 @@ platforms: [unityroom]
 releaseDate: 2026-06-16
 color: "#e0993c"
 cover: /images/games/kenpin-15puzzle/cover.jpg
+video: /videos/games/kenpin-15puzzle/play.mp4
+videoPoster: /videos/games/kenpin-15puzzle/poster.jpg
 links:
   - label: unityroomで遊ぶ
     url: https://unityroom.com/games/kenpin-15puzzle
 featured: true
 dialogue:
   - speaker: onaga
-    text: "15パズルを解くゲームなん?"
+    text: "パズル工場の検品係？ ワイ、いきなり就職してもうた。"
   - speaker: akao
-    text: "解かなくていいんだ。表示されたパズルが「解けるようにできているか」を検品して、出荷OKか不良品かを判定するタイムアタックだよ。"
+    text: "しかも見るのは「このパズル、本当に解ける？」ってこと。いつもの15パズルが、怪しい品物に見えてくるよ。"
   - speaker: onaga
-    text: "見ただけで分からんかったら、どうしたらええの?"
+    text: "一見まともそうな顔して、解けへんやつが混ざっとるんか…。"
   - speaker: akao
-    text: "自信がなければ、実際にタイルを動かして確かめてもOK。10連続で検品成功したらクリアだよ。"
-  - speaker: onaga
-    text: "EASYとCRAZYがあるみたいやけど…。"
-  - speaker: akao
-    text: "EASYは完成状態から少しだけ崩したパズル、CRAZYは完全ランダムの難問検品。僕もCRAZYは動かさないと分からないよ。"
+    text: "そう。実際に動かして確かめてもいいけど、解けないパズルをずっと解こうとしないようにね。"
 ---
 
 ## 特徴
 
 - 「解ける」か「解けない」かを見抜く新感覚15パズル
-- EASYは完成状態から短手数だけ動かしたパズル
+- EASYは完成形に近い盤面を検品。数字が入れ替わった不良品も混ざる
 - CRAZYは完全ランダムパズルの難問検品
-- ハイスコアのオンラインランキング搭載
+- クリアタイムを競うオンラインランキング搭載
 
 ## 操作方法
 

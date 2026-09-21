@@ -8,6 +8,8 @@ platforms: [unityroom]
 releaseDate: 2026-07-15
 color: "#168696"
 cover: /images/games/pittari-tetromino/cover.png
+video: /videos/games/pittari-tetromino/play.mp4
+videoPoster: /videos/games/pittari-tetromino/poster.jpg
 links:
   - label: "Play on unityroom"
     url: https://unityroom.com/games/pittari-tetromino
@@ -36,7 +38,7 @@ dialogue:
 
 ## How to Play
 
-- **Move**: Left / Right arrow or A
+- **Move**: Left / Right arrow or A / D
 - **Soft drop**: Down arrow or S
 - **Rotate**: Z / X / Up arrow
 - **Hard drop**: Space
