@@ -536,4 +536,57 @@ export const deGames: Record<string, GameTranslation> = {
       "Für Desktop-Browser empfohlen. Das Spiel selbst ist auf Japanisch."
     ]
   },
+  "tsukkomi-dojo": {
+    "title": "Tsukkomi Dojo",
+    "catch": "Dein Partner liefert den Gag – du konterst im perfekten Moment!",
+    "genre": "Comedy",
+    "dialogue": [
+      {
+        "speaker": "onaga",
+        "text": "Tsukkomi Dojo? Ist das ein Training für den Konter-Part?"
+      },
+      {
+        "speaker": "akao",
+        "text": "Es ist ein Manzai-Spiel, in dem du mit deiner eigenen Stimme auf die Gags deines Partners Masaru konterst. Er spielt einen Supermarkt-Verkäufer, dessen Service ein bisschen daneben ist."
+      },
+      {
+        "speaker": "onaga",
+        "text": "Schlagfertige Konter? Das ist meine Spezialität!"
+      },
+      {
+        "speaker": "akao",
+        "text": "Eine KI bewertet deinen Konter und entscheidet so, wie sehr der Saal tobt."
+      },
+      {
+        "speaker": "onaga",
+        "text": "Eine KI als Jury? Mit meinen Kontern bringe ich den Saal zum Beben!"
+      }
+    ],
+    "features": [
+      "Ein Manzai-Spiel, in dem du Masarus Gags mit deiner eigenen Stimme konterst (Tsukkomi)",
+      "Eine KI bewertet die Treffsicherheit; benenne das Absurde genau und füge einen Dreh hinzu, um die Bestnote zu holen",
+      "Der beste Moment liegt 0,3–1 Sekunde nach dem Gag; zu früh oder zu spät zündet es nicht",
+      "Triffst du, lacht der ganze Saal; daneben herrscht Stille … Sketch-Comedy auf einer traditionellen Varieté-Bühne",
+      "Nach sieben Gags gibt die Jury ihr Gesamturteil. Ziel ist der Titel „Bester Tsukkomi im Land“"
+    ],
+    "controls": [
+      {
+        "label": "Per Stimme spielen",
+        "text": "Nach jedem Gag ins Mikrofon kontern. Öffne das Spiel auf unityroom über „別タブで開く“ (in neuem Tab öffnen) und erlaube das Mikrofon"
+      },
+      {
+        "label": "Per Text spielen",
+        "text": "Den Konter in das Feld nach dem Gag tippen und Enter drücken. Das Timing zählt ab dem ersten Tastendruck"
+      },
+      {
+        "label": "Erneut spielen",
+        "text": "„もう一度“ oder „タイトルへ“ auf dem Ergebnisbildschirm"
+      }
+    ],
+    "notes": [
+      "Etwa 3 Minuten pro Runde. Wer nicht sprechen kann, kann auch tippen.",
+      "Zur Bewertung der Konter wird eine KI verwendet. Der Text deines Konters (bei Sprache der erkannte Text) wird an einen Bewertungsserver gesendet.",
+      "Chrome auf dem Desktop empfohlen. Das Spiel ist auf Japanisch, die Spracherkennung unterstützt nur Japanisch."
+    ]
+  },
 };

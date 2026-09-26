@@ -536,4 +536,57 @@ export const frGames: Record<string, GameTranslation> = {
       "Navigateur sur ordinateur recommandé. Le jeu est en japonais."
     ]
   },
+  "tsukkomi-dojo": {
+    "title": "Tsukkomi Dojo",
+    "catch": "Ton partenaire lance la blague, à toi de la recadrer au bon moment !",
+    "genre": "Comédie",
+    "dialogue": [
+      {
+        "speaker": "onaga",
+        "text": "Tsukkomi Dojo ? C’est un entraînement pour celui qui donne la réplique ?"
+      },
+      {
+        "speaker": "akao",
+        "text": "C’est un jeu de manzai où tu réponds de ta propre voix aux bêtises de ton partenaire Masaru. Il joue un vendeur de supérette au service un peu à côté de la plaque."
+      },
+      {
+        "speaker": "onaga",
+        "text": "Les répliques du tac au tac ? C’est ma spécialité !"
+      },
+      {
+        "speaker": "akao",
+        "text": "Une IA juge ta réplique, et c’est elle qui décide à quel point la salle s’enflamme."
+      },
+      {
+        "speaker": "onaga",
+        "text": "Une IA comme jury ? Avec mes répliques, la salle va crouler de rire !"
+      }
+    ],
+    "features": [
+      "Un jeu de manzai où tu donnes la réplique (tsukkomi) aux blagues de Masaru avec ta propre voix",
+      "Une IA juge la justesse ; pointe l’absurdité avec précision et ajoute une trouvaille pour la meilleure note",
+      "Le bon moment se situe entre 0,3 et 1 seconde après la blague ; trop tôt ou trop tard, ça tombe à plat",
+      "Réussis et la salle éclate de rire ; rate et c’est le silence… Du sketch comique sur une scène de théâtre traditionnel",
+      "Après les sept blagues, le jury rend son verdict. Vise le titre « Meilleur tsukkomi du pays »"
+    ],
+    "controls": [
+      {
+        "label": "Jouer à la voix",
+        "text": "Après chaque blague, lance ta réplique dans le micro. Ouvre le jeu via « 別タブで開く » (ouvrir dans un nouvel onglet) sur unityroom et autorise le micro"
+      },
+      {
+        "label": "Jouer au clavier",
+        "text": "Tape ta réplique dans la zone qui apparaît après la blague, puis Entrée. Le tempo est mesuré dès que tu commences à taper"
+      },
+      {
+        "label": "Rejouer",
+        "text": "« もう一度 » ou « タイトルへ » sur l’écran des résultats"
+      }
+    ],
+    "notes": [
+      "Environ 3 minutes par partie. Si tu ne peux pas parler, tu peux aussi écrire.",
+      "Une IA est utilisée pour juger les répliques. Le texte de ta réplique (ou le texte reconnu à la voix) est envoyé à un serveur d’évaluation.",
+      "Chrome sur ordinateur recommandé. Le jeu est en japonais et la reconnaissance vocale ne prend en charge que le japonais."
+    ]
+  },
 };

@@ -536,4 +536,57 @@ export const esGames: Record<string, GameTranslation> = {
       "Recomendado para navegadores de ordenador. El juego está en japonés."
     ]
   },
+  "tsukkomi-dojo": {
+    "title": "Tsukkomi Dojo",
+    "catch": "Tu compañero suelta el chiste; tú remátalo en el momento justo.",
+    "genre": "Comedia",
+    "dialogue": [
+      {
+        "speaker": "onaga",
+        "text": "¿Tsukkomi Dojo? ¿Es un entrenamiento para el que da la réplica?"
+      },
+      {
+        "speaker": "akao",
+        "text": "Es un juego de manzai en el que respondes con tu propia voz a los chistes de tu compañero Masaru. Él hace de dependiente de una tienda de conveniencia con una atención un poco rara."
+      },
+      {
+        "speaker": "onaga",
+        "text": "¿Réplicas rápidas? ¡Eso es lo mío!"
+      },
+      {
+        "speaker": "akao",
+        "text": "Una IA juzga tu réplica, y eso decide cuánto se anima el público."
+      },
+      {
+        "speaker": "onaga",
+        "text": "¿Una IA hace de jurado? ¡Con mis réplicas, el público se va a partir de risa!"
+      }
+    ],
+    "features": [
+      "Un juego de manzai en el que das la réplica (tsukkomi) a los chistes de Masaru con tu propia voz",
+      "Una IA juzga la precisión; señala lo absurdo con exactitud y añade un giro ingenioso para la máxima nota",
+      "El momento ideal es de 0,3 a 1 segundo tras el chiste; si te adelantas o te retrasas, no hace gracia",
+      "Si aciertas, la sala se ríe a carcajadas; si fallas, silencio total. Comedia de sketch en un escenario de teatro tradicional",
+      "Tras los siete chistes, el jurado da una valoración final. Aspira al título «Mejor tsukkomi del país»"
+    ],
+    "controls": [
+      {
+        "label": "Jugar con la voz",
+        "text": "Tras cada chiste, di tu réplica al micrófono. Abre el juego con «別タブで開く» (abrir en otra pestaña) en unityroom y permite el micrófono"
+      },
+      {
+        "label": "Jugar con texto",
+        "text": "Escribe la réplica en el cuadro que aparece tras cada chiste y pulsa Enter. El ritmo se mide desde que empiezas a escribir"
+      },
+      {
+        "label": "Volver a jugar",
+        "text": "«もう一度» o «タイトルへ» en la pantalla de resultados"
+      }
+    ],
+    "notes": [
+      "Unos 3 minutos por partida. Si no puedes hablar, también puedes escribir.",
+      "Se usa una IA para juzgar las réplicas. El texto de tu réplica (o el texto reconocido, si usas la voz) se envía a un servidor de evaluación.",
+      "Recomendado Chrome en ordenador. El juego está en japonés y el reconocimiento de voz solo admite japonés."
+    ]
+  },
 };

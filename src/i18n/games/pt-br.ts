@@ -536,4 +536,57 @@ export const ptBrGames: Record<string, GameTranslation> = {
       "Recomendado para navegadores de computador. O jogo está em japonês."
     ]
   },
+  "tsukkomi-dojo": {
+    "title": "Tsukkomi Dojo",
+    "catch": "Seu parceiro solta a piada; você rebate no tempo certo!",
+    "genre": "Comédia",
+    "dialogue": [
+      {
+        "speaker": "onaga",
+        "text": "Tsukkomi Dojo? É um treino pra quem dá a resposta na dupla?"
+      },
+      {
+        "speaker": "akao",
+        "text": "É um jogo de manzai em que você rebate as piadas do seu parceiro Masaru com a própria voz. Ele finge ser atendente de loja de conveniência, com um atendimento meio fora do lugar."
+      },
+      {
+        "speaker": "onaga",
+        "text": "Resposta rápida? Essa é a minha especialidade!"
+      },
+      {
+        "speaker": "akao",
+        "text": "Uma IA julga a sua resposta, e isso decide o quanto a plateia vai se animar."
+      },
+      {
+        "speaker": "onaga",
+        "text": "Uma IA de jurada? Com as minhas respostas, a plateia vai rolar de rir!"
+      }
+    ],
+    "features": [
+      "Um jogo de manzai em que você dá a resposta (tsukkomi) às piadas de Masaru com a própria voz",
+      "Uma IA julga a precisão; aponte o absurdo com exatidão e acrescente uma sacada para a nota máxima",
+      "O tempo ideal é de 0,3 a 1 segundo após a piada; cedo ou tarde demais, não tem graça",
+      "Acertou, a plateia gargalha; errou, silêncio total… Esquete de comédia num palco de teatro tradicional",
+      "Depois das sete piadas, o júri dá a avaliação final. Mire no título \"Melhor tsukkomi do país\""
+    ],
+    "controls": [
+      {
+        "label": "Jogar por voz",
+        "text": "Depois de cada piada, rebata no microfone. Abra o jogo pelo \"別タブで開く\" (abrir em outra aba) na página do unityroom e permita o microfone"
+      },
+      {
+        "label": "Jogar por texto",
+        "text": "Digite a resposta na caixa que aparece depois da piada e pressione Enter. O tempo conta a partir do momento em que você começa a digitar"
+      },
+      {
+        "label": "Jogar de novo",
+        "text": "\"もう一度\" ou \"タイトルへ\" na tela de resultados"
+      }
+    ],
+    "notes": [
+      "Cerca de 3 minutos por partida. Se não puder falar, também dá para digitar.",
+      "Uma IA é usada para julgar as respostas. O texto da sua resposta (ou o texto reconhecido, na voz) é enviado a um servidor de avaliação.",
+      "Recomendado o Chrome no computador. O jogo está em japonês e o reconhecimento de voz só aceita japonês."
+    ]
+  },
 };
