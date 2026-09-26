@@ -455,6 +455,31 @@ export const frGames: Record<string, GameTranslation> = {
       "Temps cible de 20 minutes",
     ],
   },
+  numphabet: {
+    title: "Numphabet",
+    catch: "Déchiffre des mots avec des chiffres dans un puzzle de 60 secondes.",
+    genre: "Puzzle de mots",
+    dialogue: [
+      { speaker: "onaga", text: "Numphabet… ça se prononce comment, ce truc ?" },
+      { speaker: "akao", text: "Numphabet, de number et alphabet. A=1, B=2, jusqu'à Z=26. Un mot anglais apparaît et tu le reconstruis avec des cartes numérotées." },
+      { speaker: "onaga", text: "Donc pour CAT, je touche juste 3, 1 et 20 ? Facile." },
+      { speaker: "akao", text: "Chaque plateau cache des leurres, et la plupart sont à un ou deux près de la bonne réponse. Dès Normal, certaines cartes demandent un calcul, comme 9+5, et d'autres comptent l'alphabet à l'envers : 1 devient Z." },
+      { speaker: "onaga", text: "À l'envers ? J'ai déjà mal à la tête… On peut jouer entre amis ?" },
+      { speaker: "akao", text: "Ajoute un ami avec son code et affrontez-vous sur le même mot : le premier à cinq manches gagne. Il y a aussi un défi quotidien de cinq puzzles pour entretenir ta série." },
+    ],
+    features: [
+      "A=1 … Z=26. Touche de gauche à droite les cartes numérotées qui donnent les lettres du mot",
+      "Score Attack de 60 secondes avec un multiplicateur de combo qui monte jusqu'à ×2.00 après 20 bonnes réponses d'affilée",
+      "Trois difficultés : Normal ajoute les cartes de calcul (9+5) et les cartes inversées (1 devient Z) ; Difficile ajoute des cartes combinées qui calculent puis inversent",
+      "Chaque plateau contient au moins quatre leurres, la plupart à un ou deux près d'une vraie réponse",
+      "Défi quotidien : cinq puzzles par jour adaptés aux difficultés débloquées, avec médailles et série",
+      "Duels entre amis dans un salon privé, le premier à cinq manches, sans dépenser d'énergie",
+      "Meilleurs scores et classements par difficulté, statistiques détaillées et image de résultat à partager",
+    ],
+    notes: [
+      "Jouez gratuitement avec le thème Gumdrop, ou choisissez Prism Glass ou Candy Sky, des achats uniques qui changent l'apparence, le logo, la musique et les sons. Téléchargement gratuit avec achats intégrés, sans abonnement. Pour iPhone et iPad, en anglais et en japonais.",
+    ],
+  },
   "time-reversi": {
     title: "Time Reversi",
     catch: "Un Reversi en temps réel avec un coup toutes les trois secondes.",

@@ -90,6 +90,8 @@ interface GameCopy {
   screenshot: string;
   playUnityroom: string;
   viewAppStore: string;
+  /** App Store 以外の公式ページ(サポート・規約など) */
+  officialSite: string;
   features: string;
   howToPlay: string;
   akao: string;
@@ -223,6 +225,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       screenshot: "スクリーンショット",
       playUnityroom: "unityroomで遊ぶ",
       viewAppStore: "App Storeで見る",
+      officialSite: "公式サイト・サポート",
       features: "特徴",
       howToPlay: "操作方法",
       akao: "あかお",
@@ -337,6 +340,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       screenshot: "screenshot",
       playUnityroom: "Play on unityroom",
       viewAppStore: "View on the App Store",
+      officialSite: "Official site & support",
       features: "Features",
       howToPlay: "How to Play",
       akao: "Akao",
@@ -449,6 +453,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       screenshot: "截图",
       playUnityroom: "在 unityroom 游玩",
       viewAppStore: "前往 App Store",
+      officialSite: "官方网站与支持",
       features: "特点",
       howToPlay: "操作方法",
       akao: "Akao",
@@ -561,6 +566,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       screenshot: "螢幕截圖",
       playUnityroom: "在 unityroom 遊玩",
       viewAppStore: "前往 App Store",
+      officialSite: "官方網站與支援",
       features: "特色",
       howToPlay: "操作方式",
       akao: "Akao",
@@ -675,6 +681,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       screenshot: "스크린샷",
       playUnityroom: "unityroom에서 플레이",
       viewAppStore: "App Store에서 보기",
+      officialSite: "공식 사이트·지원",
       features: "특징",
       howToPlay: "플레이 방법",
       akao: "Akao",
@@ -789,6 +796,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       screenshot: "captura de pantalla",
       playUnityroom: "Jugar en unityroom",
       viewAppStore: "Ver en App Store",
+      officialSite: "Sitio oficial y soporte",
       features: "Características",
       howToPlay: "Cómo jugar",
       akao: "Akao",
@@ -903,6 +911,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       screenshot: "capture d'écran",
       playUnityroom: "Jouer sur unityroom",
       viewAppStore: "Voir sur l'App Store",
+      officialSite: "Site officiel et assistance",
       features: "Caractéristiques",
       howToPlay: "Comment jouer",
       akao: "Akao",
@@ -1017,6 +1026,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       screenshot: "Screenshot",
       playUnityroom: "Auf unityroom spielen",
       viewAppStore: "Im App Store ansehen",
+      officialSite: "Offizielle Website & Support",
       features: "Merkmale",
       howToPlay: "Steuerung",
       akao: "Akao",
@@ -1130,6 +1140,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
       screenshot: "captura de tela",
       playUnityroom: "Jogar na unityroom",
       viewAppStore: "Ver na App Store",
+      officialSite: "Site oficial e suporte",
       features: "Recursos",
       howToPlay: "Como jogar",
       akao: "Akao",

@@ -54,6 +54,10 @@ const screenshotAlt = (index: number) =>
     : `${view.title} ${copy.screenshot} ${index + 1}`;
 const externalLinks = game.data.links.map((link) => {
   if (game.data.category === "ios") {
+    // 公式サイトなど App Store 以外のリンクは、表示言語の文言で出す
+    if (new URL(link.url).hostname !== "apps.apple.com") {
+      return { label: copy.officialSite, url: link.url };
+    }
     const appId = link.url.match(/id(\d+)/)?.[1];
     return {
       label: copy.viewAppStore,

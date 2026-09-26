@@ -35,6 +35,13 @@ export interface DevCopy {
   note: string;
 }
 
+/**
+ * トップの「開発中」タブとコマンドを出すか。Numphabetは2026-09-22に配信されて
+ * iOSアプリのタブへ移ったので、次の開発中タイトルを載せるまで隠す。
+ * 戻すときは下の定数・devCopy・src/pages の dev ページを次のタイトルに差し替えて true にする。
+ */
+export const showDevTab = false;
+
 export const devTitle = "Numphabet";
 export const devSlug = "numphabet";
 export const devPath = "/dev/numphabet/";

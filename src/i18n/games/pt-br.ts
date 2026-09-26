@@ -455,6 +455,31 @@ export const ptBrGames: Record<string, GameTranslation> = {
       "Tempo-alvo de 20 minutos",
     ],
   },
+  numphabet: {
+    title: "Numphabet",
+    catch: "Decifre palavras com números em um quebra-cabeça de 60 segundos.",
+    genre: "Quebra-cabeça de palavras",
+    dialogue: [
+      { speaker: "onaga", text: "Numphabet… e isso lê como?" },
+      { speaker: "akao", text: "Numphabet, de number e alphabet. A=1, B=2, até Z=26. Uma palavra em inglês aparece e você a monta com cartas numéricas." },
+      { speaker: "onaga", text: "Então para CAT eu só toco 3, 1 e 20? Moleza." },
+      { speaker: "akao", text: "Todo tabuleiro esconde iscas, e a maioria fica a um ou dois da resposta certa. A partir do Normal, aparecem cartas que fazem a conta primeiro, como 9+5, e cartas que contam o alfabeto ao contrário, então 1 vira Z." },
+      { speaker: "onaga", text: "Ao contrário? Já estou ficando tonto… Dá para jogar com amigos?" },
+      { speaker: "akao", text: "Adicione um amigo pelo código e resolvam a mesma palavra frente a frente; vence quem ganhar cinco rodadas primeiro. Também tem um desafio diário com cinco quebra-cabeças para manter a sequência." },
+    ],
+    features: [
+      "A=1 … Z=26. Toque, da esquerda para a direita, nas cartas numéricas que formam as letras da palavra",
+      "Score Attack de 60 segundos com multiplicador de combo que chega a ×2.00 após 20 acertos seguidos",
+      "Três dificuldades: o Normal adiciona cartas de cálculo (9+5) e cartas invertidas (1 vira Z); o Difícil adiciona cartas combinadas que calculam e depois invertem",
+      "Todo tabuleiro tem pelo menos quatro iscas, a maioria a um ou dois de uma resposta real",
+      "Desafio diário: cinco quebra-cabeças por dia de acordo com as dificuldades desbloqueadas, com medalhas e sequência",
+      "Duelos com amigos em uma sala privada, vence quem ganhar cinco rodadas primeiro, sem gastar energia",
+      "Melhores pontuações e rankings por dificuldade, estatísticas detalhadas e imagem de resultado para compartilhar",
+    ],
+    notes: [
+      "Jogue grátis com o tema Gumdrop ou adquira Prism Glass ou Candy Sky, compras únicas que mudam o visual, o logotipo, a música e os sons. Download gratuito com compras no app e sem assinaturas. Para iPhone e iPad, em inglês e japonês.",
+    ],
+  },
   "time-reversi": {
     title: "Time Reversi",
     catch: "Reversi em tempo real com uma jogada a cada três segundos.",

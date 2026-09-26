@@ -1,10 +1,11 @@
 ---
 // トップページの作品一覧。「100本企画 / iOSアプリ / 開発中」をタブで切り替える。
+// 「開発中」は showDevTab が false の間は出さず、#dev は iOSアプリのタブへ送る。
 // JSが無い環境では3つとも並べて表示するので、内容は常にDOMにある
 import type { CollectionEntry } from "astro:content";
 import type { Locale } from "../i18n/config";
 import type { GameTranslation } from "../i18n/game";
-import { devCopy } from "../i18n/dev";
+import { devCopy, showDevTab } from "../i18n/dev";
 import { uiCopy } from "../i18n/ui";
 import DevCard from "./DevCard.astro";
 import GameCard from "./GameCard.astro";
@@ -42,17 +43,21 @@ const iosGames = games
   .filter((game) => game.data.category === "ios")
   .sort((a, b) => b.data.releaseDate.getTime() - a.data.releaseDate.getTime());
 
+const tabIds = showDevTab ? ["unityroom", "ios", "dev"] : ["unityroom", "ios"];
+// 隠したタブへの古いリンク(/#dev)は、そのタイトルの移り先に着地させる
+const tabAliases: Record<string, string> = showDevTab ? {} : { dev: "ios" };
+
 const GOAL = 100;
 // 企画にカウントするのは unityroomNo が付いたゲームのみ
 const published = unityroomGames.filter((game) => game.data.unityroomNo).length;
 ---
 
-<script is:inline>
+<script is:inline define:vars={{ ids: tabIds, aliases: tabAliases }}>
   // パネルの表示・地面の色は html 要素の data-tab で決まる。
   // 描画前に確定させたいので、マークアップより先にインラインで走らせる
   (() => {
-    const ids = ["unityroom", "ios", "dev"];
-    const hash = location.hash.replace("#", "");
+    const raw = location.hash.replace("#", "");
+    const hash = aliases[raw] ?? raw;
     const root = document.documentElement;
     root.dataset.jsTabs = "on";
     root.dataset.tab = ids.includes(hash) ? hash : "unityroom";
@@ -91,18 +96,22 @@ const published = unityroomGames.filter((game) => game.data.unityroomNo).length;
           <PixelPhone size={20} />
           {navCopy.ios}
         </a>
-        <a
-          id="tab-dev"
-          class="tab"
-          role="tab"
-          href="#dev"
-          aria-controls="dev"
-          aria-selected="false"
-          data-tab-btn="dev"
-        >
-          <PixelHammer size={20} />
-          {dev.homeTitle}
-        </a>
+        {
+          showDevTab && (
+            <a
+              id="tab-dev"
+              class="tab"
+              role="tab"
+              href="#dev"
+              aria-controls="dev"
+              aria-selected="false"
+              data-tab-btn="dev"
+            >
+              <PixelHammer size={20} />
+              {dev.homeTitle}
+            </a>
+          )
+        }
       </div>
     </div>
 
@@ -210,31 +219,39 @@ const published = unityroomGames.filter((game) => game.data.unityroomNo).length;
       </div>
     </section>
 
-    <section
-      class="section"
-      id="dev"
-      role="tabpanel"
-      aria-labelledby="tab-dev"
-      data-tab-panel="dev"
-    >
-      <div class="container">
-        <h2 class="section-title with-icon">
-          <PixelHammer size={28} />
-          {dev.homeTitle}
-        </h2>
-        <p class="section-lead">{dev.homeLead}</p>
-        <div class="dev-grid">
-          <DevCard locale={locale} />
-        </div>
-      </div>
-    </section>
+    {
+      showDevTab && (
+        <section
+          class="section"
+          id="dev"
+          role="tabpanel"
+          aria-labelledby="tab-dev"
+          data-tab-panel="dev"
+        >
+          <div class="container">
+            <h2 class="section-title with-icon">
+              <PixelHammer size={28} />
+              {dev.homeTitle}
+            </h2>
+            <p class="section-lead">{dev.homeLead}</p>
+            <div class="dev-grid">
+              <DevCard locale={locale} />
+            </div>
+          </div>
+        </section>
+      )
+    }
   </div>
 </div>
 
-<script is:inline>
+<script is:inline define:vars={{ aliases: tabAliases }}>
   (() => {
     const root = document.documentElement;
     const tabs = Array.from(document.querySelectorAll("[data-tab-btn]"));
+    const fromHash = () => {
+      const raw = location.hash.replace("#", "");
+      return aliases[raw] ?? raw;
+    };
     if (tabs.length === 0) return;
 
     const select = (id, moveFocus) => {
@@ -278,7 +295,7 @@ const published = unityroomGames.filter((game) => game.data.unityroomNo).length;
 
     // 他ページから /#dev のように来たときは、一覧まで送る。
     // ブラウザ側のフラグメント移動は、パネルが隠れている都合で当てにできない
-    if (location.hash.replace("#", "") === initial) {
+    if (fromHash() === initial) {
       tabList.scrollIntoView({ block: "start" });
     }
 
@@ -320,7 +337,7 @@ const published = unityroomGames.filter((game) => game.data.unityroomNo).length;
 
     // 他ページの /#dev のようなリンクや、戻る/進むに追従する
     addEventListener("hashchange", () => {
-      const id = location.hash.replace("#", "");
+      const id = fromHash();
       if (known(id)) select(id, false);
     });
   })();

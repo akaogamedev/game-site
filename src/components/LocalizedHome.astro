@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { localeMeta, type Locale } from "../i18n/config";
-import { devCopy } from "../i18n/dev";
+import { devCopy, showDevTab } from "../i18n/dev";
 import type { GameTranslation } from "../i18n/game";
 import { uiCopy } from "../i18n/ui";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -106,11 +106,15 @@ const jsonLd = {
             <PixelPhone size={22} />
             {copy.mobileButton}
           </a>
-          <a class="command" href="#dev" data-tab-link="dev">
-            <span class="command-cursor" aria-hidden="true">▶</span>
-            <PixelHammer size={22} />
-            {dev.homeButton}
-          </a>
+          {
+            showDevTab && (
+              <a class="command" href="#dev" data-tab-link="dev">
+                <span class="command-cursor" aria-hidden="true">▶</span>
+                <PixelHammer size={22} />
+                {dev.homeButton}
+              </a>
+            )
+          }
         </div>
       </nav>
     </div>

@@ -455,6 +455,31 @@ export const deGames: Record<string, GameTranslation> = {
       "Zielzeit 20 Minuten",
     ],
   },
+  numphabet: {
+    title: "Numphabet",
+    catch: "Entschlüssle Wörter mit Zahlen in einem 60-Sekunden-Wortpuzzle.",
+    genre: "Wortpuzzle",
+    dialogue: [
+      { speaker: "onaga", text: "Numphabet … wie spricht man das überhaupt aus?" },
+      { speaker: "akao", text: "Numphabet, aus number und alphabet. A=1, B=2, bis Z=26. Ein englisches Wort erscheint, und du baust es aus Zahlenkarten." },
+      { speaker: "onaga", text: "Für CAT tippe ich also einfach 3, 1 und 20? Klingt leicht." },
+      { speaker: "akao", text: "Auf jedem Brett liegen Köder, und die meisten liegen nur eins oder zwei neben der richtigen Zahl. Ab Normal gibt es Karten, die erst rechnen, etwa 9+5, und Karten, die das Alphabet rückwärts zählen – dann wird 1 zu Z." },
+      { speaker: "onaga", text: "Rückwärts? Mir brummt schon der Kopf … Kann ich auch mit Freunden spielen?" },
+      { speaker: "akao", text: "Füge Freunde per Code hinzu und löst dasselbe Wort gegeneinander – wer zuerst fünf Runden gewinnt, siegt. Dazu gibt es eine tägliche Challenge mit fünf Rätseln, damit deine Serie weiterläuft." },
+    ],
+    features: [
+      "A=1 … Z=26. Tippe von links nach rechts die Zahlenkarten an, die die Buchstaben des Wortes ergeben",
+      "60-Sekunden-Score-Attack mit einem Kombo-Multiplikator, der nach 20 Treffern in Folge ×2.00 erreicht",
+      "Drei Schwierigkeitsgrade: Normal bringt Rechenkarten (9+5) und umgekehrte Karten (1 wird Z), Schwer kombinierte Karten, die erst rechnen und dann umkehren",
+      "Jedes Brett enthält mindestens vier Köder, die meisten nur eins oder zwei neben einer richtigen Antwort",
+      "Tägliche Challenge: fünf Rätsel pro Tag passend zu deinen freigeschalteten Schwierigkeitsgraden, mit Medaillen und Serie",
+      "Freundesduelle in einem privaten Raum, wer zuerst fünf Runden gewinnt, ohne Ausdauer zu verbrauchen",
+      "Bestwerte und Ranglisten je Schwierigkeitsgrad, ausführliche Statistiken und ein teilbares Ergebnisbild",
+    ],
+    notes: [
+      "Spiele kostenlos mit dem Theme Gumdrop oder hole dir Prism Glass oder Candy Sky – einmalige Käufe, die Aussehen, Logo, Musik und Sounds verändern. Kostenloser Download mit In-App-Käufen, ohne Abos. Für iPhone und iPad, auf Englisch und Japanisch.",
+    ],
+  },
   "time-reversi": {
     title: "Time Reversi",
     catch: "Echtzeit-Reversi mit einem Zug alle drei Sekunden.",
