@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import { getLocalePrefix, type Locale, type AdditionalLocale } from '../i18n/config';
 import { localizedGames } from '../i18n/games';
+import { gameMedia } from '../lib/game-media';
 interface Props { id: string; locale: Locale; }
 const { id, locale } = Astro.props;
 const games = (await getCollection(locale === 'en' ? 'gamesEn' : 'games'))
@@ -22,7 +23,7 @@ const titleFor = (game: typeof games[number]) => locale === 'ja' || locale === '
 {index >= 0 && <nav class="stage-navigation" aria-label={labels[locale].join(' / ')}>
   {neighbors.map((game, direction) => game && <a class:list={['stage-link', {next: direction === 1}]} href={`${getLocalePrefix(locale)}/games/${game.id}/`}>
     <span class="direction">{direction === 0 ? '◀' : '▶'} {labels[locale][direction]}</span>
-    <span class="stage-preview"><img src={game.data.cover} alt="" loading="lazy" width="88" height="58"/><span><small>STAGE {game.data.unityroomNo}</small><strong>{titleFor(game)}</strong></span></span>
+    <span class="stage-preview"><img src={gameMedia(game.data).card} alt="" loading="lazy" decoding="async" width="88" height="58"/><span><small>STAGE {game.data.unityroomNo}</small><strong>{titleFor(game)}</strong></span></span>
   </a>)}
 </nav>}
 <style>

@@ -1,0 +1,8 @@
+<!-- ground-a と周期をずらして重ね、繰り返し模様を目立たなくする大きめの斑点 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" shape-rendering="crispEdges">
+  <rect x="6" y="8" width="2" height="2" fill="rgba(255,255,255,.1)"/>
+  <rect x="27" y="30" width="2" height="2" fill="rgba(255,255,255,.1)"/>
+  <rect x="31" y="5" width="3" height="2" fill="rgba(0,0,0,.07)"/>
+  <rect x="12" y="26" width="3" height="2" fill="rgba(0,0,0,.07)"/>
+  <rect x="20" y="15" width="1" height="1" fill="rgba(255,255,255,.16)"/>
+</svg>

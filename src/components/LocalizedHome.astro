@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import type { Locale } from "../i18n/config";
+import { localeMeta, type Locale } from "../i18n/config";
 import { devCopy } from "../i18n/dev";
 import type { GameTranslation } from "../i18n/game";
 import { uiCopy } from "../i18n/ui";
@@ -41,9 +41,17 @@ const latestTitle = latest
   : "";
 // 会話ウィンドウで順に流す挨拶。本数を差し込む
 const greeting = copy.greeting.map((line) => line.replace("{n}", String(published)));
+
+// 検索エンジン向けの構造化データ(サイト名と言語)
+const jsonLd = {
+  "@type": "WebSite",
+  name: uiCopy[locale].layout.siteName,
+  url: new URL(Astro.url.pathname, Astro.site ?? Astro.url).href,
+  inLanguage: localeMeta[locale].htmlLang,
+};
 ---
 
-<BaseLayout locale={locale}>
+<BaseLayout locale={locale} jsonLd={jsonLd}>
   <script is:inline>
     // 時間帯で空の色を変える(朝5-9 / 昼 / 夕16-19 / 夜19-5)。描画前に決める
     (() => {

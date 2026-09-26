@@ -19,6 +19,8 @@ interface Props {
   image?: string;
   locale?: Locale;
   stickyHeader?: boolean;
+  /** 検索エンジン向けの構造化データ(schema.org)。@context は自動で付ける */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const xUrl = "https://x.com/akaogame0124";
@@ -31,6 +33,10 @@ const {
   locale = defaultLocale,
   stickyHeader = true,
 } = Astro.props;
+const jsonLd = Astro.props.jsonLd && {
+  "@context": "https://schema.org",
+  "@graph": [Astro.props.jsonLd].flat(),
+};
 
 const copy = uiCopy[locale].layout;
 const homeCopy = uiCopy[locale].home;
@@ -190,6 +196,14 @@ const ogImage = image
             }
           })();
         </script>
+      )
+    }
+    {
+      jsonLd && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
+        />
       )
     }
   </head>

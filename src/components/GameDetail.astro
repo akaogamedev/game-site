@@ -11,7 +11,9 @@ import {
   type Locale,
 } from "../i18n/config";
 import type { GameTranslation } from "../i18n/game";
+import { richCopy } from "../i18n/rich";
 import { uiCopy } from "../i18n/ui";
+import { gameMedia } from "../lib/game-media";
 
 interface Props {
   game: CollectionEntry<"games"> | CollectionEntry<"gamesEn">;
@@ -73,6 +75,49 @@ const lines = stageNo
 const speakerName = (speaker: "akao" | "onaga") => copy[speaker];
 // 帯に薄く敷くタイル。無いゲームは共通の菱形模様(CSS側のデフォルト)
 const stageTile = game.data.bgTile ? `url("${game.data.bgTile}")` : undefined;
+
+// プレイ動画から切り出した静止画のギャラリー(iOSのスクショ列があるゲームはそちらを使う)
+const rich = richCopy[locale];
+const stills = isPhoneGallery ? [] : gameMedia(game.data).stills;
+
+// 検索エンジン向けの構造化データ。ページに書いてある事実だけを載せる
+const absolute = (path: string) => new URL(path, Astro.site ?? Astro.url).href;
+const pageUrl = absolute(Astro.url.pathname);
+const isWebGame = game.data.category === "unityroom";
+const jsonLd = [
+  {
+    "@type": "VideoGame",
+    "@id": `${pageUrl}#game`,
+    name: view.title,
+    description: view.catch,
+    url: pageUrl,
+    image: absolute(game.data.cover),
+    screenshot: (stills.length > 0 ? stills : game.data.screenshots).map(absolute),
+    genre: view.genre,
+    gamePlatform: isWebGame ? "Web browser" : "iOS",
+    applicationCategory: "Game",
+    ...(isWebGame ? { isAccessibleForFree: true } : { operatingSystem: "iOS" }),
+    datePublished: game.data.releaseDate.toISOString().slice(0, 10),
+    author: {
+      "@type": "Person",
+      name: copy.akao,
+      url: absolute(`${localeBase}/about/`),
+    },
+    sameAs: game.data.links.map((link) => link.url),
+  },
+  {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: uiCopy[locale].layout.siteName,
+        item: absolute(`${localeBase}/`),
+      },
+      { "@type": "ListItem", position: 2, name: view.title, item: pageUrl },
+    ],
+  },
+];
 ---
 
 <BaseLayout
@@ -81,8 +126,10 @@ const stageTile = game.data.bgTile ? `url("${game.data.bgTile}")` : undefined;
   description={view.catch}
   image={game.data.cover}
   locale={locale}
+  jsonLd={jsonLd}
 >
   <div
+    class="detail-backdrop"
     style={`--card-color: ${game.data.color};${stageTile ? ` --stage-tile: ${stageTile};` : ""}`}
     data-game-slug={game.id}
   >
@@ -264,6 +311,36 @@ const stageTile = game.data.bgTile ? `url("${game.data.bgTile}")` : undefined;
               }
             </div>
           </div>
+          {
+            stills.length > 0 && (
+              <section class="rpg-window gallery-window" aria-labelledby="gallery-heading" data-gallery>
+                <h2 class="rpg-window-label" id="gallery-heading">{rich.gallery}</h2>
+                <ul class="gallery-grid">
+                  {stills.map((still, index) => (
+                    <li>
+                      <button
+                        type="button"
+                        class="gallery-thumb"
+                        data-gallery-open={index}
+                        aria-label={rich.openImage(index + 1, stills.length)}
+                      >
+                        <img src={still} alt={screenshotAlt(index)} width="960" height="600" loading="lazy" decoding="async" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <dialog class="gallery-dialog" data-gallery-dialog aria-labelledby="gallery-heading">
+                  <figure>
+                    <img data-gallery-image alt="" />
+                    <figcaption data-gallery-count aria-live="polite"></figcaption>
+                  </figure>
+                  <button type="button" class="gallery-nav gallery-prev" data-gallery-step="-1" aria-label={rich.prev}>◀</button>
+                  <button type="button" class="gallery-nav gallery-next" data-gallery-step="1" aria-label={rich.next}>▶</button>
+                  <button type="button" class="gallery-close" data-gallery-close>✕ {rich.close}</button>
+                </dialog>
+              </section>
+            )
+          }
           {stageNo && <StageNavigation id={game.id} locale={locale}/>}
           <a class="back-link" href={gameListHref}>{copy.back}</a>
         </div>
@@ -499,6 +576,49 @@ const stageTile = game.data.bgTile ? `url("${game.data.bgTile}")` : undefined;
         entranceObserver.observe(box);
       }
       checkEntrance();
+    })();
+  </script>
+  <script is:inline>
+    // ギャラリーの拡大表示。<dialog> なので Esc で閉じ、背景クリックでも閉じる。左右キーで送る
+    (() => {
+      const root = document.querySelector("[data-gallery]");
+      const dialog = root?.querySelector("[data-gallery-dialog]");
+      if (!root || !dialog || typeof dialog.showModal !== "function") return;
+      const thumbs = Array.from(root.querySelectorAll("[data-gallery-open]"));
+      const image = dialog.querySelector("[data-gallery-image]");
+      const count = dialog.querySelector("[data-gallery-count]");
+      let index = 0;
+      const show = (next) => {
+        index = (next + thumbs.length) % thumbs.length;
+        const source = thumbs[index].querySelector("img");
+        image.src = source.currentSrc || source.src;
+        image.alt = source.alt;
+        count.textContent = `${index + 1} / ${thumbs.length}`;
+      };
+      thumbs.forEach((thumb, i) =>
+        thumb.addEventListener("click", () => {
+          show(i);
+          window.akaoSfx?.play("decide");
+          dialog.showModal();
+        }),
+      );
+      dialog.querySelectorAll("[data-gallery-step]").forEach((button) =>
+        button.addEventListener("click", () => {
+          show(index + Number(button.dataset.galleryStep));
+          window.akaoSfx?.play("move");
+        }),
+      );
+      dialog.querySelector("[data-gallery-close]").addEventListener("click", () => dialog.close());
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+      dialog.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+        show(index + (event.key === "ArrowLeft" ? -1 : 1));
+        window.akaoSfx?.play("move");
+      });
+      dialog.addEventListener("close", () => thumbs[index].focus());
     })();
   </script>
 </BaseLayout>

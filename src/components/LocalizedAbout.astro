@@ -1,10 +1,14 @@
 ---
 import { getCollection } from 'astro:content';
-import type { Locale } from '../i18n/config';
+import { getLocalePrefix, localeMeta, type AdditionalLocale, type Locale } from '../i18n/config';
+import { localizedGames } from '../i18n/games';
+import { richCopy, type AchievementId } from '../i18n/rich';
+import { gameMedia } from '../lib/game-media';
 import { uiCopy } from '../i18n/ui';
 import { statusCopy, characterCopy } from '../i18n/about-status';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PixelChara from './PixelChara.astro';
+import PixelCloud from './PixelCloud.astro';
 import PixelOnaga from './PixelOnaga.astro';
 import PixelStatusIcon from './PixelStatusIcon.astro';
 interface Props { locale: Locale; }
@@ -14,10 +18,85 @@ const home = uiCopy[locale].home;
 const labels = statusCopy[locale];
 const character = characterCopy[locale];
 const names = [uiCopy[locale].game.akao, copy.partnerName];
-const published = (await getCollection('games')).filter(game => game.data.unityroomNo).length;
+const allGames = await getCollection('games');
+const published = allGames.filter(game => game.data.unityroomNo).length;
+const rich = richCopy[locale];
+
+// 英語はコレクション、それ以外の言語は辞書からタイトルを引く
+const enTitles = locale === 'en'
+  ? new Map((await getCollection('gamesEn')).map(game => [game.id, game.data.title]))
+  : undefined;
+const titleOf = (game: typeof allGames[number]) =>
+  locale === 'ja' ? game.data.title
+  : enTitles ? enTitles.get(game.id) ?? game.data.title
+  : localizedGames[locale as AdditionalLocale][game.id]?.title ?? game.data.title;
+// 公開日はUTCの0時で入っているので、UTCで日付にする(ビルド環境のタイムゾーンでずれないように)
+const dateFormat = new Intl.DateTimeFormat(localeMeta[locale].dateLocale, { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+const isoDate = (date: Date) => date.toISOString().slice(0, 10);
+const byDate = (a: typeof allGames[number], b: typeof allGames[number]) =>
+  a.data.releaseDate.getTime() - b.data.releaseDate.getTime() || (a.data.unityroomNo ?? 0) - (b.data.unityroomNo ?? 0);
+
+// ぼうけんのきろく: 公開したゲームを新しい順に。最初は LOG_VISIBLE 本だけ見せる
+const LOG_VISIBLE = 6;
+const log = [...allGames].sort(byDate).reverse().map(game => ({
+  title: titleOf(game),
+  date: game.data.releaseDate,
+  stage: game.data.unityroomNo,
+  href: `${getLocalePrefix(locale)}/games/${game.id}/`,
+  thumb: gameMedia(game.data).card,
+}));
+
+// じっせき: 本数・ジャンル数は100本企画のゲームを公開日順に数え、条件を満たした日を解除日にする
+const project = allGames.filter(game => game.data.unityroomNo).sort(byDate);
+const genreDates: Date[] = [];
+const seenGenres = new Set<string>();
+for (const game of project) {
+  if (seenGenres.has(game.data.genre)) continue;
+  seenGenres.add(game.data.genre);
+  genreDates.push(game.data.releaseDate);
+}
+const firstIos = allGames.filter(game => game.data.category === 'ios').sort(byDate)[0];
+const achievementList: { id: AchievementId; goal: string; date?: Date; remaining: string }[] = [
+  ...[1, 5, 10, 15, 20, 25, 50, 75, 100].map(n => ({
+    id: `games-${n}` as AchievementId,
+    goal: rich.gamesGoal(n),
+    date: project[n - 1]?.data.releaseDate,
+    remaining: rich.remainingGames(n - project.length),
+  })),
+  ...[5, 10].map(n => ({
+    id: `genres-${n}` as AchievementId,
+    goal: rich.genresGoal(n),
+    date: genreDates[n - 1],
+    remaining: rich.remainingGenres(n - genreDates.length),
+  })),
+  { id: 'ios', goal: rich.iosGoal, date: firstIos?.data.releaseDate, remaining: rich.locked },
+];
+// 解除済みを解除日順に並べ、その後ろに未解除を元の順で
+const achievements = [
+  ...achievementList.filter(a => a.date).sort((a, b) => a.date!.getTime() - b.date!.getTime()),
+  ...achievementList.filter(a => !a.date),
+];
+const unlockedCount = achievements.filter(a => a.date).length;
+
+const profileLinks = [
+  'https://x.com/akaogame0124',
+  'https://unityroom.com/users/pu8lzf2nc9ht5o1r46sg',
+  'https://apps.apple.com/developer/atsuki-murayama/id1721887609',
+];
+const pageUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+const jsonLd = {
+  '@type': 'ProfilePage',
+  url: pageUrl,
+  mainEntity: { '@type': 'Person', name: names[0], url: pageUrl, sameAs: profileLinks },
+};
 ---
-<BaseLayout title={copy.title} locale={locale}>
+<BaseLayout title={copy.title} locale={locale} jsonLd={jsonLd}>
   <section class="profile-stage">
+    <PixelCloud class="about-cloud cloud-a" width={120} style="top: 64px; left: 18%;" />
+    <PixelCloud class="about-cloud cloud-b" width={84} style="top: 520px; left: 62%;" />
+    <PixelCloud class="about-cloud cloud-c" width={100} style="top: 1180px; left: 30%;" />
+    <PixelCloud class="about-cloud cloud-d" width={70} style="top: 820px; left: 85%;" />
+    <PixelCloud class="about-cloud cloud-e" width={110} style="top: 1560px; left: 70%;" />
     <div class="profile-screen" data-party-screen>
       <header class="screen-heading"><h1>{copy.title}</h1><span aria-hidden="true">◆ ◆</span></header>
       <div class="profile-grid">
@@ -70,6 +149,78 @@ const published = (await getCollection('games')).filter(game => game.data.unityr
           <div class="project-progress" role="progressbar" aria-labelledby="project-progress-label" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.min(published, 100)}><span style={`--progress: ${Math.min(published, 100)}%`}></span></div>
         </div>
       </section>
+      <section class="log-window window" aria-labelledby="log-heading" data-adventure-log>
+        <h2 class="window-label" id="log-heading">{rich.logTitle}</h2>
+        <p class="log-lead">{rich.logLead}</p>
+        <ol class="log-list">
+          {log.map((entry, i) => (
+            <li class="log-entry" data-log-extra={i >= LOG_VISIBLE ? '' : undefined}>
+              <time datetime={isoDate(entry.date)}>{dateFormat.format(entry.date)}</time>
+              <a class="log-link" href={entry.href}>
+                <img src={entry.thumb} alt="" width="96" height="54" loading="lazy" decoding="async" />
+                <span class="log-text">
+                  <span class="log-plate">{entry.stage ? `STAGE ${entry.stage}` : 'iOS'}</span>
+                  <strong>{entry.title}</strong>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
+        {log.length > LOG_VISIBLE && (
+          <button type="button" class="log-toggle" data-log-toggle data-more={rich.showAll(log.length)} data-less={rich.showLess} aria-expanded="false" hidden>
+            {rich.showAll(log.length)}
+          </button>
+        )}
+      </section>
+
+      <section class="achievements-window window" aria-labelledby="achievements-heading">
+        <h2 class="window-label" id="achievements-heading">{rich.achievementsTitle} <span class="trophy-count">{unlockedCount} / {achievements.length}</span></h2>
+        <ul class="trophy-grid">
+          {achievements.map(achievement => (
+            <li class:list={['trophy', { locked: !achievement.date }]}>
+              <span class="medal" aria-hidden="true">
+                {achievement.date ? (
+                  <svg viewBox="0 0 12 12" width="40" height="40" shape-rendering="crispEdges">
+                    <rect x="2" y="1" width="8" height="1" fill="#16161c" />
+                    <rect x="2" y="2" width="8" height="4" fill="#f7c948" />
+                    <rect x="3" y="6" width="6" height="1" fill="#f7c948" />
+                    <rect x="0" y="2" width="2" height="1" fill="#16161c" />
+                    <rect x="0" y="3" width="1" height="2" fill="#16161c" />
+                    <rect x="1" y="5" width="1" height="1" fill="#16161c" />
+                    <rect x="10" y="2" width="2" height="1" fill="#16161c" />
+                    <rect x="11" y="3" width="1" height="2" fill="#16161c" />
+                    <rect x="10" y="5" width="1" height="1" fill="#16161c" />
+                    <rect x="3" y="2" width="1" height="3" fill="#fff8e8" />
+                    <rect x="8" y="2" width="2" height="4" fill="#c8912a" />
+                    <rect x="5" y="7" width="2" height="2" fill="#c8912a" />
+                    <rect x="3" y="9" width="6" height="2" fill="#16161c" />
+                    <rect x="4" y="9" width="4" height="1" fill="#f7c948" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 12 12" width="40" height="40" shape-rendering="crispEdges">
+                    <rect x="4" y="1" width="4" height="1" fill="#8ea2c6" />
+                    <rect x="3" y="2" width="1" height="3" fill="#8ea2c6" />
+                    <rect x="8" y="2" width="1" height="3" fill="#8ea2c6" />
+                    <rect x="2" y="5" width="8" height="6" fill="#526e9f" />
+                    <rect x="2" y="5" width="8" height="1" fill="#8ea2c6" />
+                    <rect x="5" y="7" width="2" height="2" fill="#16161c" />
+                  </svg>
+                )}
+              </span>
+              <span class="trophy-body">
+                <strong>{rich.names[achievement.id]}</strong>
+                <span class="trophy-goal">{achievement.goal}</span>
+                <span class="trophy-state">
+                  {achievement.date
+                    ? <time datetime={isoDate(achievement.date)}>{rich.unlockedOn(dateFormat.format(achievement.date))}</time>
+                    : achievement.remaining}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <div class="secondary-commands">
         <details>
           <summary>{copy.linksHeading}</summary>
@@ -140,18 +291,49 @@ const published = (await getCollection('games')).filter(game => game.data.unityr
   }
   initializeParty();
   document.addEventListener('astro:page-load', initializeParty);
+
+  // ぼうけんのきろく: JSがあるときだけ古い記録をたたみ、ボタンで開閉する
+  function initializeLog() {
+    document.querySelectorAll<HTMLElement>('[data-adventure-log]').forEach(root => {
+      const toggle = root.querySelector<HTMLButtonElement>('[data-log-toggle]');
+      if (!toggle || root.dataset.ready) return;
+      root.dataset.ready = 'true';
+      const setOpen = (open: boolean) => {
+        root.dataset.collapsed = open ? 'false' : 'true';
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.textContent = (open ? toggle.dataset.less : toggle.dataset.more) ?? '';
+      };
+      setOpen(false);
+      toggle.hidden = false;
+      toggle.addEventListener('click', () => setOpen(root.dataset.collapsed === 'true'));
+    });
+  }
+  initializeLog();
+  document.addEventListener('astro:page-load', initializeLog);
 </script>
 
 <style>
-  .profile-stage { padding: 40px 24px 64px; background: var(--sky-now); min-height: 75vh; }
-  .profile-screen { --window: #203c72; --window-muted: #b9cbea; max-width: 1040px; margin: auto; }
+  .profile-stage { position: relative; overflow: hidden; padding: 40px 24px 96px; background: url('/images/tiles/sky-sparkle.svg') 0 0 / 160px 160px, var(--sky-now); min-height: 75vh; }
+  /* 空に雲を流し、いちばん下は草の地面で締める */
+  .profile-stage :global(.about-cloud) { position: absolute; z-index: 0; animation: cloud-drift 90s steps(180) infinite; }
+  .profile-stage :global(.cloud-b) { animation-duration: 120s; animation-delay: -50s; }
+  .profile-stage :global(.cloud-c) { animation-duration: 105s; animation-delay: -20s; }
+  .profile-stage :global(.cloud-d) { animation-duration: 80s; animation-delay: -65s; }
+  .profile-stage :global(.cloud-e) { animation-duration: 130s; animation-delay: -95s; }
+  .profile-stage::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 32px; background: linear-gradient(90deg, var(--grass) 50%, transparent 50%) top left / 28px 14px repeat-x, url('/images/tiles/ground-a.svg') 0 14px / 96px 96px repeat-x, linear-gradient(var(--grass), var(--grass)) bottom / 100% 18px no-repeat; }
+  .profile-screen { position: relative; z-index: 1; }
+  .profile-screen { --window: #203c72; --window-top: #27477f; --window-muted: #b9cbea; max-width: 1040px; margin: auto; }
   .screen-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
   .screen-heading h1 { margin: 0; font-size: clamp(22px, 3vw, 30px); color: var(--cream); text-shadow: 2px 2px 0 var(--ink), -1px -1px 0 var(--ink), 1px -1px 0 var(--ink), -1px 1px 0 var(--ink); }
   .screen-heading > span { color: var(--yellow); text-shadow: 2px 2px var(--ink); letter-spacing: 5px; }
   .profile-grid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.15fr); gap: 20px; }
-  .window { position: relative; background: var(--window); color: var(--cream); border: 3px solid var(--cream); outline: 3px solid var(--ink); box-shadow: 6px 6px 0 var(--ink), inset 0 0 0 3px #526e9f; padding: 24px; min-width: 0; }
-  .window-label { position: absolute; top: -17px; left: 20px; max-width: calc(100% - 40px); padding: 0 10px; margin: 0; background: var(--window); font-size: 16px; line-height: 28px; font-weight: normal; }
-  .party-window { display: flex; flex-direction: column; justify-content: center; }
+  /* RPGのウィンドウ: 上ほど明るい段階グラデーション + 細い走査線 */
+  .window { position: relative; background-color: var(--window); background-image: repeating-linear-gradient(to bottom, rgb(255 255 255 / 0.035) 0 2px, transparent 2px 5px), linear-gradient(to bottom, var(--window-top) 0 16%, #23427a 16% 38%, var(--window) 38% 72%, #1c3668 72%); color: var(--cream); border: 3px solid var(--cream); outline: 3px solid var(--ink); box-shadow: 6px 6px 0 var(--ink), inset 0 0 0 3px #526e9f; padding: 24px; min-width: 0; }
+  .window-label { position: absolute; top: -17px; left: 20px; max-width: calc(100% - 40px); padding: 0 10px; margin: 0; background: var(--window-top); font-size: 16px; line-height: 28px; font-weight: normal; }
+  /* パーティー: 2人が市松模様の床に立つ。床の高さは「床から地面の影の中ほどまで」 */
+  .party-window { --floor: 129px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .party-window::before { content: ''; position: absolute; left: 3px; right: 3px; bottom: 3px; height: var(--floor); pointer-events: none; border-top: 3px solid #6f8cc0; background: conic-gradient(rgb(255 255 255 / 0.07) 0 25%, transparent 0 50%, rgb(255 255 255 / 0.07) 0 75%, transparent 0) 0 0 / 24px 24px, linear-gradient(to bottom, #1a3263, #132750); }
+  .party-members, .selection-hint { position: relative; }
   .party-window > .window-label { background: var(--yellow); color: var(--ink); border: 2px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); }
   .party-members { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 4px 0; }
   .party-member { appearance: none; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: end; min-width: 0; min-height: 252px; padding: 28px 4px 8px; background: none; color: inherit; font: inherit; border: 0; cursor: pointer; }
@@ -207,10 +389,41 @@ const published = (await getCollection('games')).filter(game => game.data.unityr
   button:focus-visible, summary:focus-visible { outline: 3px solid var(--yellow); outline-offset: 4px; }
   summary:focus-visible, a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
   @keyframes reveal-status { from { opacity: .35; } to { opacity: 1; } }
+  .log-window, .achievements-window { margin-top: 38px; padding: 30px 28px 24px; }
+  .log-lead { margin: 0 0 18px; color: var(--window-muted); font-size: 13px; }
+  .log-list { list-style: none; margin: 0; padding: 0 0 0 18px; border-left: 3px dashed #526e9f; }
+  .log-entry { position: relative; display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 14px; align-items: center; padding: 8px 0; }
+  .log-entry::before { content: ''; position: absolute; left: -26px; top: 50%; width: 11px; height: 11px; margin-top: -6px; background: var(--yellow); border: 2px solid var(--ink); }
+  [data-collapsed='true'] .log-entry[data-log-extra] { display: none; }
+  .log-entry time { color: var(--window-muted); font-size: 13px; white-space: nowrap; }
+  .log-link { display: flex; align-items: center; gap: 14px; min-width: 0; padding: 6px 10px 6px 6px; color: var(--cream); text-decoration: none; border: 2px solid transparent; }
+  .log-link img { width: 96px; height: 54px; object-fit: cover; flex-shrink: 0; border: 2px solid var(--cream); }
+  .log-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .log-plate { align-self: start; padding: 0 6px; font-size: 11px; letter-spacing: .12em; color: var(--yellow); background: var(--ink); }
+  .log-text strong { font-weight: normal; line-height: 1.5; overflow-wrap: anywhere; }
+  .log-link:hover, .log-link:focus-visible { border-color: var(--yellow); background: #142a51; }
+  .log-link:hover strong, .log-link:focus-visible strong { color: var(--yellow); }
+  .log-toggle { display: block; margin: 16px auto 0; padding: 6px 18px; font: inherit; font-size: 14px; color: var(--ink); background: var(--yellow); border: 3px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); cursor: pointer; }
+  .log-toggle[hidden] { display: none; }
+  .log-toggle:hover { background: var(--cream); }
+  .trophy-count { margin-left: 8px; color: var(--yellow); }
+  .trophy-grid { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+  .trophy { display: flex; gap: 12px; align-items: flex-start; min-width: 0; padding: 12px; background: #142a51; border: 2px solid #526e9f; }
+  .medal { display: flex; flex: 0 0 48px; width: 48px; height: 48px; align-items: center; justify-content: center; background: #203c72; border: 2px solid var(--yellow); }
+  .trophy-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .trophy-body strong { color: var(--yellow); font-weight: normal; line-height: 1.5; overflow-wrap: anywhere; }
+  .trophy-goal { font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+  .trophy-state { margin-top: 2px; font-size: 11px; color: var(--window-muted); }
+  .trophy.locked { background: #17294a; border-style: dashed; }
+  .trophy.locked .medal { border-color: #526e9f; }
+  .trophy.locked strong { color: var(--window-muted); }
+  .trophy.locked .trophy-goal { color: var(--window-muted); }
+  .trophy.locked .trophy-state { color: var(--cream); }
   @media(max-width: 700px) {
-    .profile-stage { padding: 24px 16px 44px; }
+    .profile-stage { padding: 24px 16px 76px; }
     .profile-grid { grid-template-columns: minmax(0, 1fr); gap: 26px; }
     .window { padding: 20px; }
+    .party-window { --floor: 113px; }
     .screen-heading { margin-bottom: 24px; }
     .screen-heading > span { display: none; }
     .party-members { max-width: 360px; width: 100%; margin: auto; gap: 24px; }
@@ -224,6 +437,13 @@ const published = (await getCollection('games')).filter(game => game.data.unityr
     .name-row dd { font-size: 25px; }
     .message-window { min-height: 0; }
     .quest-window { grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 16px; }
+    .log-window, .achievements-window { margin-top: 34px; padding: 26px 16px 18px; }
+    .log-list { padding-left: 14px; }
+    .log-entry { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+    .log-entry::before { left: -22px; top: 18px; margin-top: 0; }
+    .log-link { padding-left: 0; }
+    .log-link img { width: 80px; height: 45px; }
+    .trophy-grid { grid-template-columns: minmax(0, 1fr); }
     .secondary-commands { gap: 10px; }
     .secondary-commands summary { padding: 8px 16px; }
   }

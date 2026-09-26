@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import PixelStatusIcon from './PixelStatusIcon.astro';
 import { getLocalePrefix, type Locale } from "../i18n/config";
 import type { GameTranslation } from "../i18n/game";
+import { gameMedia } from "../lib/game-media";
 
 interface Props {
   game: CollectionEntry<"games"> | CollectionEntry<"gamesEn">;
@@ -20,11 +21,13 @@ const imageAlt =
     ? `${view.title}のカバー画像`
     : `${view.title} cover art`;
 const stageNo = game.data.unityroomNo;
+const media = gameMedia(game.data);
 ---
 
 <a
   class="game-card"
   href={href}
+  style={`--card-color: ${game.data.color}`}
   data-slug={game.id}
   data-stage={stageNo}
   data-newest={newest ? "" : undefined}
@@ -34,7 +37,25 @@ const stageNo = game.data.unityroomNo;
   {stageNo && <span class="stage-plate" aria-hidden="true">STAGE {stageNo}</span>}
   {newest && <span class="new-flag" aria-hidden="true">NEW!</span>}
   <span class="clear-stamp" aria-hidden="true">CLEAR</span>
-  <img src={game.data.cover} alt={imageAlt} loading="lazy" />
+  <span class="card-media">
+    <span class="card-screen">
+      <img src={media.card} alt={imageAlt} width="640" height="360" loading="lazy" decoding="async" />
+      {
+        media.preview && (
+          <video
+            class="card-preview"
+            data-card-preview={media.preview}
+            muted
+            loop
+            playsinline
+            preload="none"
+            aria-hidden="true"
+            tabindex="-1"
+          />
+        )
+      }
+    </span>
+  </span>
   <div class="game-card-body">
     <h3>{view.title}</h3>
     <p class="catch">{view.catch}</p>
@@ -51,3 +72,86 @@ const stageNo = game.data.unityroomNo;
     </div>
   </div>
 </a>
+
+<script>
+  // カードのプレイ動画プレビュー。マウスではホバー・フォーカス中だけ流し、
+  // タッチ端末では画面中央付近で止まったカード1枚だけを流す。
+  // 動きを減らす設定・データセーバー時は何もしない(静止画のまま)
+  function setupCardPreviews() {
+    const videos = Array.from(document.querySelectorAll<HTMLVideoElement>("[data-card-preview]"));
+    if (videos.length === 0) return;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+    if (reduce || saveData) return;
+
+    let current: HTMLVideoElement | null = null;
+    const stop = (video: HTMLVideoElement) => {
+      video.pause();
+      video.closest(".card-media")?.classList.remove("is-previewing");
+      if (current === video) current = null;
+    };
+    const play = (video: HTMLVideoElement) => {
+      if (current && current !== video) stop(current);
+      current = video;
+      if (!video.src) video.src = video.dataset.cardPreview!;
+      // 実際に再生が始まってから重ねる(読み込み中や再生できないときに黒い箱が見えないように)
+      video
+        .play()
+        .then(() => {
+          if (current === video) video.closest(".card-media")?.classList.add("is-previewing");
+        })
+        .catch(() => stop(video));
+    };
+
+    if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      for (const video of videos) {
+        const card = video.closest<HTMLElement>(".game-card");
+        if (!card) continue;
+        card.addEventListener("pointerenter", () => play(video));
+        card.addEventListener("pointerleave", () => stop(video));
+        card.addEventListener("focus", () => play(video));
+        card.addEventListener("blur", () => stop(video));
+      }
+    } else if ("IntersectionObserver" in window) {
+      const visible = new Set<HTMLVideoElement>();
+      let timer: number | undefined;
+      const pickCenter = () => {
+        const middle = window.innerHeight / 2;
+        let best: HTMLVideoElement | null = null;
+        let bestDistance = Infinity;
+        for (const video of visible) {
+          const rect = video.getBoundingClientRect();
+          const distance = Math.abs(rect.top + rect.height / 2 - middle);
+          if (distance < bestDistance) {
+            best = video;
+            bestDistance = distance;
+          }
+        }
+        if (best) play(best);
+        else if (current) stop(current);
+      };
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            const video = entry.target as HTMLVideoElement;
+            if (entry.isIntersecting) visible.add(video);
+            else {
+              visible.delete(video);
+              if (current === video) stop(video);
+            }
+          }
+          // スクロール中は読み込まず、止まってから選ぶ
+          clearTimeout(timer);
+          timer = window.setTimeout(pickCenter, 350);
+        },
+        { rootMargin: "-25% 0px -25% 0px", threshold: 0.6 },
+      );
+      videos.forEach((video) => observer.observe(video));
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && current) stop(current);
+    });
+  }
+  setupCardPreviews();
+</script>

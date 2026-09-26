@@ -1,7 +1,7 @@
 ---
 // トップページの「開発中」セクションに置く、開発中ゲームの横長カード
 import { getLocalePrefix, type Locale } from "../i18n/config";
-import { devCopy, devCover, devPath, devTitle } from "../i18n/dev";
+import { devColor, devCopy, devCover, devPath, devTitle } from "../i18n/dev";
 
 interface Props {
   locale?: Locale;
@@ -14,8 +14,12 @@ const imageAlt =
   locale === "ja" ? `${devTitle}のカバー画像` : `${devTitle} cover art`;
 ---
 
-<a class="game-card dev-card" href={href}>
-  <img src={devCover} alt={imageAlt} loading="lazy" />
+<a class="game-card dev-card" href={href} style={`--card-color: ${devColor}`}>
+  <span class="card-media">
+    <span class="card-screen">
+      <img src={devCover} alt={imageAlt} loading="lazy" />
+    </span>
+  </span>
   <div class="game-card-body">
     <h3>{devTitle}</h3>
     <p class="catch">{copy.catch}</p>

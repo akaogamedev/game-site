@@ -1013,8 +1013,20 @@ a {
   background-size: 28px 14px;
 }
 
+/* 地面: 草・小石のドット2種類を周期をずらして重ね、下へ行くほど地層のように暗くする */
 .ground {
-  background: var(--ground);
+  background-color: var(--ground);
+  background-image:
+    url("/images/tiles/ground-a.svg"),
+    url("/images/tiles/ground-b.svg"),
+    linear-gradient(
+      to bottom,
+      transparent 0 360px,
+      rgb(0 0 0 / 0.05) 360px 960px,
+      rgb(0 0 0 / 0.09) 960px 1680px,
+      rgb(0 0 0 / 0.13) 1680px
+    );
+  background-size: 96px 96px, 160px 160px, auto;
   padding-bottom: 72px;
 }
 
@@ -1531,11 +1543,98 @@ body.shake {
   aspect-ratio: 16 / 9;
   object-fit: cover;
   width: 100%;
+  /* width/height属性は読み込み前の場所取り用。実際の高さは縦横比で決める */
+  height: auto;
   border-bottom: 4px solid var(--ink);
+}
+
+/* カードの上半分はゲームの色の「カセット」枠。四隅にビス、斜めの細かい縞で質感を出す */
+.card-media {
+  position: relative;
+  display: block;
+  padding: 10px 10px 12px;
+  background-color: var(--card-color, var(--blue));
+  background-image:
+    linear-gradient(rgb(0 0 0 / 0.35) 0 0),
+    linear-gradient(rgb(0 0 0 / 0.35) 0 0),
+    linear-gradient(rgb(0 0 0 / 0.35) 0 0),
+    linear-gradient(rgb(0 0 0 / 0.35) 0 0),
+    repeating-linear-gradient(135deg, rgb(255 255 255 / 0.1) 0 3px, transparent 3px 9px);
+  background-size: 4px 4px, 4px 4px, 4px 4px, 4px 4px, auto;
+  background-position: 3px 3px, calc(100% - 3px) 3px, 3px calc(100% - 3px), calc(100% - 3px) calc(100% - 3px), 0 0;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat;
+  border-bottom: 4px solid var(--ink);
+  box-shadow:
+    inset 3px 3px 0 rgb(255 255 255 / 0.28),
+    inset -3px -3px 0 rgb(0 0 0 / 0.22);
+}
+
+/* 画面部分。ホバー(タッチ端末では画面中央)で静止画の上にプレイ動画を重ねる */
+.card-screen {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 3px solid var(--ink);
+  background: var(--ink);
+}
+
+.game-card .card-screen img {
+  border-bottom: none;
+}
+
+.card-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.16s steps(2, end);
+}
+
+.card-media.is-previewing .card-preview {
+  opacity: 1;
+}
+
+/* ホバーで画面を光がなめる */
+.card-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 0 38%,
+    rgb(255 255 255 / 0.35) 38% 46%,
+    transparent 46% 52%,
+    rgb(255 255 255 / 0.2) 52% 55%,
+    transparent 55%
+  );
+  transform: translateX(-110%);
+}
+
+.game-card:hover .card-screen::after,
+.game-card:focus-visible .card-screen::after {
+  animation: card-shine 0.6s steps(8, end);
+}
+
+@keyframes card-shine {
+  to {
+    transform: translateX(110%);
+  }
 }
 
 .game-card-body {
   padding: 16px 18px 20px;
+  /* ゲームの色の細かいドットを薄く敷く */
+  background-image: radial-gradient(
+    circle at 2px 2px,
+    color-mix(in srgb, var(--card-color, var(--blue)) 16%, transparent) 1.5px,
+    transparent 2px
+  );
+  background-size: 14px 14px;
 }
 
 .game-card-body h3 {
@@ -1543,6 +1642,21 @@ body.shake {
   font-size: 1.15rem;
   font-weight: 700;
   overflow-wrap: anywhere;
+}
+
+/* タイトルにゲームの色のマーカー */
+.game-card .game-card-body h3 {
+  display: inline;
+  background: linear-gradient(
+    transparent 62%,
+    color-mix(in srgb, var(--card-color, var(--blue)) 30%, transparent) 62%
+  );
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.game-card .game-card-body h3 + .catch {
+  margin-top: 8px;
 }
 
 .game-card-body .catch {
@@ -2444,11 +2558,20 @@ body.shake {
   align-items: stretch;
 }
 
+.dev-card .card-media {
+  display: flex;
+  border-bottom: none;
+  border-right: 4px solid var(--ink);
+}
+
+.dev-card .card-screen {
+  flex: 1;
+}
+
 .dev-card img {
   height: 100%;
   aspect-ratio: auto;
   border-bottom: none;
-  border-right: 4px solid var(--ink);
 }
 
 .dev-card .game-card-body {
@@ -2473,10 +2596,13 @@ body.shake {
     grid-template-columns: 1fr;
   }
 
-  .dev-card img {
-    aspect-ratio: 16 / 9;
+  .dev-card .card-media {
     border-right: none;
     border-bottom: 4px solid var(--ink);
+  }
+
+  .dev-card img {
+    aspect-ratio: 16 / 9;
   }
 }
 
@@ -2777,3 +2903,170 @@ body.shake {
 .site-nav a > svg, .icon-label > svg, .btn-command > svg { flex-shrink: 0; }
 .about-window .prose h2::before { content: ''; display: inline-block; width: 24px; height: 24px; margin-right: 10px; vertical-align: -4px; background: url('/images/ui/feature-star.svg') center / contain no-repeat; }
 .about-window .prose h2:is(.controls-heading, [id='操作方法'], [id='how-to-play'], [id='controls'])::before { background-image: url('/images/ui/controls.svg'); }
+
+/* 詳細ページ: プレイ動画から切り出したスクリーンショットのギャラリー */
+.gallery-window {
+  width: 100%;
+  padding: 30px 24px 24px;
+}
+
+.gallery-window .rpg-window-label {
+  margin: 0;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gallery-thumb {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: var(--ink);
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  cursor: zoom-in;
+  transition: transform 0.12s steps(2, end), box-shadow 0.12s steps(2, end);
+}
+
+.gallery-thumb img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.gallery-thumb:hover,
+.gallery-thumb:focus-visible {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--ink);
+  outline: 3px solid var(--yellow);
+  outline-offset: 0;
+}
+
+.gallery-dialog {
+  width: min(1100px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+}
+
+.gallery-dialog::backdrop {
+  background: rgb(22 22 28 / 0.86);
+}
+
+.gallery-dialog figure {
+  margin: 0;
+  background: var(--ink);
+  border: 4px solid var(--cream);
+  box-shadow: 0 0 0 4px var(--ink), 8px 8px 0 4px rgb(0 0 0 / 0.45);
+}
+
+.gallery-dialog figure img {
+  width: 100%;
+  max-height: calc(100dvh - 120px);
+  object-fit: contain;
+}
+
+.gallery-dialog figcaption {
+  padding: 6px 12px;
+  color: var(--yellow);
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  border-top: 3px solid var(--cream);
+}
+
+.gallery-nav,
+.gallery-close {
+  position: absolute;
+  font: inherit;
+  color: var(--ink);
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  cursor: pointer;
+}
+
+.gallery-nav {
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translateY(-50%);
+  font-size: 1rem;
+}
+
+.gallery-prev {
+  left: -22px;
+}
+
+.gallery-next {
+  right: -22px;
+}
+
+.gallery-close {
+  top: -52px;
+  right: 0;
+  padding: 4px 14px;
+  font-size: 0.9rem;
+}
+
+.gallery-nav:hover,
+.gallery-close:hover {
+  background: var(--cream);
+}
+
+.gallery-nav:focus-visible,
+.gallery-close:focus-visible {
+  outline: 3px solid var(--cream);
+  outline-offset: 2px;
+}
+
+@media (max-width: 560px) {
+  .gallery-window {
+    padding: 28px 16px 18px;
+  }
+
+  .gallery-grid {
+    gap: 10px;
+  }
+
+  .gallery-prev {
+    left: 6px;
+  }
+
+  .gallery-next {
+    right: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-thumb,
+  .card-preview {
+    transition: none;
+  }
+
+  .gallery-thumb:hover,
+  .gallery-thumb:focus-visible {
+    transform: none;
+  }
+}
+
+/* 詳細ページの本文側の背景。ゲームの色のドットを薄く敷く */
+.detail-backdrop {
+  background-color: var(--cream);
+  background-image: radial-gradient(
+    circle at 3px 3px,
+    color-mix(in srgb, var(--card-color, var(--blue)) 20%, transparent) 2px,
+    transparent 2.5px
+  );
+  background-size: 22px 22px;
+}
