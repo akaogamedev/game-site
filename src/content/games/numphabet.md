@@ -8,10 +8,8 @@ releaseDate: 2026-09-22
 color: "#6a3d9a"
 cover: /images/games/numphabet/cover.jpg
 icon: /images/games/numphabet/icon.jpg
-screenshots:
-  - /images/games/numphabet/shot1.webp
-  - /images/games/numphabet/shot2.webp
-  - /images/games/numphabet/shot3.webp
+video: /videos/games/numphabet/play.mp4
+videoPoster: /videos/games/numphabet/poster.jpg
 links:
   - label: App Storeで見る
     url: https://apps.apple.com/jp/app/numphabet/id6799494007
