@@ -565,7 +565,6 @@ export const deGames: Record<string, GameTranslation> = {
     "features": [
       "Ein Manzai-Spiel, in dem du Masarus Gags mit deiner eigenen Stimme konterst (Tsukkomi)",
       "Eine KI bewertet die Treffsicherheit; benenne das Absurde genau und füge einen Dreh hinzu, um die Bestnote zu holen",
-      "Der beste Moment liegt 0,3–1 Sekunde nach dem Gag; zu früh oder zu spät zündet es nicht",
       "Triffst du, lacht der ganze Saal; daneben herrscht Stille … Sketch-Comedy auf einer traditionellen Varieté-Bühne",
       "Nach sieben Gags gibt die Jury ihr Gesamturteil. Ziel ist der Titel „Bester Tsukkomi im Land“"
     ],

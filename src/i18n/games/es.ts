@@ -565,7 +565,6 @@ export const esGames: Record<string, GameTranslation> = {
     "features": [
       "Un juego de manzai en el que das la réplica (tsukkomi) a los chistes de Masaru con tu propia voz",
       "Una IA juzga la precisión; señala lo absurdo con exactitud y añade un giro ingenioso para la máxima nota",
-      "El momento ideal es de 0,3 a 1 segundo tras el chiste; si te adelantas o te retrasas, no hace gracia",
       "Si aciertas, la sala se ríe a carcajadas; si fallas, silencio total. Comedia de sketch en un escenario de teatro tradicional",
       "Tras los siete chistes, el jurado da una valoración final. Aspira al título «Mejor tsukkomi del país»"
     ],

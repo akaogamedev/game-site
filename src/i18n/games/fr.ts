@@ -565,7 +565,6 @@ export const frGames: Record<string, GameTranslation> = {
     "features": [
       "Un jeu de manzai où tu donnes la réplique (tsukkomi) aux blagues de Masaru avec ta propre voix",
       "Une IA juge la justesse ; pointe l’absurdité avec précision et ajoute une trouvaille pour la meilleure note",
-      "Le bon moment se situe entre 0,3 et 1 seconde après la blague ; trop tôt ou trop tard, ça tombe à plat",
       "Réussis et la salle éclate de rire ; rate et c’est le silence… Du sketch comique sur une scène de théâtre traditionnel",
       "Après les sept blagues, le jury rend son verdict. Vise le titre « Meilleur tsukkomi du pays »"
     ],

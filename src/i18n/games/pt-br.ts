@@ -565,7 +565,6 @@ export const ptBrGames: Record<string, GameTranslation> = {
     "features": [
       "Um jogo de manzai em que você dá a resposta (tsukkomi) às piadas de Masaru com a própria voz",
       "Uma IA julga a precisão; aponte o absurdo com exatidão e acrescente uma sacada para a nota máxima",
-      "O tempo ideal é de 0,3 a 1 segundo após a piada; cedo ou tarde demais, não tem graça",
       "Acertou, a plateia gargalha; errou, silêncio total… Esquete de comédia num palco de teatro tradicional",
       "Depois das sete piadas, o júri dá a avaliação final. Mire no título \"Melhor tsukkomi do país\""
     ],

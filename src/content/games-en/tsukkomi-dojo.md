@@ -31,7 +31,6 @@ dialogue:
 
 - A manzai comedy game where you deliver the tsukkomi (the comeback) to your partner Masaru's gags with your own voice
 - An AI judges how precise your comeback is; pinpoint the absurdity and add a clever twist for top marks
-- The sweet spot is 0.3–1 second after the gag ends; jump in too early or too late and it falls flat
 - Nail it and the hall bursts out laughing; miss and the room goes silent—sketch comedy on a traditional variety-hall stage
 - After all seven gags, the judges give an overall rating. Aim for the title "Best Tsukkomi in the Land"
 
