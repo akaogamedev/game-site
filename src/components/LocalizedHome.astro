@@ -12,7 +12,6 @@ import PixelCloud from "./PixelCloud.astro";
 import PixelHammer from "./PixelHammer.astro";
 import PixelPhone from "./PixelPhone.astro";
 import PixelScene from "./PixelScene.astro";
-import TitleScreen from "./TitleScreen.astro";
 
 interface Props {
   locale: Locale;
@@ -53,14 +52,15 @@ const jsonLd = {
 
 <BaseLayout locale={locale} jsonLd={jsonLd}>
   <script is:inline>
-    // 時間帯で空の色を変える(朝5-9 / 昼 / 夕16-19 / 夜19-5)。描画前に決める
+    // 時間帯で空の色を変える(朝5-9 / 昼 / 夕16-19 / 夜19-5)。描画前に決める。
+    // 見出しのせり上がりもここで立てる
     (() => {
+      document.documentElement.dataset.titleAnim = "on";
       const h = new Date().getHours();
       document.documentElement.dataset.daytime =
         h >= 5 && h < 9 ? "morning" : h >= 9 && h < 16 ? "day" : h >= 16 && h < 19 ? "evening" : "night";
     })();
   </script>
-  <TitleScreen locale={locale} published={published} goal={GOAL} />
 
   <section class="hero">
     <PixelCloud class="cloud-a" width={90} style="top: 36px; left: 12%;" />
@@ -152,15 +152,10 @@ const jsonLd = {
         if (withinNewWindow(card.dataset.release)) card.classList.add("is-new");
       });
 
-      // 明転したらEXPゲージを0からせり上げる
-      const startGauge = () => setTimeout(() => (document.documentElement.dataset.gaugeRun = "on"), 900);
-      if (document.documentElement.dataset.titleScreen) {
-        document.addEventListener("akao:home-revealed", startGauge, { once: true });
-      } else {
-        startGauge();
-      }
+      // 表示後にEXPゲージを0からせり上げる
+      setTimeout(() => (document.documentElement.dataset.gaugeRun = "on"), 900);
 
-      // 会話ウィンドウ: 明転後に挨拶が1文字ずつ順に流れる。クリックで早送り、最後まで行ったら止まる(再クリックで最初から)
+      // 会話ウィンドウ: 表示後に挨拶が1文字ずつ順に流れる。クリックで早送り、最後まで行ったら止まる(再クリックで最初から)
       (() => {
         const box = document.querySelector("[data-hero-talk]");
         if (!box) return;
@@ -246,11 +241,7 @@ const jsonLd = {
           if (document.hidden) clear();
           else if (!ended) (done ? finishLine() : start(index));
         });
-        if (document.documentElement.dataset.titleScreen) {
-          document.addEventListener("akao:home-revealed", () => setTimeout(begin, 600), { once: true });
-        } else {
-          setTimeout(begin, 600);
-        }
+        setTimeout(begin, 600);
       })();
 
       const toast = document.querySelector("[data-achievement]");
@@ -281,14 +272,7 @@ const jsonLd = {
         setTimeout(hide, 6500);
       };
 
-      // タイトル画面の明転を待ってから出す(タイトルが無ければすぐ)
-      if (document.documentElement.dataset.titleScreen) {
-        document.addEventListener("akao:home-revealed", () => setTimeout(show, 1400), {
-          once: true,
-        });
-      } else {
-        setTimeout(show, 1400);
-      }
+      setTimeout(show, 1400);
     })();
   </script>
 </BaseLayout>

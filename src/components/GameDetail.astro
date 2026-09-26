@@ -12,6 +12,7 @@ import {
 } from "../i18n/config";
 import type { GameTranslation } from "../i18n/game";
 import { richCopy } from "../i18n/rich";
+import { featuresFromBody, gameSeo } from "../i18n/seo";
 import { uiCopy } from "../i18n/ui";
 import { gameMedia } from "../lib/game-media";
 
@@ -80,6 +81,16 @@ const stageTile = game.data.bgTile ? `url("${game.data.bgTile}")` : undefined;
 const rich = richCopy[locale];
 const stills = isPhoneGallery ? [] : gameMedia(game.data).stills;
 
+// 検索結果に出すタイトルと説明文。ジャンルと遊べる場所を添える
+const seo = gameSeo({
+  locale,
+  category: game.data.category,
+  title: view.title,
+  genre: view.genre,
+  catchCopy: view.catch,
+  features: translation?.features ?? featuresFromBody(game.body),
+});
+
 // 検索エンジン向けの構造化データ。ページに書いてある事実だけを載せる
 const absolute = (path: string) => new URL(path, Astro.site ?? Astro.url).href;
 const pageUrl = absolute(Astro.url.pathname);
@@ -122,8 +133,8 @@ const jsonLd = [
 
 <BaseLayout
   stickyHeader={false}
-  title={view.title}
-  description={view.catch}
+  title={seo.title}
+  description={seo.description}
   image={game.data.cover}
   locale={locale}
   jsonLd={jsonLd}

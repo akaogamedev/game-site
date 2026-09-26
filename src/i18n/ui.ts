@@ -28,8 +28,6 @@ interface HomeCopy {
   iosTitle: string;
   iosLead: string;
   /** タイトル画面の操作ヒント */
-  titleHint: string;
-  titleStart: string;
   /** ヘッダーHUDの本数表示 */
   hudCount: (published: number, goal: number) => string;
   /** ヒーローの会話ウィンドウ2行目 */
@@ -129,7 +127,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
     layout: {
       siteName: "あかお＠ゲーム開発",
       description:
-        "個人ゲーム開発者「あかお」の作品紹介サイト。unityroom 100本投稿企画に挑戦中!",
+        "個人ゲーム開発者「あかお」の無料ブラウザゲーム集。インストール不要ですぐ遊べるミニゲームを、unityroomで100本作る企画に挑戦中!",
       unityroom: "100本企画",
       ios: "iOSアプリ",
       about: "開発者",
@@ -155,8 +153,6 @@ export const uiCopy: Record<Locale, UiCopy> = {
       iosTitle: "iOSアプリ",
       iosLead:
         "App Storeで配信中のゲームアプリ。スマホでじっくり遊べます。",
-      titleHint: "クリックか タップで はじめる",
-      titleStart: "PRESS START",
       hudCount: (published, goal) => `${published}/${goal}本`,
       messageLine: (published) =>
         `いま${published}本目まで投稿したところ。ぜんぶブラウザですぐ遊べます。`,
@@ -246,7 +242,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
     layout: {
       siteName: "Akao Game Development",
       description:
-        "Games by indie developer Akao, including the unityroom 100-Game Project.",
+        "Free browser games by indie developer Akao. Play quick mini games instantly with no download, from the unityroom 100-Game Project.",
       unityroom: "100 Games",
       ios: "iOS Games",
       about: "About",
@@ -271,8 +267,6 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "Choose a category",
       iosTitle: "iOS Games",
       iosLead: "Games available on the App Store for iPhone and iPad.",
-      titleHint: "Click or tap to start",
-      titleStart: "PRESS START",
       hudCount: (published, goal) => `${published}/${goal}`,
       messageLine: (published) =>
         `Game #${published} is out. Every one of them runs in your browser.`,
@@ -362,7 +356,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
     layout: {
       siteName: "Akao 游戏开发",
       description:
-        "独立游戏开发者 Akao 的作品网站，正在挑战 unityroom 100款游戏企划。",
+        "独立游戏开发者 Akao 的免费网页游戏合集。无需安装即可游玩的小游戏，正在挑战 unityroom 100款游戏企划。",
       unityroom: "100款游戏",
       ios: "iOS 游戏",
       about: "关于",
@@ -385,8 +379,6 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "选择作品分类",
       iosTitle: "iOS 游戏",
       iosLead: "可在 App Store 下载并在 iPhone 和 iPad 上游玩的游戏。",
-      titleHint: "点击或轻触开始",
-      titleStart: "PRESS START",
       hudCount: (published, goal) => `${published}/${goal}款`,
       messageLine: (published) =>
         `刚刚发布了第${published}款。所有游戏都能直接在浏览器中游玩。`,
@@ -476,7 +468,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
     layout: {
       siteName: "Akao 遊戲開發",
       description:
-        "獨立遊戲開發者 Akao 的作品網站，正在挑戰 unityroom 100款遊戲企劃。",
+        "獨立遊戲開發者 Akao 的免費網頁遊戲合集。免安裝即可遊玩的小遊戲，正在挑戰 unityroom 100款遊戲企劃。",
       unityroom: "100款遊戲",
       ios: "iOS 遊戲",
       about: "關於",
@@ -499,8 +491,6 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "選擇作品分類",
       iosTitle: "iOS 遊戲",
       iosLead: "可在 App Store 下載並於 iPhone 和 iPad 遊玩的遊戲。",
-      titleHint: "點擊或輕觸開始",
-      titleStart: "PRESS START",
       hudCount: (published, goal) => `${published}/${goal}款`,
       messageLine: (published) =>
         `剛剛發布了第${published}款。所有遊戲都能直接在瀏覽器中遊玩。`,
@@ -590,7 +580,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
     layout: {
       siteName: "Akao 게임 개발",
       description:
-        "인디 게임 개발자 Akao의 작품 사이트. unityroom 100개 게임 프로젝트에 도전 중입니다.",
+        "인디 게임 개발자 Akao의 무료 브라우저 게임 모음. 설치 없이 바로 즐기는 미니게임으로 unityroom 100개 게임 프로젝트에 도전 중입니다.",
       unityroom: "100개 게임",
       ios: "iOS 게임",
       about: "소개",
@@ -615,8 +605,6 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "작품 카테고리 선택",
       iosTitle: "iOS 게임",
       iosLead: "App Store에서 iPhone과 iPad용으로 제공되는 게임입니다.",
-      titleHint: "클릭하거나 탭하여 시작",
-      titleStart: "PRESS START",
       hudCount: (published, goal) => `${published}/${goal}개`,
       messageLine: (published) =>
         `방금 ${published}번째 게임을 공개했습니다. 전부 브라우저에서 바로 즐길 수 있어요.`,
@@ -706,7 +694,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
     layout: {
       siteName: "Akao Desarrollo de Juegos",
       description:
-        "Juegos del desarrollador independiente Akao y su proyecto de 100 juegos en unityroom.",
+        "Juegos de navegador gratis del desarrollador independiente Akao. Minijuegos sin descargas de su proyecto de 100 juegos en unityroom.",
       unityroom: "100 juegos",
       ios: "Juegos iOS",
       about: "Acerca de",
@@ -731,8 +719,6 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "Elegir una categoría",
       iosTitle: "Juegos para iOS",
       iosLead: "Juegos disponibles en App Store para iPhone y iPad.",
-      titleHint: "Haz clic o toca para empezar",
-      titleStart: "PRESS START",
       hudCount: (published, goal) => `${published}/${goal}`,
       messageLine: (published) =>
         `Acabo de publicar el juego n.º ${published}. Todos se juegan en el navegador.`,
@@ -822,7 +808,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
     layout: {
       siteName: "Akao Développement de Jeux",
       description:
-        "Les jeux du développeur indépendant Akao, dont le projet de 100 jeux sur unityroom.",
+        "Jeux gratuits sur navigateur du développeur indépendant Akao. Des mini-jeux sans téléchargement, issus de son projet de 100 jeux sur unityroom.",
       unityroom: "100 jeux",
       ios: "Jeux iOS",
       about: "À propos",
@@ -847,8 +833,6 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "Choisir une catégorie",
       iosTitle: "Jeux iOS",
       iosLead: "Jeux disponibles sur l'App Store pour iPhone et iPad.",
-      titleHint: "Cliquez ou touchez pour commencer",
-      titleStart: "PRESS START",
       hudCount: (published, goal) => `${published}/${goal}`,
       messageLine: (published) =>
         `Le jeu n° ${published} vient de sortir. Tous se jouent dans le navigateur.`,
@@ -938,7 +922,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
     layout: {
       siteName: "Akao Spieleentwicklung",
       description:
-        "Spiele des Indie-Entwicklers Akao, darunter das 100-Spiele-Projekt auf unityroom.",
+        "Kostenlose Browserspiele des Indie-Entwicklers Akao. Minispiele ohne Download aus dem 100-Spiele-Projekt auf unityroom.",
       unityroom: "100 Spiele",
       ios: "iOS-Spiele",
       about: "Über mich",
@@ -963,8 +947,6 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "Kategorie wählen",
       iosTitle: "iOS-Spiele",
       iosLead: "Spiele aus dem App Store für iPhone und iPad.",
-      titleHint: "Klicken oder tippen zum Starten",
-      titleStart: "PRESS START",
       hudCount: (published, goal) => `${published}/${goal}`,
       messageLine: (published) =>
         `Spiel Nr. ${published} ist gerade erschienen. Alle laufen direkt im Browser.`,
@@ -1054,7 +1036,7 @@ export const uiCopy: Record<Locale, UiCopy> = {
     layout: {
       siteName: "Akao Desenvolvimento de Jogos",
       description:
-        "Jogos do desenvolvedor independente Akao, incluindo o projeto de 100 jogos na unityroom.",
+        "Jogos de navegador grátis do desenvolvedor independente Akao. Minijogos sem download do projeto de 100 jogos na unityroom.",
       unityroom: "100 jogos",
       ios: "Jogos iOS",
       about: "Sobre",
@@ -1078,8 +1060,6 @@ export const uiCopy: Record<Locale, UiCopy> = {
       tabsLabel: "Escolher uma categoria",
       iosTitle: "Jogos para iOS",
       iosLead: "Jogos disponíveis na App Store para iPhone e iPad.",
-      titleHint: "Clique ou toque para começar",
-      titleStart: "PRESS START",
       hudCount: (published, goal) => `${published}/${goal}`,
       messageLine: (published) =>
         `Acabei de publicar o jogo nº ${published}. Todos rodam direto no navegador.`,

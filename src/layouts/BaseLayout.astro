@@ -223,7 +223,7 @@ const ogImage = image
           <span class="hud-gauge" aria-hidden="true"
             ><span style={`width: ${(hudPublished / HUD_GOAL) * 100}%`}></span></span
           >
-          <span aria-hidden="true">{homeCopy.hudCount(hudPublished, HUD_GOAL)}</span>
+          <span class="hud-count" aria-hidden="true">{homeCopy.hudCount(hudPublished, HUD_GOAL)}</span>
         </a>
         <nav class="site-nav">
           <a href={`${getLocalizedPath("/", locale)}#unityroom`}>
@@ -407,7 +407,7 @@ const ogImage = image
           decide: () => { tone("square", 880, 0.06, 0, 0.8); tone("square", 1320, 0.09, 0.06, 0.8); },
           // タブ切替(市松ワイプに合わせて2段)
           tab: () => { tone("square", 523, 0.05, 0, 0.7); tone("square", 784, 0.07, 0.07, 0.7); },
-          // PRESS START
+          // ステージ開始(STAGE N のカットイン)
           start: () => [523, 659, 784, 1047].forEach((f, i) => tone("square", f, 0.12, i * 0.09, 0.8)),
           // じっせき かいじょ
           fanfare: () => { [784, 1047, 1319].forEach((f, i) => tone("triangle", f, 0.14, i * 0.1, 1)); tone("triangle", 1568, 0.45, 0.3, 1); },
